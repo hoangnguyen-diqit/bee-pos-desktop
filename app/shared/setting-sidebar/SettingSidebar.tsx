@@ -29,7 +29,7 @@ export function SettingSidebar() {
 
     return (
         <div
-            className='position-fixed d-flex flex-column transition-right-default'
+            className='position-fixed d-flex flex-column bg-white transition-right-default'
             style={{ right: isShowSettingBar ? "0" : "-360px", width: "360px", height: "calc(100% - 56px)", top: "56px" }}
         >
             <div></div>
