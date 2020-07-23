@@ -1,9 +1,27 @@
 import React from "react";
-import { Button, Input } from "reactstrap";
+import { Button, Input, Card, CardBody } from "reactstrap";
 
 import { AppContext } from "../../AppContext";
 
-export function SettingSidebar() {
+import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
+
+const buttonsMap = {
+    "makeTable": [ "cutTable", "kdsHistory" ],
+    "cutTable": [ "makeTable", "kdsHistory" ],
+    "history": [ "makeTable", "cutTable" ],
+};
+
+type Props = {
+    currentPage: string,
+}
+
+const defaultProps = {
+
+};
+
+export function SettingSidebar({
+    currentPage,
+}: Props) {
 
     console.log("Setting sidebar rendered");
     const { history, isShowSettingBar } = React.useContext(AppContext);
@@ -29,43 +47,56 @@ export function SettingSidebar() {
 
     return (
         <div
-            className='position-fixed d-flex flex-column bg-white transition-right-default'
+            className='position-fixed d-flex flex-column bg-white text-black-50 transition-right-default'
             style={{ right: isShowSettingBar ? "0" : "-360px", width: "360px", height: "calc(100% - 56px)", top: "56px" }}
         >
-            <div></div>
-            <div className="flex-fill">
-                <Input
-                />
-            </div>
-            <div className="d-flex">
-                <div className="w-50 text-center">
-                    <Button
-                        color="danger"
-                        outline={true}
-                        onClick={() => _handleButtonClick("makeTable")}
-                    >
-                        Make Table
-                    </Button>
+            <Card className="" style={{ minHeight: "100%" }}>
+                <CardBody>
+                    <Input
+                    />
+                    <InputFormGroup
+                        type="select"
+                        label="Layout"
+                    />
+                </CardBody>
+                <div className="d-flex">
+                    {(buttonsMap["makeTable"] && buttonsMap["makeTable"].includes(currentPage)) &&
+                        <div className="w-50 text-center">
+                            <Button
+                                color="danger"
+                                outline={true}
+                                onClick={() => _handleButtonClick("makeTable")}
+                            >
+                                Make Table
+                            </Button>
+                        </div>
+                    }
+                    {(buttonsMap["cutTable"] && buttonsMap["cutTable"].includes(currentPage)) &&
+                        <div className="w-50 text-center">
+                            <Button
+                                color="danger"
+                                outline={true}
+                                onClick={() => _handleButtonClick("cutTable")}
+                            >
+                                Cut Table
+                            </Button>
+                        </div>
+                    }
+                    {(buttonsMap["history"] && buttonsMap["history"].includes(currentPage)) &&
+                        <div className="w-50">
+                            <Button
+                                color="danger text-center"
+                                outline={true}
+                                onClick={() => _handleButtonClick("history")}
+                            >
+                                History
+                            </Button>
+                        </div>
+                    }
                 </div>
-                <div className="w-50 text-center">
-                    <Button
-                        color="danger"
-                        outline={true}
-                        onClick={() => _handleButtonClick("cutTable")}
-                    >
-                        Cut Table
-                    </Button>
-                </div>
-                <div className="w-50">
-                    <Button
-                        color="danger text-center"
-                        outline={true}
-                        onClick={() => _handleButtonClick("history")}
-                    >
-                        History
-                    </Button>
-                </div>
-            </div>
+            </Card>
         </div>
     )
 }
+
+SettingSidebar.defaultProps = defaultProps;

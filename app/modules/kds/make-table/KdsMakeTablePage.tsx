@@ -7,6 +7,7 @@ import { orderdb } from "../../../core/nedb";
 import { kdsMakeTable_findManyOrdersSuccess } from "./KdsMakeTableReducer";
 
 import { Header } from "../../../shared/header/Header";
+import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
 
 function KdsMakeTablePage() {
@@ -42,7 +43,7 @@ function KdsMakeTablePage() {
                 console.log("No Order");
             }
         })
-    }, [ JSON.stringify(orders) ])
+    }, [ JSON.stringify(orders) ]);
 
     return (
         <div>
@@ -61,9 +62,10 @@ function KdsMakeTablePage() {
                         orders
                             .map((item, index) => {
                                 return (
-                                    <Col key={index} xs="12" lg={4}>
+                                    <Col key={index} xs="12" lg={3}>
                                         <OrderCard
                                             item={item}
+                                            currentPage="makeTable"
                                         />
                                     </Col>
                                 )
@@ -72,6 +74,9 @@ function KdsMakeTablePage() {
                     </Row>
                 </Container>
             </div>
+            <SettingSidebar
+                currentPage="makeTable"
+            />
         </div>
     )
 }

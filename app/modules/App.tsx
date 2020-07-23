@@ -5,8 +5,6 @@ import { AppContext } from '../AppContext';
 
 import { WebSocketListener } from './websocket/WebSocketListener';
 
-import { SettingSidebar } from '../shared/setting-sidebar/SettingSidebar';
-
 const contextValueReducer = (state, action) => {
     return {
         ...state,
@@ -34,8 +32,6 @@ export default function App(props: Props) {
         >
             {children}
             <WebSocketListener
-            />
-            <SettingSidebar
             />
         </AppContext.Provider>
     );
