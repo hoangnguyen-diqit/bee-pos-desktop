@@ -6,6 +6,11 @@ import { AppContext } from "../../AppContext";
 // import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { CustomInputFormGroup } from "../../core-ui/form-group/CustomInputFormGroup";
 
+const orderTypes = [
+    { label: "All Orders" },
+    { label: "Delivery Orders" },
+];
+
 export function Header() {
 
     const { isShowSettingBar, toggleSettingBar } = React.useContext(AppContext);
@@ -50,13 +55,19 @@ export function Header() {
                     className="mr-auto mb-0"
                     id="header__filter-order__input"
                 >
-                    <option>All Orders</option>
-                    <option>Delivery Orders</option>
+                    {(Array.isArray(orderTypes) && orderTypes.length > 0) &&
+                        orderTypes
+                            .map((item, index) => {
+                                return (
+                                    <option key={index} className="py-3">{item.label}</option>
+                                )
+                            })
+                    }
                 </CustomInputFormGroup>
                 <Button
                     onClick={_handleButtonSettingsClick}
                 >
-                    Settings
+                    Filter Pizza Premake
                 </Button>
                 <Button
                     onClick={_handleButtonSettingsClick}

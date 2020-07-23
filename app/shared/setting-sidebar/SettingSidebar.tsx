@@ -52,12 +52,34 @@ export function SettingSidebar({
         >
             <Card className="" style={{ minHeight: "100%" }}>
                 <CardBody>
-                    <Input
-                    />
                     <InputFormGroup
                         type="select"
                         label="Layout"
-                    />
+                    >
+                        <option>2x4</option>
+                        <option>3x4</option>
+                    </InputFormGroup>
+                    <InputFormGroup
+                        type="select"
+                        label="Category"
+                    >
+                        <option>2x4</option>
+                        <option>3x4</option>
+                    </InputFormGroup>
+                    <InputFormGroup
+                        type="select"
+                        label="Option"
+                    >
+                        <option>2x4</option>
+                        <option>3x4</option>
+                    </InputFormGroup>
+                    <InputFormGroup
+                        type="select"
+                        label="Language"
+                    >
+                        <option>2x4</option>
+                        <option>3x4</option>
+                    </InputFormGroup>
                 </CardBody>
                 <div className="d-flex">
                     {(buttonsMap["makeTable"] && buttonsMap["makeTable"].includes(currentPage)) &&
