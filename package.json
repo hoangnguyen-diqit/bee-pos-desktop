@@ -1,8 +1,8 @@
 {
-    "name": "electron-react-boilerplate",
-    "productName": "ElectronReact",
+    "name": "bee-microservice-kds-multiplatform",
+    "productName": "KDS",
     "version": "1.2.0",
-    "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+    "description": "Bee microservice kds multiplatform",
     "scripts": {
         "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
         "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -52,8 +52,8 @@
         ]
     },
     "build": {
-        "productName": "ElectronReact",
-        "appId": "org.develar.ElectronReact",
+        "productName": "DiqitBeeKDS",
+        "appId": "com.diqit.DiqitBeeKDS",
         "files": [
             "dist/",
             "node_modules/",
@@ -96,54 +96,28 @@
         },
         "publish": {
             "provider": "github",
-            "owner": "electron-react-boilerplate",
-            "repo": "electron-react-boilerplate",
+            "owner": "Diqit-Global",
+            "repo": "bee-microservice-kds-multiplatform",
             "private": false
         }
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+        "url": "git+https://github.com/Diqit-Global/bee-microservice-kds-multiplatform.git"
     },
     "author": {
-        "name": "Electron React Boilerplate Maintainers",
-        "email": "electronreactboilerplate@gmail.com",
-        "url": "https://electron-react-boilerplate.js.org"
+        "name": "Diqit",
+        "email": "diqit@diqit.com",
+        "url": "diqit.io"
     },
     "contributors": [
         {
-            "name": "Vikram Rangaraj",
-            "email": "vikr01@icloud.com",
-            "url": "https://github.com/vikr01"
-        },
-        {
-            "name": "Amila Welihinda",
-            "email": "amilajack@gmail.com",
-            "url": "https://github.com/amilajack"
-        },
-        {
-            "name": "John Tran",
-            "email": "jptran318@gmail.com",
-            "url": "https://github.com/jooohhn"
+            "name": "Hoàng Ng.",
+            "email": "hoang.nguyen@diqit.io",
+            "url": "https://github.com/hoangnguyen-diqit"
         }
     ],
     "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
-    },
-    "keywords": [
-        "electron",
-        "boilerplate",
-        "react",
-        "redux",
-        "typescript",
-        "ts",
-        "sass",
-        "webpack",
-        "hot",
-        "reload"
-    ],
-    "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
     "jest": {
         "testURL": "http://localhost/",
         "moduleNameMapper": {
