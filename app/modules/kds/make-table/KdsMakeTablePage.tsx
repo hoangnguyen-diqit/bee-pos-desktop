@@ -10,7 +10,9 @@ import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
 
-function KdsMakeTablePage() {
+function KdsMakeTablePage(props) {
+
+    console.log(props);
 
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
     const dispatch = useDispatch();

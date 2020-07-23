@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, Card, CardBody } from "reactstrap";
+import { Button, Card, CardBody } from "reactstrap";
 
 import { AppContext } from "../../AppContext";
 

@@ -13,7 +13,16 @@ const orderTypes = [
 
 export function Header() {
 
-    const { isShowSettingBar, toggleSettingBar } = React.useContext(AppContext);
+    const {
+        isShowSettingBar,
+        isFilterPizzaPremake,
+        toggleSettingBar,
+        toggleFilterPizzaPremake,
+    } = React.useContext(AppContext);
+
+    const _handleButtonFilterPizzaPremakeClick = () => {
+        toggleFilterPizzaPremake(!isFilterPizzaPremake);
+    }
 
     const _handleButtonSettingsClick = () => {
         toggleSettingBar(!isShowSettingBar);
@@ -65,11 +74,16 @@ export function Header() {
                     }
                 </CustomInputFormGroup>
                 <Button
-                    onClick={_handleButtonSettingsClick}
+                    color="danger"
+                    outline
+                    active={isFilterPizzaPremake}
+                    onClick={_handleButtonFilterPizzaPremakeClick}
                 >
                     Filter Pizza Premake
                 </Button>
                 <Button
+                    color="danger"
+                    outline
                     onClick={_handleButtonSettingsClick}
                 >
                     Settings

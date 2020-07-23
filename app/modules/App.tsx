@@ -19,15 +19,20 @@ type Props = {
 
 export default function App(props: Props) {
     const { children } = props;
-    const [ contextValue, dispatchContextValue ] = React.useReducer(contextValueReducer, {});
+    const [ contextValue, dispatchContextValue ] = React.useReducer(contextValueReducer, {
+        isShowSettingBar: false,
+        isFilterPizzaPremake: false,
+    });
 
     return (
         <AppContext.Provider
             value={{
                 history: props.history,
                 isShowSettingBar: contextValue.isShowSettingBar,
+                isFilterPizzaPremake: contextValue.isFilterPizzaPremake,
 
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
+                toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
             }}
         >
             {children}
