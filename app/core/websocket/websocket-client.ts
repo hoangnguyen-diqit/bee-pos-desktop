@@ -81,23 +81,40 @@ export const broadcastServer = function(data) {
         const message = Buffer.from('Some bytes');
 
         var udpClient = dgram.createSocket("udp4");
-        udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
+        let timeoutTimer: any = undefined;
+
+        udpClient.bind(function() { udpClient.setBroadcast(true); });
 
         udpClient.on("message", (msg: string, rinfo: any) => {
+            clearTimeout(timeoutTimer);
             console.log("Client got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
             if (data && data.onDetected) {
                 data.onDetected(rinfo.address + ":" + rinfo.port);
             }
         })
-        // client.send(message, 0, message.length, 41234, "192.168.9.255");
-        // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-        udpClient.send(message, 0, message.length, 41234, broadcast1, function(err, bytes) {
-            console.log(err);
-            console.log(bytes);
-            // client.close();
-        });
+
+        const createTimeoutTimer = () => {
+            timeoutTimer = setTimeout(() => {
+                if (data && data.onTimeout) {
+                    data.onTimeout();
+                }
+            }, 3 * 1000)
+        }
+        const ping = () => {
+
+            // client.send(message, 0, message.length, 41234, "192.168.9.255");
+            // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
+            udpClient.send(message, 0, message.length, 41234, broadcast1, function(err, bytes) {
+                console.log(err);
+                console.log(bytes);
+                // client.close();
+            });
+
+            createTimeoutTimer();
+        }
 
         console.log(client);
+        ping();
     } catch (error) {
         console.log(error);
     }
@@ -122,6 +139,9 @@ export const createSocket = function(data) {
         // });
         socket.on('connectFailed', function(error) {
             console.log('Connect Error: ' + error.toString());
+            if (data && data.onError) {
+                data.onError(error);
+            }
         });
 
         socket.on('connect', function(connection) {
@@ -134,6 +154,9 @@ export const createSocket = function(data) {
             // });
             connection.on('error', function(error) {
                 console.log("Connection Error: " + error.toString());
+                if (data && data.onDataError) {
+                    data.onDataError(error);
+                }
             });
             connection.on('close', function() {
                 console.log('echo-protocol Connection Closed');
@@ -171,6 +194,9 @@ export const createSocket = function(data) {
         socket.connect(`ws://${data.serverIP}:${data.serverPort || 8887}`);
     } catch (error) {
         console.log(error);
+        if (data && data.onError) {
+            data.onError(error);
+        }
     }
 }
 

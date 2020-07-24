@@ -51,6 +51,11 @@ export default function App(props: Props) {
                 if (_handleNewOrder) {
                     _handleNewOrder(data);
                 }
+            },
+            onError: () => {
+                if (_messageDialogRef && _messageDialogRef.current) {
+                    _messageDialogRef.current.show({ message: "Connection failed" });
+                }
             }
         });
     }

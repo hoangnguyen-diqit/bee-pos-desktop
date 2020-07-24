@@ -35,19 +35,21 @@ export function WebSocketListener({
 
         if (!otServerIP) {
             // createUDPServer();
-            // setTimeout(() => {
-            //     broadcastServer({
-            //         onDetected: (data) => {
-            //             onServerDetected(data, undefined);
-            //         }
-            //     });
-            // }, 300);
+            setTimeout(() => {
+                broadcastServer({
+                    onTimeout: () => {
+                        console.log("Timeout");
+                        if (onSelectServerIP) {
+                            onSelectServerIP(() => {
 
-            if (onSelectServerIP) {
-                onSelectServerIP(() => {
-
-                })
-            }
+                            })
+                        }
+                    },
+                    onDetected: (data) => {
+                        onServerDetected(data, undefined);
+                    },
+                });
+            }, 300);
         } else {
             // _handleWebSocket(serverIP);
         }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardBody } from "reactstrap";
+import { Button, Card, CardBody, CardHeader } from "reactstrap";
 
 import { AppContext } from "../../AppContext";
 
@@ -24,7 +24,13 @@ export function SettingSidebar({
 }: Props) {
 
     console.log("Setting sidebar rendered");
-    const { history, isShowSettingBar } = React.useContext(AppContext);
+    const { history, isShowSettingBar, toggleSettingBar } = React.useContext(AppContext);
+
+    const _handleCloseClick = () => {
+        if (toggleSettingBar) {
+            toggleSettingBar(false);
+        }
+    };
 
     const _handleButtonClick = (buttonName) => {
         let link = "";
@@ -51,6 +57,14 @@ export function SettingSidebar({
             style={{ right: isShowSettingBar ? "0" : "-360px", width: "360px", height: "calc(100% - 56px)", top: "56px" }}
         >
             <Card className="" style={{ minHeight: "100%" }}>
+                <CardHeader className="d-flex">
+                    <h3 className="mr-auto">Settings</h3>
+                    <Button
+                        onClick={() => _handleCloseClick()}
+                    >
+                        Close
+                    </Button>
+                </CardHeader>
                 <CardBody>
                     <InputFormGroup
                         type="select"
