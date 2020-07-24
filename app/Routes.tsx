@@ -3,7 +3,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import routes from './constants/routes.json';
-import App from './modules/App';
+import App from './App';
 // import HomePage from './modules/HomePage';
 import KdsMakeTablePage from './modules/kds/make-table/KdsMakeTablePage';
 import { KdsModule } from './modules/kds';
