@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import loadDbs from "../../core/nedb";
-import { createUDPServer, broadcastServer, createSocket } from "../../core/websocket/websocket-client";
+import { createUDPServer, broadcastServer } from "../../core/websocket/websocket-client";
 
 type Props = {
     onServerDetected: (data, callback) => void,
@@ -13,22 +13,9 @@ type Props = {
 export function WebSocketListener({
     onServerDetected,
     onSelectServerIP,
-    onNewOrder,
 }: Props) {
 
     const otServerIP = useSelector<any, any>(state => state.catalogReducer.otServerIP);
-
-    const _handleWebSocket = (serverIP) => {
-        createSocket({
-            serverIP,
-            onData: (data) => {
-                console.log(data);
-                if (onNewOrder) {
-                    onNewOrder(data);
-                }
-            }
-        });
-    }
 
     React.useEffect(() => {
         loadDbs();

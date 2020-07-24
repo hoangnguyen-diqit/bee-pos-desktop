@@ -60,15 +60,15 @@ export default function App(props: Props) {
         });
     }
 
-    const _handleServerDetected = (data, callback) => {
+    const _handleServerDetected = (data) => {
         if (_serverDetectedDialogRef && _serverDetectedDialogRef.current) {
-            _serverDetectedDialogRef.current.show({ message: data.address }, (res) => {
+            _serverDetectedDialogRef.current.show({ message: data.address }, () => {
                 _handleWebSocket(data.address);
             })
         }
     }
 
-    const _handleSelectServerIP = (callback) => {
+    const _handleSelectServerIP = () => {
         if (_selectServerDialogRef && _selectServerDialogRef.current) {
             _selectServerDialogRef.current.show({}, (data) => {
                 _handleWebSocket(data.serverIP);

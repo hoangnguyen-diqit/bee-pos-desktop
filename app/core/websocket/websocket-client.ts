@@ -83,7 +83,8 @@ export const broadcastServer = function(data) {
         var udpClient = dgram.createSocket("udp4");
         let timeoutTimer: any = undefined;
 
-        udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
+        // udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
+        udpClient.bind(function() { udpClient.setBroadcast(true); });
 
         udpClient.on("message", (msg: string, rinfo: any) => {
             clearTimeout(timeoutTimer);

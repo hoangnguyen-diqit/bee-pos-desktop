@@ -95,7 +95,7 @@ export function SettingSidebar({
                         <option>3x4</option>
                     </InputFormGroup>
                 </CardBody>
-                <div className="d-flex">
+                <div className="d-flex py-3">
                     {(buttonsMap["makeTable"] && buttonsMap["makeTable"].includes(currentPage)) &&
                         <div className="w-50 text-center">
                             <Button
@@ -119,9 +119,9 @@ export function SettingSidebar({
                         </div>
                     }
                     {(buttonsMap["history"] && buttonsMap["history"].includes(currentPage)) &&
-                        <div className="w-50">
+                        <div className="w-50 text-center">
                             <Button
-                                color="danger text-center"
+                                color="danger"
                                 outline={true}
                                 onClick={() => _handleButtonClick("history")}
                             >

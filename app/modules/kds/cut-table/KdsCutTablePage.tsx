@@ -15,19 +15,6 @@ function KdsCutTablePage() {
     const orders = useSelector<any, any>(state => state.kdsCutTableReducer.orders);
     const dispatch = useDispatch();
 
-    const _handleButtonAddOrderClick = () => {
-        orderdb.insert([{
-            title: "Order 1",
-        }], (err, newDocs) => {
-            if (err) {
-                console.log(err);
-            }
-
-            console.log(newDocs)
-            dispatch(kdsCutTable_findManyOrdersSuccess([ ...orders, ...newDocs ]));
-        })
-    }
-
     React.useEffect(() => {
         orderdb.find({}, (err, docs) => {
             if (err) {

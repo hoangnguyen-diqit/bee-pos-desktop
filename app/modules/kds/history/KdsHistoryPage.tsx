@@ -15,19 +15,6 @@ function KdsHistoryPage() {
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
     const dispatch = useDispatch();
 
-    const _handleButtonAddOrderClick = () => {
-        orderdb.insert([{
-            title: "Order 1",
-        }], (err, newDocs) => {
-            if (err) {
-                console.log(err);
-            }
-
-            console.log(newDocs)
-            dispatch(kdsHistory_findManyOrdersSuccess([ ...orders, ...newDocs ]));
-        })
-    }
-
     React.useEffect(() => {
         orderdb.find({}, (err, docs) => {
             if (err) {
