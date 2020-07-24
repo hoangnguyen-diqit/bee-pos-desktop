@@ -52,12 +52,6 @@ function KdsMakeTablePage(props) {
             <Header
             />
             <div>
-                Make Table
-                <Button
-                    onClick={_handleButtonAddOrderClick}
-                >
-                    Add Order
-                </Button>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
@@ -68,6 +62,7 @@ function KdsMakeTablePage(props) {
                                         <OrderCard
                                             item={item}
                                             currentPage="makeTable"
+                                            className="mb-3"
                                         />
                                     </Col>
                                 )
@@ -75,6 +70,11 @@ function KdsMakeTablePage(props) {
                     }
                     </Row>
                 </Container>
+                <Button
+                    onClick={_handleButtonAddOrderClick}
+                >
+                    Add Order
+                </Button>
             </div>
             <SettingSidebar
                 currentPage="makeTable"

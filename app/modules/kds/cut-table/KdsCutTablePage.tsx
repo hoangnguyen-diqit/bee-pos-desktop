@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import { orderdb } from "../../../core/nedb";
@@ -50,12 +50,6 @@ function KdsCutTablePage() {
             <Header
             />
             <div>
-                Make Table
-                <Button
-                    onClick={_handleButtonAddOrderClick}
-                >
-                    Add Order
-                </Button>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&

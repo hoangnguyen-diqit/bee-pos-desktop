@@ -83,13 +83,16 @@ export const broadcastServer = function(data) {
         var udpClient = dgram.createSocket("udp4");
         let timeoutTimer: any = undefined;
 
-        udpClient.bind(function() { udpClient.setBroadcast(true); });
+        udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
 
         udpClient.on("message", (msg: string, rinfo: any) => {
             clearTimeout(timeoutTimer);
             console.log("Client got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
             if (data && data.onDetected) {
-                data.onDetected(rinfo.address + ":" + rinfo.port);
+                data.onDetected({
+                    address: rinfo.address,
+                    port: rinfo.port,
+                });
             }
         })
 
@@ -98,13 +101,13 @@ export const broadcastServer = function(data) {
                 if (data && data.onTimeout) {
                     data.onTimeout();
                 }
-            }, 3 * 1000)
+            }, 15 * 1000)
         }
         const ping = () => {
 
             // client.send(message, 0, message.length, 41234, "192.168.9.255");
             // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-            udpClient.send(message, 0, message.length, 41234, broadcast1, function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
                 // client.close();

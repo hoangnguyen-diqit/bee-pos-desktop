@@ -38,11 +38,9 @@ export function Header() {
                 style={{ width: "500px" }}
             >
                 <div className="mr-auto">
-                    <Button
-                        onClick={_handleButtonSettingsClick}
-                    >
-                        Settings
-                    </Button>
+                    <img
+                        src="./assets/images/logo.png"
+                    />
                 </div>
                 <div className="d-flex align-items-center">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-calendar mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

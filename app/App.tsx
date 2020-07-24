@@ -48,22 +48,22 @@ export default function App(props: Props) {
             },
             onData: (data) => {
                 console.log(data);
-                if (_handleNewOrder) {
-                    _handleNewOrder(data);
+                if (_handleServerData) {
+                    _handleServerData(data);
                 }
             },
             onError: () => {
                 if (_messageDialogRef && _messageDialogRef.current) {
                     _messageDialogRef.current.show({ message: "Connection failed" });
                 }
-            }
+            },
         });
     }
 
     const _handleServerDetected = (data, callback) => {
         if (_serverDetectedDialogRef && _serverDetectedDialogRef.current) {
-            _serverDetectedDialogRef.current.show({ message: data }, (data) => {
-                _handleWebSocket(data.serverIP);
+            _serverDetectedDialogRef.current.show({ message: data.address }, (res) => {
+                _handleWebSocket(data.address);
             })
         }
     }
@@ -76,12 +76,19 @@ export default function App(props: Props) {
         }
     }
 
-    const _handleNewOrder = (data) => {
+    const _handleServerData = (data) => {
         if (_messageDialogRef && _messageDialogRef.current) {
             _messageDialogRef.current.show({ message: "New orders came: " + JSON.stringify(data) });
         }
         console.log("New orders came: " + data);
         dispatch(catalog_newOrderCame(data));
+
+        if (data && data.actionType) {
+            switch (data.actionType) {
+                default:
+                    break;
+            }
+        }
     }
 
     return (
@@ -108,7 +115,7 @@ export default function App(props: Props) {
             <WebSocketListener
                 onServerDetected={_handleServerDetected}
                 onSelectServerIP={_handleSelectServerIP}
-                onNewOrder={_handleNewOrder}
+                onNewOrder={_handleServerData}
             />
         </AppContext.Provider>
     );
