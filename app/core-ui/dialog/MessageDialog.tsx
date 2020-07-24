@@ -56,6 +56,7 @@ export class MessageDialog extends React.Component<Props, State> {
         return (
             <Modal
                 isOpen={isOpen}
+                unmountOnClose={false}
             >
                 <ModalBody>
                     {fields.message}
