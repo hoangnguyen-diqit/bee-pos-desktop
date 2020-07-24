@@ -1,5 +1,4 @@
 
-
 const KDS_MAKE_TABLE__FIND_MANY_SUCCESS = "KDS_MAKE_TABLE__FIND_MANY_SUCCESS";
 
 export const kdsMakeTable_findManyOrdersSuccess = (orders) => {

@@ -7,9 +7,12 @@ import { orderdb } from "../../../core/nedb";
 import { kdsMakeTable_findManyOrdersSuccess } from "./KdsMakeTableReducer";
 
 import { Header } from "../../../shared/header/Header";
+import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
 
-function KdsMakeTablePage() {
+function KdsMakeTablePage(props) {
+
+    console.log(props);
 
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
     const dispatch = useDispatch();
@@ -42,28 +45,24 @@ function KdsMakeTablePage() {
                 console.log("No Order");
             }
         })
-    }, [ JSON.stringify(orders) ])
+    }, [ JSON.stringify(orders) ]);
 
     return (
         <div>
             <Header
             />
             <div>
-                Make Table
-                <Button
-                    onClick={_handleButtonAddOrderClick}
-                >
-                    Add Order
-                </Button>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
                         orders
                             .map((item, index) => {
                                 return (
-                                    <Col key={index} xs="12" lg={4}>
+                                    <Col key={index} xs="12" lg={3}>
                                         <OrderCard
                                             item={item}
+                                            currentPage="makeTable"
+                                            className="mb-3"
                                         />
                                     </Col>
                                 )
@@ -71,7 +70,15 @@ function KdsMakeTablePage() {
                     }
                     </Row>
                 </Container>
+                <Button
+                    onClick={_handleButtonAddOrderClick}
+                >
+                    Add Order
+                </Button>
             </div>
+            <SettingSidebar
+                currentPage="makeTable"
+            />
         </div>
     )
 }

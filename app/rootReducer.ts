@@ -5,6 +5,8 @@ import { History } from 'history';
 // eslint-disable-next-line import/no-cycle
 import counterReducer from './modules/counter/counter/counterSlice';
 
+import appReducer from './AppReducer';
+
 import { kdsReducers } from './modules/kds';
 
 export default function createRootReducer(history: History) {
@@ -12,6 +14,7 @@ export default function createRootReducer(history: History) {
         router: connectRouter(history),
         counter: counterReducer,
 
+        catalogReducer: appReducer,
         ...kdsReducers,
     });
 }

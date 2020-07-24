@@ -33,7 +33,29 @@ function broadcastAddress(int = 'en0', address?: any) {
     return addr_splitted.map((e: any, i: number) => (~netmask_splitted[i] & 0xFF) | e).join('.');
 }
 
-export const createSocket = function(data) {
+export const createUDPServer = function() {
+    try {
+        const message = Buffer.from('Some bytes');
+
+        var server = dgram.createSocket("udp4");
+
+        server.on("message", function (msg: string, rinfo: any) {
+            console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+            server.send(message, rinfo.port, rinfo.address);
+        });
+
+        server.on("listening", function () {
+            var address = server.address();
+            console.log("server listening " + address.address + ":" + address.port);
+        });
+
+        server.bind(41234);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const broadcastServer = function(data) {
     try {
         const ip = internalIp.v4.sync();
         console.log(ip);
@@ -53,38 +75,57 @@ export const createSocket = function(data) {
 
                 return accu;
             }, "");
+
         console.log("Broadcast 1: " + broadcast1);
 
-        var server = dgram.createSocket("udp4");
-
-        server.on("message", function (msg: string, rinfo: any) {
-            console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
-            server.send(message, rinfo.port, rinfo.address);
-        });
-
-        server.on("listening", function () {
-            var address = server.address();
-            console.log("server listening " + address.address + ":" + address.port);
-        });
-
-        server.bind(41234);
-
         const message = Buffer.from('Some bytes');
+
         var udpClient = dgram.createSocket("udp4");
-        udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
+        let timeoutTimer: any = undefined;
+
+        // udpClient.bind(41233, function() { udpClient.setBroadcast(true); });
+        udpClient.bind(function() { udpClient.setBroadcast(true); });
 
         udpClient.on("message", (msg: string, rinfo: any) => {
+            clearTimeout(timeoutTimer);
             console.log("Client got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+            if (data && data.onDetected) {
+                data.onDetected({
+                    address: rinfo.address,
+                    port: rinfo.port,
+                });
+            }
         })
-        // client.send(message, 0, message.length, 41234, "192.168.9.255");
-        // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-        udpClient.send(message, 0, message.length, 41234, broadcast1, function(err, bytes) {
-            console.log(err);
-            console.log(bytes);
-            // client.close();
-        });
+
+        const createTimeoutTimer = () => {
+            timeoutTimer = setTimeout(() => {
+                if (data && data.onTimeout) {
+                    data.onTimeout();
+                }
+            }, 15 * 1000)
+        }
+        const ping = () => {
+
+            // client.send(message, 0, message.length, 41234, "192.168.9.255");
+            // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
+                console.log(err);
+                console.log(bytes);
+                // client.close();
+            });
+
+            createTimeoutTimer();
+        }
 
         console.log(client);
+        ping();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const createSocket = function(data) {
+    try {
         const socket = new client({
             webSocketVersion: 8,
         });
@@ -102,15 +143,24 @@ export const createSocket = function(data) {
         // });
         socket.on('connectFailed', function(error) {
             console.log('Connect Error: ' + error.toString());
+            if (data && data.onError) {
+                data.onError(error);
+            }
         });
 
         socket.on('connect', function(connection) {
             console.log('WebSocket Client Connected');
+            if (data && data.onConnected) {
+                data.onConnected();
+            }
             // connection.on('open', function(error) {
             //     console.log("Connection Open: " + error.toString());
             // });
             connection.on('error', function(error) {
                 console.log("Connection Error: " + error.toString());
+                if (data && data.onDataError) {
+                    data.onDataError(error);
+                }
             });
             connection.on('close', function() {
                 console.log('echo-protocol Connection Closed');
@@ -140,13 +190,17 @@ export const createSocket = function(data) {
             // sendNumber();
             connection.sendUTF("Hello Server");
 
+            // 1111
             // 1110
             // 99991001 / 1001
         })
 
-        socket.connect("ws://192.168.9.26:8887");
+        socket.connect(`ws://${data.serverIP}:${data.serverPort || 8887}`);
     } catch (error) {
         console.log(error);
+        if (data && data.onError) {
+            data.onError(error);
+        }
     }
 }
 
