@@ -21,7 +21,7 @@ export function WebSocketListener({
         loadDbs();
 
         if (!otServerIP) {
-            createUDPServer();
+            // createUDPServer();
             setTimeout(() => {
                 broadcastServer({
                     onTimeout: () => {

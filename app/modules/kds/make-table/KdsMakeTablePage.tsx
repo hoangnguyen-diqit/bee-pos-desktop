@@ -1,4 +1,5 @@
 import React from "react";
+import ReactToPrint from "react-to-print";
 import { Button, Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,12 +11,16 @@ import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
 
+import { ComponentToPrint } from "./ComponentToPrint";
+
 function KdsMakeTablePage(props) {
 
     console.log(props);
 
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
     const dispatch = useDispatch();
+
+    let _componentRef = React.createRef<ComponentToPrint>();
 
     const _handleButtonAddOrderClick = () => {
         orderdb.insert([{
@@ -70,11 +75,20 @@ function KdsMakeTablePage(props) {
                     }
                     </Row>
                 </Container>
-                <Button
-                    onClick={_handleButtonAddOrderClick}
-                >
-                    Add Order
-                </Button>
+                <div>
+                    <Button
+                        onClick={_handleButtonAddOrderClick}
+                    >
+                        Add Order
+                    </Button>
+                </div>
+                <div>
+                <ReactToPrint
+                    trigger={() => <a href="#">Print this out!</a>}
+                    content={() => _componentRef.current}
+                />
+                <ComponentToPrint ref={_componentRef} />
+                </div>
             </div>
             <SettingSidebar
                 currentPage="makeTable"

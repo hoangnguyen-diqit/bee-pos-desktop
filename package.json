@@ -1,6 +1,6 @@
 {
     "name": "bee-microservice-kds-multiplatform",
-    "productName": "KDS",
+    "productName": "DiqitBeeKDS",
     "version": "1.2.0",
     "description": "Bee microservice kds multiplatform",
     "scripts": {
@@ -11,7 +11,6 @@
         "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
         "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
         "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
-
         "package": "yarn build && electron-builder build --publish never",
         "package-all": "yarn build && electron-builder build -mwl",
         "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
@@ -246,6 +245,7 @@
         "react-hot-loader": "^4.12.21",
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.2.0",
+        "react-to-print": "^2.9.0",
         "reactstrap": "^8.5.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
