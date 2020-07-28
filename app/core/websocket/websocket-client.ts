@@ -108,7 +108,7 @@ export const broadcastServer = function(data) {
 
             // client.send(message, 0, message.length, 41234, "192.168.9.255");
             // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-            udpClient.send(message, 0, message.length, 41234, broadcast1, function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8888, broadcast1, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
                 // client.close();
