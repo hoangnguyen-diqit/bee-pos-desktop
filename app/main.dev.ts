@@ -59,7 +59,7 @@ const createWindow = async () => {
 
     const windowOptions: any = {
         show: false,
-        width: 1024,
+        width: 1366,
         height: 728,
         webPreferences: (process.env.NODE_ENV === 'development' || process.env.E2E_BUILD === 'true') &&
             process.env.ERB_SECURE !== 'true'

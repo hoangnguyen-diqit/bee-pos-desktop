@@ -9,6 +9,7 @@ import { kdsHistory_findManyOrdersSuccess } from "./KdsHistoryReducer";
 import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
+import { PageInner } from "../../../shared/page-inner/PageInner";
 
 function KdsHistoryPage() {
 
@@ -36,7 +37,7 @@ function KdsHistoryPage() {
         <div>
             <Header
             />
-            <div>
+            <PageInner>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
@@ -54,7 +55,7 @@ function KdsHistoryPage() {
                     }
                     </Row>
                 </Container>
-            </div>
+            </PageInner>
             <SettingSidebar
                 currentPage="kdsHistory"
             />

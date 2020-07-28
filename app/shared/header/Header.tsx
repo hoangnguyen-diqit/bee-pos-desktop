@@ -5,11 +5,26 @@ import { Navbar, Nav, Button } from "reactstrap";
 import { AppContext } from "../../AppContext";
 // import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { CustomInputFormGroup } from "../../core-ui/form-group/CustomInputFormGroup";
+import { ReactSelectFormGroup } from "../../core-ui/form-group/ReactSelectFormGroup";
 
 const orderTypes = [
-    { label: "All Orders" },
-    { label: "Delivery Orders" },
+    { label: "All Orders", value: "all" },
+    { label: "Delivery Orders", value: "delivery" },
+    { label: "Takeaway Orders", value: "takeAway" },
 ];
+
+const fieldsReducer = (state, action) => {
+    return {
+        ...state,
+        ...action,
+    }
+}
+
+const initialState = {
+    fields: {
+        orderType: "all",
+    }
+}
 
 export function Header() {
 
@@ -19,6 +34,7 @@ export function Header() {
         toggleSettingBar,
         toggleFilterPizzaPremake,
     } = React.useContext(AppContext);
+    const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, initialState.fields);
 
     const _handleButtonFilterPizzaPremakeClick = () => {
         toggleFilterPizzaPremake(!isFilterPizzaPremake);
@@ -28,10 +44,14 @@ export function Header() {
         toggleSettingBar(!isShowSettingBar);
     }
 
+    const _handleInputChange = (field, value) => {
+        dispatchFields({ [field]: value });
+    }
+
     return (
         <Navbar
-            className="bg-dark text-white"
-            style={{ height: "56px" }}
+            className="bg-dark text-white position-fixed"
+            style={{ height: "56px", top: 0, left: 0, right: 0, zIndex: 2 }}
         >
             <Nav
                 className="align-items-center"
@@ -57,7 +77,18 @@ export function Header() {
                 className="align-items-center"
                 style={{ width: "500px" }}
             >
-                <CustomInputFormGroup
+                <ReactSelectFormGroup
+                    className="mr-auto mb-0"
+                    style={{ width: "160px"}}
+                    label=""
+                    options={orderTypes
+                        .map(item => ({ label: item.label, value: "all" })) || []
+                    }
+                    value={fields.orderType}
+                    isClearable={false}
+                    onChange={(s0 => _handleInputChange("layout", s0))}
+                />
+                {/* <CustomInputFormGroup
                     type="select"
                     className="mr-auto mb-0"
                     id="header__filter-order__input"
@@ -70,7 +101,7 @@ export function Header() {
                                 )
                             })
                     }
-                </CustomInputFormGroup>
+                </CustomInputFormGroup> */}
                 <Button
                     color="danger"
                     outline

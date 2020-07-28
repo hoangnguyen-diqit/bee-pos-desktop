@@ -13,6 +13,7 @@ import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
 
 import { ComponentToPrint } from "./ComponentToPrint";
+import { PageInner } from "../../../shared/page-inner/PageInner";
 
 function KdsMakeTablePage(props) {
 
@@ -63,15 +64,16 @@ function KdsMakeTablePage(props) {
         <div>
             <Header
             />
-            <div>
+            <PageInner>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
                         orders
                             .map((item, index) => {
                                 return (
-                                    <Col key={index} xs="12" lg={3}>
+                                    <Col key={item.id || index} xs="12" lg={3}>
                                         <OrderCard
+                                            key={item.id || index}
                                             item={item}
                                             currentPage="makeTable"
                                             className="mb-3"
@@ -96,7 +98,7 @@ function KdsMakeTablePage(props) {
                 />
                 <ComponentToPrint ref={_componentRef} />
                 </div>
-            </div>
+            </PageInner>
             <SettingSidebar
                 currentPage="makeTable"
             />
