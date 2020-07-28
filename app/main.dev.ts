@@ -12,6 +12,8 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import glob from'glob';
+
 import MenuBuilder from './menu';
 
 export default class AppUpdater {
@@ -53,6 +55,7 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
+    loadDemos();
 
     const windowOptions: any = {
         show: false,
@@ -121,3 +124,8 @@ app.on('activate', () => {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) createWindow();
 });
+
+function loadDemos() {
+    const files = glob.sync(path.join(__dirname, 'main-process/**/*.ts'));
+    files.forEach((file) => { require(file) });
+}

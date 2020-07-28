@@ -15,8 +15,12 @@
     },
     "license": "MIT",
     "dependencies": {
+        "@thiagoelg/node-printer": "^0.5.3",
         "nedb": "^1.8.0",
         "printer": "^0.4.0",
         "websocket": "^1.0.31"
+    },
+    "devDependencies": {
+        "electron-rebuild": "^1.11.0"
     }
 }

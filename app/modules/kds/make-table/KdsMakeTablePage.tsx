@@ -2,6 +2,7 @@ import React from "react";
 import ReactToPrint from "react-to-print";
 import { Button, Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { ipcRenderer } from 'electron';
 
 import { orderdb } from "../../../core/nedb";
 
@@ -33,6 +34,12 @@ function KdsMakeTablePage(props) {
             console.log(newDocs)
             dispatch(kdsMakeTable_findManyOrdersSuccess([ ...orders, ...newDocs ]));
         })
+
+        ipcRenderer.on("listPrintersRes", (event, args) => {
+            console.log(event);
+            console.log(args);
+        })
+        ipcRenderer.send("listPrinters", "something");
     }
 
     React.useEffect(() => {
