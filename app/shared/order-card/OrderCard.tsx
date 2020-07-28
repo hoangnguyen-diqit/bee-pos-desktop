@@ -41,7 +41,6 @@ export function OrderCard({
             className={classNames("bg-white text-black-50 mb-3", className)}
         >
             <CardHeader style={{ paddingTop: "4px", paddingBottom: "4px", backgroundColor: orderColorsMap[item.type] || orderColorsMap.delivery }}>
-
             </CardHeader>
             <CardBody
             >

@@ -35,12 +35,18 @@ function KdsMakeTablePage(props) {
             console.log(newDocs)
             dispatch(kdsMakeTable_findManyOrdersSuccess([ ...orders, ...newDocs ]));
         })
+    }
 
+    const _listPrintersClick = () => {
         ipcRenderer.on("listPrintersRes", (event, args) => {
             console.log(event);
             console.log(args);
         })
         ipcRenderer.send("listPrinters", "something");
+    }
+
+    const _handlePrintClick = () => {
+        ipcRenderer.send("printFile", "something");
     }
 
     React.useEffect(() => {
@@ -89,6 +95,16 @@ function KdsMakeTablePage(props) {
                         onClick={_handleButtonAddOrderClick}
                     >
                         Add Order
+                    </Button>
+                    <Button
+                        onClick={_listPrintersClick}
+                    >
+                        List printers
+                    </Button>
+                    <Button
+                        onClick={_handlePrintClick}
+                    >
+                        Print
                     </Button>
                 </div>
                 <div>

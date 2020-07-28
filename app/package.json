@@ -16,6 +16,7 @@
     "license": "MIT",
     "dependencies": {
         "@thiagoelg/node-printer": "^0.5.3",
+        "html-pdf": "^2.2.0",
         "nedb": "^1.8.0",
         "websocket": "^1.0.31"
     },
