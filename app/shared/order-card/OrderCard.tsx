@@ -2,6 +2,8 @@ import React from "react";
 import classNames from "classnames";
 import { Card, CardBody, ListGroup, ListGroupItem, CardFooter, Button, CardHeader } from "reactstrap";
 
+import { useInterval } from "../../custom-hooks/use-interval";
+
 const orderColorsMap = {
     takeAway: "#7ad778",
     delivery: "#ff1744",
@@ -27,14 +29,11 @@ export function OrderCard({
     const [ countdown, setCountdown ] = React.useState(item.countdown || 30);
     const items = Array.isArray(item.items) ? item.items : [ {}, {} ];
 
-    React.useEffect(() => {
-        const countdownInt = setInterval(function() {
+    useInterval(() => {
+        if (countdown > 0) {
             setCountdown(countdown - 1);
-            if (countdown === 0) {
-                clearInterval(countdownInt);
-            }
-        }, 1 * 1000);
-    }, [ countdown ]);
+        }
+    }, 1 * 1000);
 
     return (
         <Card

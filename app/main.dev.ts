@@ -9,18 +9,24 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import glob from'glob';
 
 import MenuBuilder from './menu';
+import { orderdb, userdb } from "./core/nedb";
+import { listPrinters, uiPrintFile } from './main-process/printing/Printer';
 
 export default class AppUpdater {
     constructor() {
         log.transports.file.level = 'info';
         autoUpdater.logger = log;
-        autoUpdater.checkForUpdatesAndNotify();
+
+        try {
+            autoUpdater.checkForUpdatesAndNotify();
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
@@ -55,7 +61,6 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
-    loadDemos();
 
     const windowOptions: any = {
         show: false,
@@ -72,7 +77,7 @@ const createWindow = async () => {
     }
 
     if (process.platform === 'linux') {
-        windowOptions.icon = path.join(__dirname, '/assets/app-icon/png/512.png')
+        windowOptions.icon = path.join(__dirname, './assets/app-icon/png/512.png')
     }
 
     mainWindow = new BrowserWindow(windowOptions);
@@ -92,6 +97,15 @@ const createWindow = async () => {
         }
     });
 
+    // 570px, 80mm
+    ipcMain.on("listPrinters", (event, args) => {
+        event.sender.send("listPrintersRes", listPrinters() || []);
+    });
+
+    ipcMain.on("printFile", (event, args) => {
+        event.sender.send("printFileRes", uiPrintFile(args) || []);
+    });
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -101,7 +115,7 @@ const createWindow = async () => {
 
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
-    new AppUpdater();
+    // new AppUpdater();
 };
 
 /**
@@ -124,8 +138,3 @@ app.on('activate', () => {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) createWindow();
 });
-
-function loadDemos() {
-    const files = glob.sync(path.join(__dirname, 'main-process/**/*.ts'));
-    files.forEach((file) => { require(file) });
-}

@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import pdf from "html-pdf";
-import { ipcMain } from "electron";
+import { app } from "electron";
 import { getPrinters, printFile, printDirect } from "@thiagoelg/node-printer";
 
 export function listPrinters() {
@@ -9,7 +9,7 @@ export function listPrinters() {
 }
 
 export function uiPrintFile(data) {
-    var template = path.join(__dirname, "..", "..", "..", "data", "tmpl", 'bill.html')
+    var template = path.join(app.getPath('userData'), "data", "tmpl", 'bill.html')
     var filename = template.replace('.html', '.pdf')
     var templateHtml = fs.readFileSync(template, 'utf8')
 
@@ -48,12 +48,3 @@ export function uiPrintFile(data) {
 
     return true;
 }
-
-// 570px, 80mm
-ipcMain.on("listPrinters", (event, args) => {
-    event.sender.send("listPrintersRes", listPrinters() || []);
-});
-
-ipcMain.on("printFile", (event, args) => {
-    event.sender.send("printFileRes", uiPrintFile(args) || []);
-});

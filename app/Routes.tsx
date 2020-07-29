@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import routes from './constants/routes.json';
 import App from './App';
-// import HomePage from './modules/HomePage';
+import HomePage from './modules/HomePage';
 import KdsMakeTablePage from './modules/kds/make-table/KdsMakeTablePage';
 import { KdsModule } from './modules/kds';
 
@@ -20,11 +20,11 @@ const CounterPage = (props: Record<string, any>) => (
 );
 
 export const routeConfigs = [
-    { path: routes.HOME, component: KdsMakeTablePage, exact: true, },
-    { path: routes.COUNTER, component: CounterPage, exact: true, },
+    { path: routes.HOME, component: HomePage, exact: true, },
+    { path: routes.COUNTER, component: HomePage, exact: true, },
     ...KdsModule,
-    { path: "/:id", component: KdsMakeTablePage, exact: false, isPrivate: false },
-    { path: "*", component: KdsMakeTablePage, exact: false, isPrivate: false, },
+    { path: "/:id", component: HomePage, exact: false, isPrivate: false },
+    { path: "*", component: HomePage, exact: false, isPrivate: false, },
 ];
 
 export default function Routes(props) {

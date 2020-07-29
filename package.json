@@ -1,14 +1,14 @@
 {
     "name": "bee-microservice-kds-multiplatform",
-    "productName": "DiqitBeeKDS",
+    "productName": "Bee POS - KDS",
     "version": "1.2.0",
     "description": "Bee microservice kds multiplatform",
     "scripts": {
         "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
         "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
         "build-e2e": "cross-env E2E_BUILD=true yarn build",
-        "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
-        "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
+        "build-main": "cross-env NODE_ENV=production DEBUG_PROD=true webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
+        "build-renderer": "cross-env NODE_ENV=production DEBUG_PROD=true webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
         "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
         "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
         "package": "yarn build && electron-builder build --publish never",
@@ -31,8 +31,8 @@
         "test-watch": "yarn test --watch"
     },
     "build": {
-        "productName": "DiqitBeeKDS",
-        "appId": "com.diqit.DiqitBeeKDS",
+        "productName": "Bee POS - KDS",
+        "appId": "com.diqit.BeePOSKDS",
         "files": [
             "dist/",
             "node_modules/",
@@ -60,6 +60,9 @@
                 "nsis",
                 "msi"
             ]
+        },
+        "nsis": {
+            "oneClick": false
         },
         "linux": {
             "target": [
@@ -240,7 +243,6 @@
         "internal-ip": "^6.0.0",
         "jquery": "^3.5.1",
         "moment": "^2.27.0",
-        "node-sass": "^4.14.1",
         "react": "^16.13.1",
         "react-datepicker": "^3.1.3",
         "react-dom": "^16.12.0",

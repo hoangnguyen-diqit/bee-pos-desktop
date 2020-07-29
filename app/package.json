@@ -1,6 +1,6 @@
 {
     "name": "bee-microservice-kds-multiplatform",
-    "productName": "DiqitBeeKDS",
+    "productName": "Bee POS - KDS",
     "version": "1.2.0",
     "description": "Bee microservice kds multiplatform",
     "main": "./main.prod.js",
@@ -16,8 +16,10 @@
     "license": "MIT",
     "dependencies": {
         "@thiagoelg/node-printer": "^0.5.3",
+        "fs-extra": "^9.0.1",
         "html-pdf": "^2.2.0",
         "nedb": "^1.8.0",
+        "node-sass": "^4.14.1",
         "websocket": "^1.0.31"
     },
     "devDependencies": {

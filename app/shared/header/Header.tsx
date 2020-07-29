@@ -2,6 +2,8 @@ import React from "react";
 import moment from "moment";
 import { Navbar, Nav, Button } from "reactstrap";
 
+import logoImage from "../../assets/images/logo.png";
+
 import { AppContext } from "../../AppContext";
 // import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { CustomInputFormGroup } from "../../core-ui/form-group/CustomInputFormGroup";
@@ -59,7 +61,7 @@ export function Header() {
             >
                 <div className="mr-auto">
                     <img
-                        src="./assets/images/logo.png"
+                        src={logoImage}
                     />
                 </div>
                 <div className="d-flex align-items-center">
