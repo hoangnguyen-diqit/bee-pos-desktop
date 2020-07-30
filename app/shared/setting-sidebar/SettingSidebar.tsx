@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import { AppContext } from "../../AppContext";
 
 import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
-import { ReactSelectFormGroup } from "../../core-ui/form-group/ReactSelectFormGroup";
+import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
 
 const buttonsMap = {
     "makeTable": [ "cutTable", "kdsHistory" ],
@@ -91,7 +91,7 @@ export function SettingSidebar({
                     </Button>
                 </CardHeader>
                 <CardBody>
-                    <ReactSelectFormGroup
+                    <DropdownFormGroup
                         label="Layout"
                         options={[
                             { value: "3x4", label: "3x4" },

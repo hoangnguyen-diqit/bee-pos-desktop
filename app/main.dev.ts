@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
 import MenuBuilder from './menu';
-import { orderdb, userdb } from "./core/nedb";
+import { loadDbs } from "./core/nedb";
 import { listPrinters, uiPrintFile } from './main-process/printing/Printer';
 
 export default class AppUpdater {
@@ -61,6 +61,7 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
+    loadDbs();
 
     const windowOptions: any = {
         show: false,
@@ -115,7 +116,7 @@ const createWindow = async () => {
 
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
-    // new AppUpdater();
+    new AppUpdater();
 };
 
 /**

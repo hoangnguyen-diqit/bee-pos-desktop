@@ -6,8 +6,7 @@ import logoImage from "../../assets/images/logo.png";
 
 import { AppContext } from "../../AppContext";
 // import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
-import { CustomInputFormGroup } from "../../core-ui/form-group/CustomInputFormGroup";
-import { ReactSelectFormGroup } from "../../core-ui/form-group/ReactSelectFormGroup";
+import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
 
 const orderTypes = [
     { label: "All Orders", value: "all" },
@@ -79,12 +78,12 @@ export function Header() {
                 className="align-items-center"
                 style={{ width: "500px" }}
             >
-                <ReactSelectFormGroup
+                <DropdownFormGroup
                     className="mr-auto mb-0"
                     style={{ width: "160px"}}
                     label=""
                     options={orderTypes
-                        .map(item => ({ label: item.label, value: "all" })) || []
+                        .map(item => ({ label: item.label, value: item.value })) || []
                     }
                     value={fields.orderType}
                     isClearable={false}

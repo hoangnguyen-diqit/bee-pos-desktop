@@ -62,7 +62,8 @@
             ]
         },
         "nsis": {
-            "oneClick": false
+            "oneClick": false,
+            "perMachine": true
         },
         "linux": {
             "target": [

@@ -20,11 +20,11 @@ const CounterPage = (props: Record<string, any>) => (
 );
 
 export const routeConfigs = [
-    { path: routes.HOME, component: HomePage, exact: true, },
-    { path: routes.COUNTER, component: HomePage, exact: true, },
+    { path: routes.HOME, component: KdsMakeTablePage, exact: true, },
+    { path: routes.COUNTER, component: KdsMakeTablePage, exact: true, },
     ...KdsModule,
-    { path: "/:id", component: HomePage, exact: false, isPrivate: false },
-    { path: "*", component: HomePage, exact: false, isPrivate: false, },
+    { path: "/:id", component: KdsMakeTablePage, exact: false, isPrivate: false },
+    { path: "*", component: KdsMakeTablePage, exact: false, isPrivate: false, },
 ];
 
 export default function Routes(props) {

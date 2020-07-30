@@ -8,7 +8,6 @@ import {
     Label,
 } from "reactstrap";
 
-
 type Props = {
     name?: string,
     options: any[],
