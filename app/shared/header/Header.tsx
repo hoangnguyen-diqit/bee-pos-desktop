@@ -2,6 +2,8 @@ import React from "react";
 import moment from "moment";
 import { Navbar, Nav, Button } from "reactstrap";
 
+import { useInterval } from "../../custom-hooks/use-interval";
+
 import logoImage from "../../assets/images/logo.png";
 
 import { AppContext } from "../../AppContext";
@@ -35,6 +37,7 @@ export function Header() {
         toggleSettingBar,
         toggleFilterPizzaPremake,
     } = React.useContext(AppContext);
+    const [ currentTime, setCurrentTime ] = React.useState(new Date());
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, initialState.fields);
 
     const _handleButtonFilterPizzaPremakeClick = () => {
@@ -48,6 +51,14 @@ export function Header() {
     const _handleInputChange = (field, value) => {
         dispatchFields({ [field]: value });
     }
+
+    useInterval(() => {
+        setCurrentTime(new Date());
+    }, 1 * 60 * 1000);
+
+    // React.useEffect(() => {
+
+    // }, [currentTime]);
 
     return (
         <Navbar
@@ -68,7 +79,7 @@ export function Header() {
                         <path fillRule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
                         <path fillRule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
                     </svg>
-                    <span>{moment().format("dddd D[,] HH:mm A")}</span>
+                    <span>{moment(currentTime).format("dddd D[,] HH:mm A")}</span>
                 </div>
             </Nav>
             <div className="flex-fill text-center">
@@ -87,7 +98,7 @@ export function Header() {
                     }
                     value={fields.orderType}
                     isClearable={false}
-                    onChange={(s0 => _handleInputChange("layout", s0))}
+                    onChange={(s0 => _handleInputChange("orderType", s0))}
                 />
                 {/* <CustomInputFormGroup
                     type="select"

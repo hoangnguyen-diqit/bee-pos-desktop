@@ -1,10 +1,10 @@
 import path from "path";
 import fs from "fs";
 import pdf from "html-pdf";
-import { app } from "electron";
-import { getPrinters, printFile, printDirect } from "@thiagoelg/node-printer";
+import { app, ipcMain } from "electron";
+import { getPrinters, printDirect } from "@thiagoelg/node-printer";
 
-export function listPrinters() {
+export function uiGetPrinters() {
     return getPrinters();
 }
 
@@ -48,3 +48,12 @@ export function uiPrintFile(data) {
 
     return true;
 }
+
+// 570px, 80mm
+ipcMain.on("getPrinters", (event, args) => {
+    event.sender.send("getPrintersResp", uiGetPrinters() || []);
+});
+
+ipcMain.on("printFile", (event, args) => {
+    event.sender.send("printFileResp", uiPrintFile(args) || []);
+});

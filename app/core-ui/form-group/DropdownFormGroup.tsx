@@ -105,8 +105,7 @@ export function DropdownFormGroup({
                 className={classNames("dropdown-select", { "is-invalid": !!errorMessage })}
             >
                 <DropdownToggle
-                    className="d-flex align-items-center justify-content-between"
-                    style={{ width: "160px" }}
+                    className="w-100 d-flex align-items-center justify-content-between"
                     caret
                 >
                     {_parseLabel()}

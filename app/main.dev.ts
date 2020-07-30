@@ -15,7 +15,7 @@ import log from 'electron-log';
 
 import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";
-import { listPrinters, uiPrintFile } from './main-process/printing/Printer';
+import { loadPrinters } from "./main-process/printing";
 
 export default class AppUpdater {
     constructor() {
@@ -62,6 +62,7 @@ const createWindow = async () => {
         await installExtensions();
     }
     loadDbs();
+    loadPrinters();
 
     const windowOptions: any = {
         show: false,
@@ -96,15 +97,6 @@ const createWindow = async () => {
             mainWindow.show();
             mainWindow.focus();
         }
-    });
-
-    // 570px, 80mm
-    ipcMain.on("listPrinters", (event, args) => {
-        event.sender.send("listPrintersRes", listPrinters() || []);
-    });
-
-    ipcMain.on("printFile", (event, args) => {
-        event.sender.send("printFileRes", uiPrintFile(args) || []);
     });
 
     mainWindow.on('closed', () => {

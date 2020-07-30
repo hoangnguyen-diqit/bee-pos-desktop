@@ -99,7 +99,7 @@ export function SettingSidebar({
                         ]}
                         value={fields.layout}
                         isClearable={false}
-                        onChange={(s0 => _handleInputChange("layout", s0.value))}
+                        onChange={(s0 => _handleInputChange("layout", s0))}
                     />
                     <InputFormGroup
                         type="select"

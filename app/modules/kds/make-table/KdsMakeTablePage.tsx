@@ -38,11 +38,11 @@ function KdsMakeTablePage(props) {
     }
 
     const _listPrintersClick = () => {
-        ipcRenderer.on("listPrintersRes", (event, args) => {
+        ipcRenderer.on("getPrintersResp", (event, args) => {
             console.log(event);
             console.log(args);
         })
-        ipcRenderer.send("listPrinters", "something");
+        ipcRenderer.send("getPrinters", "something");
     }
 
     const _handlePrintClick = () => {
@@ -50,6 +50,21 @@ function KdsMakeTablePage(props) {
     }
 
     React.useEffect(() => {
+        ipcRenderer.on("getOrdersResp", (err, args) => {
+            if (err) {
+                console.log(err);
+            }
+
+            dispatch(kdsMakeTable_findManyOrdersSuccess(args.orders));
+
+            if (Array.isArray(args.orders) && args.orders.length > 0) {
+                console.log(args.orders);
+            }
+            if (!Array.isArray(args.orders) || args.orders.length === 0) {
+                console.log("No Order");
+            }
+        })
+        ipcRenderer.send("getOrders", {});
         // orderdb.find({}, (err, docs) => {
         //     if (err) {
         //         console.log(err);
