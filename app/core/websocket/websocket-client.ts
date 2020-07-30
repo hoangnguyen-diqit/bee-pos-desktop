@@ -102,13 +102,13 @@ export const broadcastServer = function(data) {
                 if (data && data.onTimeout) {
                     data.onTimeout();
                 }
-            }, 15 * 1000)
+            }, 3 * 1000)
         }
         const ping = () => {
 
             // client.send(message, 0, message.length, 41234, "192.168.9.255");
             // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-            udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8889, broadcast1, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
                 // client.close();
@@ -195,7 +195,7 @@ export const createSocket = function(data) {
             // 99991001 / 1001
         })
 
-        socket.connect(`ws://${data.serverIP}:${data.serverPort || 8887}`);
+        socket.connect(`ws://${data.serverIP}:${data.serverPort || 8889}`);
     } catch (error) {
         console.log(error);
         if (data && data.onError) {

@@ -2,13 +2,14 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { orderdb } from "../../../core/nedb";
+// import { orderdb } from "../../../core/nedb";
 
 import { kdsHistory_findManyOrdersSuccess } from "./KdsHistoryReducer";
 
 import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
 import { OrderCard } from "../../../shared/order-card/OrderCard";
+import { PageInner } from "../../../shared/page-inner/PageInner";
 
 function KdsHistoryPage() {
 
@@ -16,27 +17,27 @@ function KdsHistoryPage() {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        orderdb.find({}, (err, docs) => {
-            if (err) {
-                console.log(err);
-            }
+        // orderdb.find({}, (err, docs) => {
+        //     if (err) {
+        //         console.log(err);
+        //     }
 
-            dispatch(kdsHistory_findManyOrdersSuccess(docs));
+        //     dispatch(kdsHistory_findManyOrdersSuccess(docs));
 
-            if (Array.isArray(docs) && docs.length > 0) {
-                console.log(docs);
-            }
-            if (!Array.isArray(docs) || docs.length === 0) {
-                console.log("No Order");
-            }
-        })
+        //     if (Array.isArray(docs) && docs.length > 0) {
+        //         console.log(docs);
+        //     }
+        //     if (!Array.isArray(docs) || docs.length === 0) {
+        //         console.log("No Order");
+        //     }
+        // })
     }, [ JSON.stringify(orders) ]);
 
     return (
         <div>
             <Header
             />
-            <div>
+            <PageInner>
                 <Container fluid>
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
@@ -54,7 +55,7 @@ function KdsHistoryPage() {
                     }
                     </Row>
                 </Container>
-            </div>
+            </PageInner>
             <SettingSidebar
                 currentPage="kdsHistory"
             />

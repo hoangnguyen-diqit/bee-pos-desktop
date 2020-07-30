@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import loadDbs from "../../core/nedb";
 import { createUDPServer, broadcastServer } from "../../core/websocket/websocket-client";
 
 type Props = {
@@ -18,10 +17,8 @@ export function WebSocketListener({
     const otServerIP = useSelector<any, any>(state => state.catalogReducer.otServerIP);
 
     React.useEffect(() => {
-        loadDbs();
-
         if (!otServerIP) {
-            createUDPServer();
+            // createUDPServer();
             setTimeout(() => {
                 broadcastServer({
                     onTimeout: () => {

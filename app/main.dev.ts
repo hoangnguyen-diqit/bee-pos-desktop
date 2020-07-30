@@ -9,16 +9,24 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+
 import MenuBuilder from './menu';
+import { loadDbs } from "./core/nedb";
+import { loadPrinters } from "./main-process/printing";
 
 export default class AppUpdater {
     constructor() {
         log.transports.file.level = 'info';
         autoUpdater.logger = log;
-        autoUpdater.checkForUpdatesAndNotify();
+
+        try {
+            autoUpdater.checkForUpdatesAndNotify();
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
@@ -53,10 +61,12 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
+    loadDbs();
+    loadPrinters();
 
     const windowOptions: any = {
         show: false,
-        width: 1024,
+        width: 1366,
         height: 728,
         webPreferences: (process.env.NODE_ENV === 'development' || process.env.E2E_BUILD === 'true') &&
             process.env.ERB_SECURE !== 'true'
@@ -69,7 +79,7 @@ const createWindow = async () => {
     }
 
     if (process.platform === 'linux') {
-        windowOptions.icon = path.join(__dirname, '/assets/app-icon/png/512.png')
+        windowOptions.icon = path.join(__dirname, './assets/app-icon/png/512.png')
     }
 
     mainWindow = new BrowserWindow(windowOptions);
@@ -104,6 +114,7 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
+// app.allowRendererProcessReuse = false;
 
 app.on('window-all-closed', () => {
     // Respect the OSX convention of having the application in memory even
