@@ -3,7 +3,6 @@ import { Button, Card, CardBody, CardHeader } from "reactstrap";
 
 import { AppContext } from "../../AppContext";
 
-import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
 
 const buttonsMap = {
@@ -30,6 +29,7 @@ const defaultProps = {
 const initialState = {
     fields: {
         layout: "3x4",
+        language: "English",
     },
 }
 
@@ -101,40 +101,39 @@ export function SettingSidebar({
                         isClearable={false}
                         onChange={(s0 => _handleInputChange("layout", s0))}
                     />
-                    <InputFormGroup
-                        type="select"
-                        label="Layout"
-                    >
-                        <option>2x4</option>
-                        <option>3x4</option>
-                    </InputFormGroup>
-                    <InputFormGroup
-                        type="select"
-                        label="Category"
-                    >
-                        <option>2x4</option>
-                        <option>3x4</option>
-                    </InputFormGroup>
-                    <InputFormGroup
-                        type="select"
-                        label="Option"
-                    >
-                        <option>2x4</option>
-                        <option>3x4</option>
-                    </InputFormGroup>
-                    <InputFormGroup
-                        type="select"
+                    <DropdownFormGroup
+                        label="Make table Category"
+                        placeholder="Nothing is selected"
+                        options={[
+                        ]}
+                        value={fields.category}
+                        isClearable={false}
+                        onChange={(s0 => _handleInputChange("category", s0))}
+                    />
+                    <DropdownFormGroup
+                        label="Options"
+                        placeholder="Select"
+                        options={[
+                        ]}
+                        value={fields.option}
+                        isClearable={false}
+                        onChange={(s0 => _handleInputChange("option", s0))}
+                    />
+                    <DropdownFormGroup
                         label="Language"
-                    >
-                        <option>2x4</option>
-                        <option>3x4</option>
-                    </InputFormGroup>
+                        placeholder="Select"
+                        options={[
+                            { value: "English", label: "English" },
+                        ]}
+                        value={fields.language}
+                        isClearable={false}
+                        onChange={(s0 => _handleInputChange("language", s0))}
+                    />
                     <div className="text-center">
                         <Button
                             color="danger"
-                            outline
                         >
-                            Change layout
+                            Change Layout
                         </Button>
                     </div>
                 </CardBody>

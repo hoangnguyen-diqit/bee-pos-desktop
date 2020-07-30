@@ -1,6 +1,5 @@
 import React from "react";
-import ReactToPrint from "react-to-print";
-import { Button, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ipcRenderer } from 'electron';
 
@@ -104,31 +103,12 @@ function KdsMakeTablePage(props) {
                             })
                     }
                     </Row>
+                    <Row>
+                    {(!Array.isArray(orders) || orders.length === 0) &&
+                        <p>No Order</p>
+                    }
+                    </Row>
                 </Container>
-                <div>
-                    <Button
-                        onClick={_handleButtonAddOrderClick}
-                    >
-                        Add Order
-                    </Button>
-                    <Button
-                        onClick={_listPrintersClick}
-                    >
-                        List printers
-                    </Button>
-                    <Button
-                        onClick={_handlePrintClick}
-                    >
-                        Print
-                    </Button>
-                </div>
-                <div>
-                <ReactToPrint
-                    trigger={() => <a href="#">Print this out!</a>}
-                    content={() => _componentRef.current}
-                />
-                <ComponentToPrint ref={_componentRef} />
-                </div>
             </PageInner>
             <SettingSidebar
                 currentPage="makeTable"

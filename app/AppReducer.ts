@@ -16,7 +16,7 @@ export const catalog_updateOtServerIP = (otServerIP) => {
 export const catalog_newOrderCame = (orders) => {
     return {
         type: CATALOG__NEW_ORDER_CAME,
-        otSerordersverIP: orders,
+        orders: orders,
     }
 }
 
