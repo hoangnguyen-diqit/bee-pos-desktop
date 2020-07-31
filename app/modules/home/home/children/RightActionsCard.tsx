@@ -2,7 +2,16 @@ import React from "react";
 import PlusIcon from "mdi-react/PlusIcon";
 import { Card, CardBody, Button } from "reactstrap";
 
+import { OptionDialogFormGroup } from "../../../../core-ui/form-group/OptionDialogFormGroup";
+
 export function RightActionsCard() {
+
+    const [ isShowOptionDlg, setIsShowOptionDlg ] = React.useState(false);
+    const [ value, setValue ] = React.useState(false);
+
+    const _handleCreateDeliveryOrderClick = () => {
+        setIsShowOptionDlg(true);
+    };
 
     return (
         <Card>
@@ -10,6 +19,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
+                    onClick={() => _handleCreateDeliveryOrderClick()}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create Delivery Order</span>
@@ -51,6 +61,21 @@ export function RightActionsCard() {
                     </Button>
                 </div>
             </CardBody>
+            <OptionDialogFormGroup
+                isOpen={isShowOptionDlg}
+                options={[
+                ]}
+                value={value}
+                validationsI18n={{}}
+                toggleOpen={() => setIsShowOptionDlg(!isShowOptionDlg)}
+                onChange={(sV) => {
+                    if (sV.type === "cancel") {
+                        setIsShowOptionDlg(false);
+                    } else if (sV.type === "ok") {
+
+                    }
+                }}
+            />
         </Card>
     )
 }
