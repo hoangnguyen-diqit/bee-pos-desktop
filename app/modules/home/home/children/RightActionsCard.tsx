@@ -72,7 +72,7 @@ export function RightActionsCard() {
                     if (sV.type === "cancel") {
                         setIsShowOptionDlg(false);
                     } else if (sV.type === "ok") {
-
+                        setIsShowOptionDlg(false);
                     }
                 }}
             />

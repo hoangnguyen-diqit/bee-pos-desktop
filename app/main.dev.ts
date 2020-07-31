@@ -9,7 +9,7 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -32,6 +32,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let appIcon: any = null;
 
 if (process.env.NODE_ENV === 'production') {
     const sourceMapSupport = require('source-map-support');
@@ -102,12 +103,50 @@ const createWindow = async () => {
         }
     });
 
+    mainWindow.on('close', function (event) {
+        // if(!app.isQuiting){
+            event.preventDefault();
+
+            if (mainWindow) {
+                mainWindow.hide();
+            }
+        // }
+
+        return false;
+    });
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
+
+    const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
+    const iconPath = path.join(__dirname, iconName);
+    appIcon = new Tray(iconPath);
+
+    const contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Show App',
+            click:  function() {
+                if (mainWindow) {
+                    mainWindow.show();
+                }
+            }
+        },
+        {
+            label: 'Remove',
+            click: () => {
+                // event.sender.send('tray-removed');
+                appIcon.destroy();
+                app.quit();
+            }
+        }
+    ])
+
+    appIcon.setToolTip('Electron Demo in the tray.')
+    appIcon.setContextMenu(contextMenu)
 
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
@@ -125,6 +164,7 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
+    // if (appIcon) appIcon.destroy();
 });
 
 app.on('ready', createWindow);
