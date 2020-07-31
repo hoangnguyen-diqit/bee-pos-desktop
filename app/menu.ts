@@ -54,17 +54,17 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
-      label: 'Bee POS - KDS',
+      label: 'Bee POS',
       submenu: [
         {
-          label: 'About Bee POS - KDS',
+          label: 'About Bee POS',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide Bee POS - KDS',
+          label: 'Hide Bee POS',
           accelerator: 'Command+H',
           selector: 'hide:',
         },

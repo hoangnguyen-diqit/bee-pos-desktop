@@ -1,13 +1,13 @@
 {
-    "name": "bee-microservice-kds-multiplatform",
-    "productName": "Bee POS - KDS",
+    "name": "bee-pos-desktop",
+    "productName": "Bee POS",
     "version": "1.2.0",
     "description": "Bee microservice kds multiplatform",
     "main": "./main.prod.js",
     "author": {
         "name": "Diqit",
         "email": "hoang.nguyen@diqit.io",
-        "url": "https://github.com/Diqit-Global/bee-microservice-kds-multiplatform"
+        "url": "https://github.com/Diqit-Global/bee-pos-desktop"
     },
     "scripts": {
         "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
