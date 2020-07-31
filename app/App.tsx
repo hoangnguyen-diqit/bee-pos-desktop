@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { History } from 'history';
 import { useDispatch } from 'react-redux';
 
@@ -13,6 +13,8 @@ import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
 import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDialog';
 
+import { AppInitializer } from './AppInitializer';
+
 const contextValueReducer = (state, action) => {
     return {
         ...state,
@@ -22,7 +24,7 @@ const contextValueReducer = (state, action) => {
 
 type Props = {
     history: History,
-    children: ReactNode;
+    children: ({ profile }) => React.ReactNode;
 };
 
 export default function App(props: Props) {
@@ -30,6 +32,8 @@ export default function App(props: Props) {
     const [ contextValue, dispatchContextValue ] = React.useReducer(contextValueReducer, {
         isShowSettingBar: false,
         isFilterPizzaPremake: false,
+
+        profile: null,
     });
     const dispatch = useDispatch();
 
@@ -98,14 +102,22 @@ export default function App(props: Props) {
                 isShowSettingBar: contextValue.isShowSettingBar,
                 isFilterPizzaPremake: contextValue.isFilterPizzaPremake,
 
+                profile: contextValue.profile,
+
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
                 toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
+
+                updateProfile: (res) => dispatchContextValue({ profile: res }),
             }}
         >
             <MessageDialog
                 ref={_messageDialogRef}
             />
-            {children}
+            {children({
+                profile: contextValue.profile,
+            })}
+            <AppInitializer
+            />
             <ServerDetectedDialog
                 ref={_serverDetectedDialogRef}
             />

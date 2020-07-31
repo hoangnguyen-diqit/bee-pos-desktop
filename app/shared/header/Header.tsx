@@ -62,7 +62,7 @@ export function Header() {
 
     return (
         <Navbar
-            className="bg-dark text-white position-fixed"
+            className="default-bg text-white position-fixed"
             style={{ height: "56px", top: 0, left: 0, right: 0, zIndex: 2 }}
         >
             <Nav

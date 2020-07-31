@@ -1,12 +1,15 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import electronSettings from "electron-settings";
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import routes from './constants/routes.json';
 import App from './App';
-import HomePage from './modules/HomePage';
-import KdsMakeTablePage from './modules/kds/make-table/KdsMakeTablePage';
+import HomePage from './modules/home/home/HomePage';
+import { HomeModule } from './modules/home';
+import { AuthModule } from './modules/auth';
 import { KdsModule } from './modules/kds';
+import { LOCAL_STORAGE } from './utils/Constants';
 
 // Lazily load routes and code split with webpacck
 const LazyCounterPage = React.lazy(() =>
@@ -20,23 +23,51 @@ const CounterPage = (props: Record<string, any>) => (
 );
 
 export const routeConfigs = [
-    { path: routes.HOME, component: KdsMakeTablePage, exact: true, },
-    { path: routes.COUNTER, component: KdsMakeTablePage, exact: true, },
+    { path: routes.HOME, component: HomePage, exact: true, },
+    { path: routes.COUNTER, component: CounterPage, exact: true, },
+    ...HomeModule,
+    ...AuthModule,
     ...KdsModule,
-    { path: "/:id", component: KdsMakeTablePage, exact: false, isPrivate: false },
-    { path: "*", component: KdsMakeTablePage, exact: false, isPrivate: false, },
+    { path: "/:id", component: HomePage, exact: false, isPrivate: false },
+    { path: "*", component: HomePage, exact: false, isPrivate: false, },
 ];
+
+const _renderPrivateRouter = (profile, route, index) => {
+    const { component: Component, ...rest } = route;
+
+    return (
+        <Route
+            {...rest}
+            key={index}
+            render={props => {
+                if (!electronSettings.get(LOCAL_STORAGE.ACCESS_TOKEN)) {
+                    return (<Redirect to={{ pathname: "/login", state: { from: props.location } }} />)
+                } else if (profile) {
+                    return <Component {...props} />;
+                } else {
+                    return null; // keep location
+                }
+            }}
+        />
+    )
+}
 
 export default function Routes(props) {
     return (
         <App history={props.history}>
-            <Switch>
-                {routeConfigs.map((route, index) => {
-                    const { component: Component, ...rest } = route;
+            {({ profile }) => (
+                <Switch>
+                    {routeConfigs.map((route: any, index) => {
+                        const { component: Component, isPrivate, ...rest } = route;
 
-                    return (<Route key={index} component={Component} {...rest} />);
-                })}
-            </Switch>
+                        if (isPrivate) {
+                            return _renderPrivateRouter(profile, route, index);
+                        } else {
+                            return (<Route key={index} component={Component} {...rest} />);
+                        }
+                    })}
+                </Switch>
+            )}
         </App>
     );
 }

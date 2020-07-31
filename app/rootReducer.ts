@@ -7,6 +7,8 @@ import counterReducer from './modules/counter/counter/counterSlice';
 
 import appReducer from './AppReducer';
 
+import { homeReducers } from './modules/home';
+import { authReducers } from './modules/auth';
 import { kdsReducers } from './modules/kds';
 
 export default function createRootReducer(history: History) {
@@ -15,6 +17,8 @@ export default function createRootReducer(history: History) {
         counter: counterReducer,
 
         catalogReducer: appReducer,
+        ...homeReducers,
+        ...authReducers,
         ...kdsReducers,
     });
 }
