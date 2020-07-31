@@ -125,9 +125,9 @@ export default function App(props: Props) {
                 ref={_selectServerDialogRef}
             />
             <WebSocketListener
-                onServerDetected={_handleServerDetected}
-                onSelectServerIP={_handleSelectServerIP}
-                onNewOrder={_handleServerData}
+                // onServerDetected={_handleServerDetected}
+                // onSelectServerIP={_handleSelectServerIP}
+                // onNewOrder={_handleServerData}
             />
         </AppContext.Provider>
     );

@@ -16,6 +16,7 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";
 import { loadPrinters } from "./main-process/printing";
+import { createUDPServer, createTCPServer } from './core/websocket/websocket-client';
 
 export default class AppUpdater {
     constructor() {
@@ -61,6 +62,8 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
+    createUDPServer();
+    createTCPServer();
     loadDbs();
     loadPrinters();
 

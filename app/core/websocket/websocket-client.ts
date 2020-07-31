@@ -1,7 +1,8 @@
 import os from 'os';
+import http from 'http';
 import dgram from 'dgram';
 import internalIp from 'internal-ip';
-import { client } from "websocket";
+import { client, server as WebSocketServer  } from "websocket";
 import { hasDeepValue } from 'has-deep-value';
 
 var hasInterface = hasDeepValue;
@@ -49,7 +50,7 @@ export const createUDPServer = function() {
             console.log("server listening " + address.address + ":" + address.port);
         });
 
-        server.bind(41234);
+        server.bind(8886);
     } catch (error) {
         console.log(error);
     }
@@ -119,6 +120,62 @@ export const broadcastServer = function(data) {
 
         console.log(client);
         ping();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const createTCPServer = function() {
+    try {
+        var server = http.createServer(function(request, response) {
+            console.log((new Date()) + ' Received request for ' + request.url);
+            response.writeHead(404);
+            response.end();
+        });
+        server.listen(8887, function() {
+            console.log((new Date()) + ' Server is listening on port 8887');
+        });
+
+        const wsServer = new WebSocketServer({
+            httpServer: server,
+            // You should not use autoAcceptConnections for production
+            // applications, as it defeats all standard cross-origin protection
+            // facilities built into the protocol and the browser.  You should
+            // *always* verify the connection's origin and decide whether or not
+            // to accept it.
+            // autoAcceptConnections: false
+        });
+
+        function originIsAllowed(origin) {
+            // put logic here to detect whether the specified origin is allowed.
+            return true;
+        }
+
+        wsServer.on('request', function(request) {
+            if (!originIsAllowed(request.origin)) {
+                // Make sure we only accept requests from an allowed origin
+                request.reject();
+                console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
+                return;
+            }
+
+            // console.log("Request coming: " + JSON.stringify(request.protocol));
+            var connection = request.accept(undefined, request.origin);
+            console.log((new Date()) + ' Connection accepted.');
+            connection.on('message', function(message: any) {
+                if (message.type === 'utf8') {
+                    console.log('Received Message: ' + message.utf8Data);
+                    connection.sendUTF(message.utf8Data);
+                }
+                else if (message.type === 'binary') {
+                    console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
+                    connection.sendBytes(message.binaryData);
+                }
+            });
+            connection.on('close', function(reasonCode, description) {
+                console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+            });
+        });
     } catch (error) {
         console.log(error);
     }
@@ -195,7 +252,7 @@ export const createSocket = function(data) {
             // 99991001 / 1001
         })
 
-        socket.connect(`ws://${data.serverIP}:${data.serverPort || 8889}`);
+        socket.connect(`ws://${data.serverIP}:${data.serverPort || 8887}`);
     } catch (error) {
         console.log(error);
         if (data && data.onError) {
