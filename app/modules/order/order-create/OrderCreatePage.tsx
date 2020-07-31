@@ -8,7 +8,7 @@ import { WaitTimeCard } from './children/WaitTimeCard';
 import { SalesCard } from './children/SalesCard';
 import { RightActionsCard } from './children/RightActionsCard';
 
-export default function HomePage() {
+export default function OrderCreatePage() {
 
     return (
         <>

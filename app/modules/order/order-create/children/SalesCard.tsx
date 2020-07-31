@@ -1,12 +1,12 @@
 import React from "react";
 import { Card, CardHeader } from "reactstrap";
 
-export function WaitTimeCard() {
+export function SalesCard() {
 
     return (
         <Card className="mb-3">
             <CardHeader>
-                Wait Time
+                Sales
             </CardHeader>
         </Card>
     )

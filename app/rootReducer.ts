@@ -10,6 +10,7 @@ import appReducer from './AppReducer';
 import { homeReducers } from './modules/home';
 import { authReducers } from './modules/auth';
 import { kdsReducers } from './modules/kds';
+import { orderReducers } from './modules/order';
 
 export default function createRootReducer(history: History) {
     return combineReducers({
@@ -20,5 +21,6 @@ export default function createRootReducer(history: History) {
         ...homeReducers,
         ...authReducers,
         ...kdsReducers,
+        ...orderReducers,
     });
 }

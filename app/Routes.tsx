@@ -9,6 +9,7 @@ import HomePage from './modules/home/home/HomePage';
 import { HomeModule } from './modules/home';
 import { AuthModule } from './modules/auth';
 import { KdsModule } from './modules/kds';
+import { OrderModule } from './modules/order';
 import { LOCAL_STORAGE } from './utils/Constants';
 
 // Lazily load routes and code split with webpacck
@@ -28,6 +29,7 @@ export const routeConfigs = [
     ...HomeModule,
     ...AuthModule,
     ...KdsModule,
+    ...OrderModule,
     { path: "/:id", component: HomePage, exact: false, isPrivate: false },
     { path: "*", component: HomePage, exact: false, isPrivate: false, },
 ];
