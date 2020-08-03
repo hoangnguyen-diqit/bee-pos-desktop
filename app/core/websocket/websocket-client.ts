@@ -10,6 +10,8 @@ var allInterfaces = os.networkInterfaces();
 console.log(allInterfaces);
 var addr_info;
 
+var clientConnections = {};
+
 function broadcastAddress(int = 'en0', address?: any) {
     if(!hasInterface(allInterfaces, int)) {
         throw new Error(`Unknown network interface (${int}).`);
@@ -161,21 +163,54 @@ export const createTCPServer = function() {
 
             // console.log("Request coming: " + JSON.stringify(request.protocol));
             var connection = request.accept(undefined, request.origin);
+            console.log("Connection request: " + connection);
             console.log((new Date()) + ' Connection accepted.');
             connection.on('message', function(message: any) {
                 if (message.type === 'utf8') {
-                    console.log('Received Message: ' + message.utf8Data);
-                    connection.sendUTF(message.utf8Data);
+                    console.log('Received Message: ' + JSON.stringify(message.utf8Data));
+                    // connection.sendUTF(message.utf8Data);
                 }
                 else if (message.type === 'binary') {
                     console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-                    connection.sendBytes(message.binaryData);
+                    // connection.sendBytes(message.binaryData);
                 }
             });
             connection.on('close', function(reasonCode, description) {
                 console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+                if (clientConnections[request.key]) {
+                    delete clientConnections[request.key];
+                }
             });
+
+            clientConnections[request.key] = connection;
         });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const sendToClient = function(clientId, data) {
+    try {
+        const clientConnection = clientConnections[clientId];
+        if (clientConnection) {
+            clientConnection.sendUTF(JSON.stringify(data));
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const sendToAllClients = function(data) {
+    try {
+        if (Object.keys(clientConnections).length > 0) {
+            Object.keys(clientConnections)
+                .forEach(key => {
+                    const clientConnection = clientConnections[key];
+                    if (clientConnection) {
+                        clientConnection.sendUTF(JSON.stringify(data));
+                    }
+                })
+        }
     } catch (error) {
         console.log(error);
     }
@@ -245,7 +280,7 @@ export const createSocket = function(data) {
             //     }
             // }
             // sendNumber();
-            connection.sendUTF("Hello Server");
+            connection.sendUTF("Hello from Server");
 
             // 1111
             // 1110

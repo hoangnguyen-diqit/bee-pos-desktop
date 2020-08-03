@@ -1,6 +1,7 @@
 import React from "react";
 import PlusIcon from "mdi-react/PlusIcon";
 import { Card, CardBody, Button } from "reactstrap";
+import { ipcRenderer } from "electron";
 
 import { OptionDialogFormGroup } from "../../../../core-ui/form-group/OptionDialogFormGroup";
 
@@ -12,6 +13,12 @@ export function RightActionsCard() {
     const _handleCreateDeliveryOrderClick = () => {
         setIsShowOptionDlg(true);
     };
+
+    const _handleSendToClientClick = () => {
+        ipcRenderer.send("sendToClient", {
+            message: "Hello client again",
+        })
+    }
 
     return (
         <Card>
@@ -60,6 +67,11 @@ export function RightActionsCard() {
                         <span>Close Shift</span>
                     </Button>
                 </div>
+                <Button
+                    onClick={_handleSendToClientClick}
+                >
+                    Send to Client
+                </Button>
             </CardBody>
             <OptionDialogFormGroup
                 isOpen={isShowOptionDlg}
