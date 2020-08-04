@@ -128,7 +128,7 @@ const createWindow = async () => {
 
     const contextMenu = Menu.buildFromTemplate([
         {
-            label: 'Show App',
+            label: 'Open Bee POS',
             click:  function() {
                 if (mainWindow) {
                     mainWindow.show();
@@ -136,7 +136,7 @@ const createWindow = async () => {
             }
         },
         {
-            label: 'Remove',
+            label: 'Quit Bee POS',
             click: () => {
                 if (mainWindow) {
                     mainWindow = null;
@@ -151,7 +151,7 @@ const createWindow = async () => {
         }
     ])
 
-    appIcon.setToolTip('Electron Demo in the tray.')
+    appIcon.setToolTip('Bee POS')
     appIcon.setContextMenu(contextMenu)
 
     // Remove this if your app does not use auto updates
