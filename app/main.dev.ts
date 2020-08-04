@@ -14,6 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
 import MenuBuilder from './menu';
+import { loadSqlite3Db } from './core/sqlite3';
 import { loadDbs } from "./core/nedb";
 import { loadPrinters } from "./main-process/printing";
 import { createUDPServer, createTCPServer } from './core/websocket';
@@ -65,6 +66,7 @@ const createWindow = async () => {
     }
     createUDPServer();
     createTCPServer();
+    loadSqlite3Db();
     loadDbs();
     loadPrinters();
 
@@ -135,8 +137,9 @@ const createWindow = async () => {
                 }
             }
         },
+        { type: "separator" },
         {
-            label: 'Quit Bee POS',
+            label: 'Quit',
             click: () => {
                 if (mainWindow) {
                     mainWindow = null;
