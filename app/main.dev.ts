@@ -122,7 +122,7 @@ const createWindow = async () => {
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
 
-    const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png';
+    const iconName = process.platform === 'win32' ? '../extraResources/tray-icons/windows-icon.png' : '../extraResources/tray-icons/icon-template.png';
     const iconPath = path.join(__dirname, iconName);
     appIcon = new Tray(iconPath);
 
@@ -138,9 +138,15 @@ const createWindow = async () => {
         {
             label: 'Remove',
             click: () => {
-                // event.sender.send('tray-removed');
+                if (mainWindow) {
+                    mainWindow = null;
+                }
+                if (process.platform !== 'darwin') {
+                    app.quit();
+                }
+
                 appIcon.destroy();
-                app.quit();
+                app.exit(0);
             }
         }
     ])

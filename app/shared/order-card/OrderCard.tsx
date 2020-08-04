@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { Card, CardBody, ListGroup, ListGroupItem, CardFooter, Button, CardHeader } from "reactstrap";
 
-import { useInterval } from "../../custom-hooks/use-interval";
+import { useInterval } from "../custom-hooks/use-interval";
 
 const orderColorsMap = {
     takeAway: "#7ad778",

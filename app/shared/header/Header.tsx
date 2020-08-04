@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import { Navbar, Nav, Button } from "reactstrap";
 
-import { useInterval } from "../../custom-hooks/use-interval";
+import { useInterval } from "../custom-hooks/use-interval";
 
 import logoImage from "../../assets/images/logo.png";
 
