@@ -177,12 +177,13 @@ export const createTCPServer = function() {
             });
             connection.on('close', function(reasonCode, description) {
                 console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-                if (clientConnections[request.key]) {
-                    delete clientConnections[request.key];
+                if (clientConnections[connection.remoteAddress]) {
+                    delete clientConnections[connection.remoteAddress];
+                    console.log("Remove connection: " + connection.remoteAddress);
                 }
             });
 
-            clientConnections[request.key] = connection;
+            clientConnections[connection.remoteAddress] = connection;
         });
     } catch (error) {
         console.log(error);
