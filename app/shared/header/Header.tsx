@@ -32,6 +32,7 @@ const initialState = {
 export function Header() {
 
     const {
+        history,
         isShowSettingBar,
         isFilterPizzaPremake,
         toggleSettingBar,
@@ -39,6 +40,12 @@ export function Header() {
     } = React.useContext(AppContext);
     const [ currentTime, setCurrentTime ] = React.useState(new Date());
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, initialState.fields);
+
+    const _handleHomeClick = () => {
+        if (history) {
+            history.push(`/home`);
+        }
+    }
 
     const _handleButtonFilterPizzaPremakeClick = () => {
         toggleFilterPizzaPremake(!isFilterPizzaPremake);
@@ -70,9 +77,15 @@ export function Header() {
                 style={{ width: "500px" }}
             >
                 <div className="mr-auto">
-                    <img
-                        src={logoImage}
-                    />
+                    <Button
+                        color="light"
+                        className="p-0"
+                        onClick={() => _handleHomeClick()}
+                    >
+                        <img
+                            src={logoImage}
+                        />
+                    </Button>
                 </div>
                 <div className="d-flex align-items-center">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-calendar mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

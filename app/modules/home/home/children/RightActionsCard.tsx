@@ -20,14 +20,16 @@ export function RightActionsCard() {
     };
 
     const _handleSendToClientClick = () => {
-        ipcRenderer.send("sendToClient", {
-            actionType: "order_insert",
-            param: {
-                _id: "12345",
-                name: "Hello client again"
+        ipcRenderer.send("sendToClient", [
+            {
+                actionType: "order_insert",
+                param: {
+                    _id: "12345",
+                    name: "ABC"
+                },
+                table: "order",
             },
-        })
-    }
+        ])}
 
     return (
         <Card>
