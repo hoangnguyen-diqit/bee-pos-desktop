@@ -2,9 +2,7 @@ import { ipcMain } from "electron";
 import { createUDPServer, createTCPServer, sendToAllClients } from "./websocket-client";
 
 ipcMain.on("sendToClient", (ev, args) => {
-    sendToAllClients({
-        message: "Hello client",
-    })
+    sendToAllClients(args)
 
     ev.sender.send("sendToClientResp", {
         message: "completed",

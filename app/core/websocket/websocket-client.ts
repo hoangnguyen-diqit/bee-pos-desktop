@@ -203,6 +203,7 @@ export const sendToClient = function(clientId, data) {
 export const sendToAllClients = function(data) {
     try {
         if (Object.keys(clientConnections).length > 0) {
+            console.log("Current clients: " + Object.keys(clientConnections).length + " " + Object.keys(clientConnections).join(", "));
             Object.keys(clientConnections)
                 .forEach(key => {
                     const clientConnection = clientConnections[key];
