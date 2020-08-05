@@ -1,12 +1,12 @@
 import React from "react";
 import { Card, CardHeader } from "reactstrap";
 
-export function SalesCard() {
+export function PaymentDetailsCard() {
 
     return (
         <Card className="mb-3">
             <CardHeader>
-                Sales
+                Payment Details
             </CardHeader>
         </Card>
     )

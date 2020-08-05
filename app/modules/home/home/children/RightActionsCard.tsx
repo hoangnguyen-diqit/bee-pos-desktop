@@ -3,15 +3,20 @@ import PlusIcon from "mdi-react/PlusIcon";
 import { Card, CardBody, Button } from "reactstrap";
 import { ipcRenderer } from "electron";
 
+import { AppContext } from "../../../../AppContext";
+
 import { OptionDialogFormGroup } from "../../../../core-ui/form-group/OptionDialogFormGroup";
 
 export function RightActionsCard() {
 
+    const { history } = React.useContext(AppContext);
     const [ isShowOptionDlg, setIsShowOptionDlg ] = React.useState(false);
     const [ value, setValue ] = React.useState(false);
 
     const _handleCreateDeliveryOrderClick = () => {
-        setIsShowOptionDlg(true);
+        if (history) {
+            history.push(`/orders/new`);
+        }
     };
 
     const _handleSendToClientClick = () => {

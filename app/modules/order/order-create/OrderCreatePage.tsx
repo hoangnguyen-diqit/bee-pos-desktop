@@ -1,14 +1,24 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
+
+import { AppContext } from '../../../AppContext';
 
 import { Header } from '../../../shared/header/Header';
 import { PageInner } from '../../../shared/page-inner/PageInner';
 
-import { WaitTimeCard } from './children/WaitTimeCard';
-import { SalesCard } from './children/SalesCard';
+import { OrderDetailsCard } from './children/OrderDetailsCard';
+import { PaymentDetailsCard } from './children/PaymentDetailsCard';
 import { RightActionsCard } from './children/RightActionsCard';
 
 export default function OrderCreatePage() {
+
+    const { history } = React.useContext(AppContext);
+
+    const _handlePayClick = () => {
+        if (history) {
+            history.push(`/orders/123/payment`);
+        }
+    }
 
     return (
         <>
@@ -17,13 +27,30 @@ export default function OrderCreatePage() {
             <PageInner>
                 <Container fluid>
                     <Row>
-                        <Col xs="8">
-                            <WaitTimeCard
+                        <Col xs="6">
+                            <h3>Order Name</h3>
+                            <OrderDetailsCard
                             />
-                            <SalesCard
+                            <PaymentDetailsCard
                             />
+                            <div className="d-flex">
+                                <Button
+                                    color="danger"
+                                    outline
+                                    className="w-50"
+                                >
+                                    Void
+                                </Button>
+                                <Button
+                                    color="danger"
+                                    className="w-50"
+                                    onClick={() => _handlePayClick()}
+                                >
+                                    Pay
+                                </Button>
+                            </div>
                         </Col>
-                        <Col xs="4">
+                        <Col xs="6">
                             <RightActionsCard
                             />
                         </Col>
