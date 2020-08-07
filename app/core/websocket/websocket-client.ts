@@ -52,7 +52,7 @@ export const createUDPServer = function() {
             console.log("server listening " + address.address + ":" + address.port);
         });
 
-        server.bind(8886);
+        server.bind(8889);
     } catch (error) {
         console.log(error);
     }
@@ -134,8 +134,8 @@ export const createTCPServer = function() {
             response.writeHead(404);
             response.end();
         });
-        server.listen(8887, function() {
-            console.log((new Date()) + ' Server is listening on port 8887');
+        server.listen(8889, function() {
+            console.log((new Date()) + ' Server is listening on port 8889');
         });
 
         const wsServer = new WebSocketServer({
