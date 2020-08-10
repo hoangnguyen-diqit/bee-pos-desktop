@@ -4,7 +4,7 @@ import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 
 import Root from './Root';
 import { history, configuredStore } from './store';
-import './app.global.css';
+import './app.global.scss';
 
 const store = configuredStore();
 

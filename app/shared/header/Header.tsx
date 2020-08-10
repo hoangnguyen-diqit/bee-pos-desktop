@@ -1,5 +1,7 @@
 import React from "react";
 import moment from "moment";
+import Icon from "@mdi/react";
+import { mdiMenu } from "@mdi/js";
 import { Navbar, Nav, Button } from "reactstrap";
 
 import { useInterval } from "../custom-hooks/use-interval";
@@ -43,9 +45,14 @@ export function Header({
         isFilterPizzaPremake,
         toggleSettingBar,
         toggleFilterPizzaPremake,
+        toggleLeftnav,
     } = React.useContext(AppContext);
     const [ currentTime, setCurrentTime ] = React.useState(new Date());
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, initialState.fields);
+
+    const _handleMenuClick = () => {
+        toggleLeftnav(true);
+    };
 
     const _handleHomeClick = () => {
         if (history) {
@@ -83,6 +90,12 @@ export function Header({
                 style={{ width: "500px" }}
             >
                 <div className="mr-auto">
+                    <Button
+                        className="mr-3 p-0"
+                        onClick={_handleMenuClick}
+                    >
+                        <Icon path={mdiMenu} size={1} />
+                    </Button>
                     <Button
                         color="light"
                         size="sm"

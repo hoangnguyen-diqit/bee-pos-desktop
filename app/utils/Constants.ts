@@ -17,3 +17,5 @@ export const MEMBER_TYPES = {
     MANAGER: "manager",
     CUSTOMER_SERVICE: "customerService",
 };
+
+export const DEFAULT_PRINTER_NAME = "defaultPrinterName";

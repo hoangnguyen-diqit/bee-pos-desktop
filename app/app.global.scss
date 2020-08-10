@@ -1,0 +1,70 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+body {
+    height: 100%;
+}
+
+.default-bg {
+    background-color: #23293C;
+}
+
+.transition-right-default {
+    transition: right 200ms;
+}
+
+.transition-margin-left-default {
+    transition: margin-left 200ms;
+}
+
+.modal.fade.left:not(.show) .modal-dialog {
+    -webkit-transform: translate(-25%, 0);
+    transform: translate(-25%, 0);
+}
+
+.modal.fade.right:not(.show) .modal-dialog {
+    -webkit-transform: translate(25%, 0);
+    transform: translate(25%, 0);
+}
+
+.modal.fade.bottom:not(.show) .modal-dialog {
+    -webkit-transform: translate(0, 25%);
+    transform: translate(0, 25%);
+}
+
+.modal.fade.zoom:not(.show) .modal-dialog {
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
+}
+
+.modal-dialog.anchor-right {
+    margin: 0 0 0 auto;
+
+    .modal-content {
+        // width: 256px;
+        height: 100vh;
+    }
+}
+
+.modal-dialog.anchor-left {
+    margin: 0 auto 0 0;
+
+    .modal-content {
+        // width: 256px;
+        height: 100vh;
+    }
+}
+
+.modal-dialog.anchor-bottom {
+    margin: calc(100vh - 300px) 0 0 0;
+
+    .modal-content {
+        width: 100vw;
+        min-height: 300px;
+    }
+}

@@ -12,6 +12,7 @@ import { catalog_newOrderCame } from './AppReducer';
 import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
 import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDialog';
+import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
 
 import { AppInitializer } from './AppInitializer';
 
@@ -30,6 +31,7 @@ type Props = {
 export default function App(props: Props) {
     const { children } = props;
     const [ contextValue, dispatchContextValue ] = React.useReducer(contextValueReducer, {
+        isOpenLeftnav: false,
         isShowSettingBar: false,
         isFilterPizzaPremake: false,
 
@@ -91,6 +93,7 @@ export default function App(props: Props) {
         <AppContext.Provider
             value={{
                 history: props.history,
+                isOpenLeftnav: contextValue.isOpenLeftnav,
                 isShowSettingBar: contextValue.isShowSettingBar,
                 isFilterPizzaPremake: contextValue.isFilterPizzaPremake,
 
@@ -98,6 +101,7 @@ export default function App(props: Props) {
 
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
                 toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
+                toggleLeftnav: (state) => dispatchContextValue({ isOpenLeftnav: state }),
 
                 updateProfile: (res) => dispatchContextValue({ profile: res }),
             }}
@@ -117,6 +121,12 @@ export default function App(props: Props) {
             {children({
                 profile: contextValue.profile,
             })}
+            <LeftnavDialog
+                isOpen={contextValue.isOpenLeftnav}
+                toggleOpen={() => dispatchContextValue({ "isOpenLeftnav": !contextValue.isOpenLeftnav})}
+                value={""}
+                onChange={() => {}}
+            />
             <AppInitializer
             />
             <ServerDetectedDialog
