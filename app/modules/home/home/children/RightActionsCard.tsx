@@ -13,9 +13,9 @@ export function RightActionsCard() {
     const [ isShowOptionDlg, setIsShowOptionDlg ] = React.useState(false);
     const [ value, setValue ] = React.useState(false);
 
-    const _handleCreateDeliveryOrderClick = () => {
+    const _handleCreateDeliveryOrderClick = (type) => {
         if (history) {
-            history.push(`/orders/new`);
+            history.push(`/orders/new/${type}`);
         }
     };
 
@@ -29,7 +29,8 @@ export function RightActionsCard() {
                 },
                 table: "order",
             },
-        ])}
+        ])
+    }
 
     return (
         <Card>
@@ -37,7 +38,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
-                    onClick={() => _handleCreateDeliveryOrderClick()}
+                    onClick={() => _handleCreateDeliveryOrderClick("delivery")}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create Delivery Order</span>
@@ -45,6 +46,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
+                    onClick={() => _handleCreateDeliveryOrderClick("takeAway")}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create TakeAway Order</span>
@@ -52,6 +54,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
+                    onClick={() => _handleCreateDeliveryOrderClick("eatIn")}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create Eat In Order</span>

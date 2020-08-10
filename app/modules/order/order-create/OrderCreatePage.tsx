@@ -1,5 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import { ipcRenderer } from 'electron';
+
+import { createUuidv4 } from '../../../utils/UuidUtils';
 
 import { AppContext } from '../../../AppContext';
 
@@ -10,6 +13,7 @@ import { PaymentMethodsCard } from '../../../shared/payment-methods-card/Payment
 import { OrderDetailsCard } from './children/OrderDetailsCard';
 import { PaymentDetailsCard } from './children/PaymentDetailsCard';
 import { RightActionsCard } from './children/RightActionsCard';
+import { FillCustomerInfoCard } from './children/FillCustomerInfoCard';
 
 const PAGE_MODES = {
     SELECT_ITEM: "selectItem",
@@ -17,8 +21,9 @@ const PAGE_MODES = {
     PAYMENT: "payment",
 }
 
-export default function OrderCreatePage() {
+export default function OrderCreatePage({ match }) {
 
+    const type = match.params.type;
     const { history } = React.useContext(AppContext);
     const [ pageMode, setPageMode ] = React.useState(PAGE_MODES.SELECT_ITEM);
 
@@ -27,12 +32,35 @@ export default function OrderCreatePage() {
     }
 
     const _handleDoneClick = () => {
-
+        ipcRenderer.send("sendToClient", [
+            {
+                actionType: "order_insert",
+                param: {
+                    _id: createUuidv4(),
+                    type: type,
+                    name: "ABC"
+                },
+                table: "order",
+            },
+        ])
     };
 
     return (
         <>
             <Header
+                actionComponent={
+                    <div>
+                        <Button
+                            onClick={() => setPageMode(pageMode === PAGE_MODES.SELECT_ITEM ? PAGE_MODES.FILL_CUSTOMER_INFO : (
+                                pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? PAGE_MODES.SELECT_ITEM : PAGE_MODES.SELECT_ITEM)
+                            )}
+                        >
+                            {pageMode === PAGE_MODES.SELECT_ITEM ? "Customer Details" :
+                                (pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? "Menu" : "")
+                            }
+                        </Button>
+                    </div>
+                }
             />
             <PageInner>
                 <Container fluid>
@@ -63,6 +91,10 @@ export default function OrderCreatePage() {
                         <Col xs="6">
                             {pageMode === PAGE_MODES.SELECT_ITEM &&
                                 <RightActionsCard
+                                />
+                            }
+                            {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
+                                <FillCustomerInfoCard
                                 />
                             }
                             {pageMode === PAGE_MODES.PAYMENT &&

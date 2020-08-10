@@ -23,13 +23,19 @@ const fieldsReducer = (state, action) => {
     }
 }
 
+type Props = {
+    actionComponent?: React.ReactNode,
+};
+
 const initialState = {
     fields: {
         orderType: "all",
     }
 }
 
-export function Header() {
+export function Header({
+    actionComponent,
+}: Props) {
 
     const {
         history,
@@ -102,6 +108,7 @@ export function Header() {
                 className="align-items-center"
                 style={{ width: "500px" }}
             >
+                {actionComponent}
                 <DropdownFormGroup
                     className="mr-auto mb-0"
                     style={{ width: "160px"}}

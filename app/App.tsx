@@ -37,7 +37,7 @@ export default function App(props: Props) {
     });
     const dispatch = useDispatch();
 
-    const _messageDialogRef = React.createRef<MessageDialog>();
+    const [ isOpenMessageDialog, setIsOpenMessageDialog ] = React.useState(false);
     const _serverDetectedDialogRef = React.createRef<ServerDetectedDialog>();
     const _selectServerDialogRef = React.createRef<SelectServerDialog>();
 
@@ -46,9 +46,6 @@ export default function App(props: Props) {
             serverIP,
             onConnected: () => {
                 console.log("Connected.");
-                if (_messageDialogRef && _messageDialogRef.current) {
-                    _messageDialogRef.current.show({ message: "Connected" });
-                }
             },
             onData: (data) => {
                 console.log(data);
@@ -57,9 +54,7 @@ export default function App(props: Props) {
                 }
             },
             onError: () => {
-                if (_messageDialogRef && _messageDialogRef.current) {
-                    _messageDialogRef.current.show({ message: "Connection failed" });
-                }
+                console.log("Connection failed");
             },
         });
     }
@@ -81,9 +76,6 @@ export default function App(props: Props) {
     }
 
     const _handleServerData = (data) => {
-        if (_messageDialogRef && _messageDialogRef.current) {
-            _messageDialogRef.current.show({ message: "New orders came: " + JSON.stringify(data) });
-        }
         console.log("New orders came: " + data);
         dispatch(catalog_newOrderCame(data));
 
@@ -111,7 +103,16 @@ export default function App(props: Props) {
             }}
         >
             <MessageDialog
-                ref={_messageDialogRef}
+                isOpen={isOpenMessageDialog}
+                toggleOpen={() => setIsOpenMessageDialog(!isOpenMessageDialog)}
+                value={""}
+                onChange={(res) => {
+                    if (res.type === "cancel") {
+                        setIsOpenMessageDialog(false);
+                    } else if (res.type === "ok") {
+                        setIsOpenMessageDialog(false);
+                    }
+                }}
             />
             {children({
                 profile: contextValue.profile,

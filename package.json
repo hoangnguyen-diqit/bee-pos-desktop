@@ -263,6 +263,7 @@
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "source-map-support": "^0.5.19",
+        "uuid": "^8.3.0",
         "validator": "^13.1.1"
     },
     "devEngines": {

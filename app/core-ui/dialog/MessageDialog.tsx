@@ -2,73 +2,52 @@ import React from "react";
 import { Modal, ModalBody, Button } from "reactstrap";
 
 type Props = {
-
-}
-
-type State = {
     isOpen: boolean,
-    fields: any,
-    onOk?: () => void,
+    value: any,
+    toggleOpen: () => void,
+    onChange: (type, data) => void,
 }
 
-const initialState = {
-    isOpen: false,
-    fields: {
-        message: "",
-    },
-    onOk: undefined,
-}
+const defaultProps = {
 
-export class MessageDialog extends React.Component<Props, State> {
+};
 
-    state: State = initialState;
+export function MessageDialog({
+    isOpen,
+    toggleOpen,
+    value,
+    onChange,
+}: Props) {
 
-    constructor(props) {
-        super(props);
+    const _handleOpened = () => {
 
-        this.show = this.show.bind(this);
-        this._handleOkClick = this._handleOkClick.bind(this);
     }
 
-    show(data, onOk?) {
-        this.setState({
-            isOpen: true,
-            fields: Object.assign({}, this.state.fields, data || {}),
-            onOk: onOk,
-        })
-    }
-
-    hide() {
-        this.setState({ isOpen: false });
-    }
-
-    _handleOkClick() {
-        const { onOk } = this.state;
-        if (onOk) {
-            onOk();
+    const _handleOkClick = () => {
+        if (onChange) {
+            onChange("ok", {
+            })
         }
-        this.hide();
     }
 
-    render() {
-        const { isOpen, fields } = this.state;
-
-        return (
-            <Modal
-                isOpen={isOpen}
-                unmountOnClose={false}
-            >
-                <ModalBody>
-                    {fields.message}
-                    <div className="text-right">
-                        <Button
-                            onClick={() => this._handleOkClick()}
-                        >
-                            Ok
-                        </Button>
-                    </div>
-                </ModalBody>
-            </Modal>
-        )
-    }
+    return (
+        <Modal
+            isOpen={isOpen}
+            toggle={() => toggleOpen()}
+            onOpened={_handleOpened}
+        >
+            <ModalBody>
+                {value.message}
+                <div className="text-right">
+                    <Button
+                        onClick={() => _handleOkClick()}
+                    >
+                        Ok
+                    </Button>
+                </div>
+            </ModalBody>
+        </Modal>
+    )
 }
+
+MessageDialog.defaultProps = defaultProps;
