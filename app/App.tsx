@@ -13,6 +13,7 @@ import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
 import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDialog';
 import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
+import { FooterStickyBar } from './shared/footer-sticky-bar/FooterStickyBar';
 
 import { AppInitializer } from './AppInitializer';
 
@@ -34,6 +35,7 @@ export default function App(props: Props) {
         isOpenLeftnav: false,
         isShowSettingBar: false,
         isFilterPizzaPremake: false,
+        isOpenFooterStickyBar: false,
 
         profile: null,
     });
@@ -102,6 +104,7 @@ export default function App(props: Props) {
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
                 toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
                 toggleLeftnav: (state) => dispatchContextValue({ isOpenLeftnav: state }),
+                toggleFooterStickyBar: (state) => dispatchContextValue({ isOpenFooterStickyBar: state }),
 
                 updateProfile: (res) => dispatchContextValue({ profile: res }),
             }}
@@ -126,6 +129,9 @@ export default function App(props: Props) {
                 toggleOpen={() => dispatchContextValue({ "isOpenLeftnav": !contextValue.isOpenLeftnav})}
                 value={""}
                 onChange={() => {}}
+            />
+            <FooterStickyBar
+                isOpen={contextValue.isOpenFooterStickyBar}
             />
             <AppInitializer
             />

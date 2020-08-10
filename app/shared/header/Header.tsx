@@ -46,6 +46,7 @@ export function Header({
         toggleSettingBar,
         toggleFilterPizzaPremake,
         toggleLeftnav,
+        toggleFooterStickyBar,
     } = React.useContext(AppContext);
     const [ currentTime, setCurrentTime ] = React.useState(new Date());
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, initialState.fields);
@@ -65,6 +66,7 @@ export function Header({
     }
 
     const _handleButtonSettingsClick = () => {
+        toggleFooterStickyBar(true);
         toggleSettingBar(!isShowSettingBar);
     }
 

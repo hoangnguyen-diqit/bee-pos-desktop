@@ -2,12 +2,31 @@
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 const options = [
-    { label: "Option 1" },
+    { label: "Option 1", link: "/option-1" },
+    { label: "Option 2", onClickName: "option2" },
+    { label: "Divider", type: "divider" },
+    { label: "Signout" },
 ];
 
 export function UserSettingDropdown() {
 
     const [ isOpen, setIsOpen ] = React.useState(false);
+
+    const _renderItem = (item, index) => {
+        if (item && item.type === "divider") {
+            return (
+                <DropdownItem divider />
+            )
+        } else {
+            return (
+                <DropdownItem
+                    key={index}
+                >
+                    {item.label}
+                </DropdownItem>
+            )
+        }
+    }
 
     return (
         <Dropdown
@@ -26,15 +45,7 @@ export function UserSettingDropdown() {
             <DropdownMenu>
                 {(Array.isArray(options) && options.length > 0) &&
                     options
-                        .map((item, index) => {
-                            return (
-                                <DropdownItem
-                                    key={index}
-                                >
-                                    {item.label}
-                                </DropdownItem>
-                            )
-                        })
+                    .map((item, index) => _renderItem(item, index))
                 }
             </DropdownMenu>
         </Dropdown>
