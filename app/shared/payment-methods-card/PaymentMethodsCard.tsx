@@ -14,7 +14,7 @@ export function PaymentMethodsCard({
 
     return (
         <div className={classNames(className, "py-2 px-3 bg-dark rounded")}>
-            <Row>
+            <Row form>
                 {(Array.isArray(options) && options.length > 0) &&
                     options
                         .map((item, index) => {
@@ -22,6 +22,7 @@ export function PaymentMethodsCard({
                                 <Col
                                     key={index}
                                     xs={3}
+                                    className="mb-2"
                                 >
                                     <Button
                                         color="light"

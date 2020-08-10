@@ -9,6 +9,7 @@ import logoImage from "../../assets/images/logo.png";
 import { AppContext } from "../../AppContext";
 // import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
+import { UserSettingDropdown } from "../user-setting-dropdown/UserSettingDropdown";
 
 const orderTypes = [
     { label: "All Orders", value: "all" },
@@ -85,6 +86,7 @@ export function Header({
                 <div className="mr-auto">
                     <Button
                         color="light"
+                        size="sm"
                         className="p-0"
                         onClick={() => _handleHomeClick()}
                     >
@@ -113,6 +115,7 @@ export function Header({
                     className="mr-auto mb-0"
                     style={{ width: "160px"}}
                     label=""
+                    size="sm"
                     options={orderTypes
                         .map(item => ({ label: item.label, value: item.value })) || []
                     }
@@ -136,6 +139,7 @@ export function Header({
                 </CustomInputFormGroup> */}
                 <Button
                     color="danger"
+                    size="sm"
                     outline
                     active={isFilterPizzaPremake}
                     onClick={_handleButtonFilterPizzaPremakeClick}
@@ -144,11 +148,14 @@ export function Header({
                 </Button>
                 <Button
                     color="danger"
+                    size="sm"
                     outline
                     onClick={_handleButtonSettingsClick}
                 >
                     Settings
                 </Button>
+                <UserSettingDropdown
+                />
             </Nav>
         </Navbar>
     )

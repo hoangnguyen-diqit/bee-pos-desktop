@@ -73,7 +73,7 @@ export function RightActionsCard() {
                                         return (
                                             <Col key={index}
                                             >
-                                                <Media>
+                                                <Media className="align-items-center">
                                                     <Media left>
                                                         <img src="" style={{ width: "64px", height: "64px" }}/>
                                                     </Media>

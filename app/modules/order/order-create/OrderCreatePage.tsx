@@ -38,7 +38,8 @@ export default function OrderCreatePage({ match }) {
                 param: {
                     _id: createUuidv4(),
                     type: type,
-                    name: "ABC"
+                    name: "ABC",
+                    phone: "9923242455",
                 },
                 table: "order",
             },
@@ -51,6 +52,7 @@ export default function OrderCreatePage({ match }) {
                 actionComponent={
                     <div>
                         <Button
+                            size="sm"
                             onClick={() => setPageMode(pageMode === PAGE_MODES.SELECT_ITEM ? PAGE_MODES.FILL_CUSTOMER_INFO : (
                                 pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? PAGE_MODES.SELECT_ITEM : PAGE_MODES.SELECT_ITEM)
                             )}
@@ -74,6 +76,7 @@ export default function OrderCreatePage({ match }) {
                             <div className="d-flex">
                                 <Button
                                     color="danger"
+                                    size="sm"
                                     outline
                                     className="w-50"
                                 >
@@ -81,6 +84,7 @@ export default function OrderCreatePage({ match }) {
                                 </Button>
                                 <Button
                                     color="danger"
+                                    size="sm"
                                     className="w-50"
                                     onClick={() => _handlePayClick()}
                                 >
@@ -103,6 +107,9 @@ export default function OrderCreatePage({ match }) {
                                         options={[
                                             { label: "Cash", value: "cash" },
                                             { label: "BCA", value: "bca" },
+                                            { label: "BNI", value: "bni" },
+                                            { label: "Mandiri", value: "mandiri" },
+                                            { label: "Other", value: "other" },
                                         ]}
                                         className="mb-3"
                                     />

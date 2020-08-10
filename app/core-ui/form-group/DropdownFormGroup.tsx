@@ -28,6 +28,7 @@ type Props = {
     helpText?: string,
     disabled?: boolean,
     onChange?: Function,
+    [key: string]: any,
 };
 
 const defaultProps = {
@@ -67,7 +68,9 @@ export function DropdownFormGroup({
     disabled,
     errorMessage,
     helpText,
+    size,
     onChange,
+    ...rest
 }: Props) {
 
     const _parseLabel = () => {
@@ -105,6 +108,7 @@ export function DropdownFormGroup({
                 className={classNames("dropdown-select", { "is-invalid": !!errorMessage })}
             >
                 <DropdownToggle
+                    size={size}
                     className="w-100 d-flex align-items-center justify-content-between"
                     caret
                 >
