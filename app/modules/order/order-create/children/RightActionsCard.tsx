@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Button, Row, Col } from "reactstrap";
+import { Card, CardBody, Button, Row, Col, Media } from "reactstrap";
 
 import { groupDistinctBy } from "../../../../utils/ArrayUtils";
 
@@ -14,6 +14,10 @@ const serviceCategories = [
     {
         key: "pasta",
         label: "Pasta",
+        items: [
+            { label: "Pasta 1" },
+            { label: "Pasta 2" },
+        ],
     },
     {
         key: "drink",
@@ -69,7 +73,12 @@ export function RightActionsCard() {
                                         return (
                                             <Col key={index}
                                             >
-                                                {item.label}
+                                                <Media>
+                                                    <Media left>
+                                                        <img src="" style={{ width: "64px", height: "64px" }}/>
+                                                    </Media>
+                                                    <Media body>{item.label}</Media>
+                                                </Media>
                                             </Col>
                                         )
                                     })
