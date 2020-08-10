@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { ipcRenderer } from 'electron';
 
@@ -47,100 +47,100 @@ export default function OrderCreatePage({ match }) {
     };
 
     return (
-        <>
-            <Header
-                actionComponent={
-                    <div>
+        <Fragment>
+        <Header
+            actionComponent={
+                <div>
+                    <Button
+                        size="sm"
+                        onClick={() => setPageMode(pageMode === PAGE_MODES.SELECT_ITEM ? PAGE_MODES.FILL_CUSTOMER_INFO : (
+                            pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? PAGE_MODES.SELECT_ITEM : PAGE_MODES.SELECT_ITEM)
+                        )}
+                    >
+                        {pageMode === PAGE_MODES.SELECT_ITEM ? "Customer Details" :
+                            (pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? "Menu" : "")
+                        }
+                    </Button>
+                </div>
+            }
+        />
+        <PageInner>
+            <Container fluid>
+            <Row>
+                <Col xs="6">
+                    <h3>Order Name</h3>
+                    <OrderDetailsCard
+                    />
+                    <PaymentDetailsCard
+                    />
+                    <div className="d-flex">
                         <Button
+                            color="danger"
                             size="sm"
-                            onClick={() => setPageMode(pageMode === PAGE_MODES.SELECT_ITEM ? PAGE_MODES.FILL_CUSTOMER_INFO : (
-                                pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? PAGE_MODES.SELECT_ITEM : PAGE_MODES.SELECT_ITEM)
-                            )}
+                            outline
+                            className="w-50"
                         >
-                            {pageMode === PAGE_MODES.SELECT_ITEM ? "Customer Details" :
-                                (pageMode === PAGE_MODES.FILL_CUSTOMER_INFO ? "Menu" : "")
-                            }
+                            Void
+                        </Button>
+                        <Button
+                            color="danger"
+                            size="sm"
+                            className="w-50"
+                            onClick={() => _handlePayClick()}
+                        >
+                            Pay
                         </Button>
                     </div>
-                }
-            />
-            <PageInner>
-                <Container fluid>
-                    <Row>
-                        <Col xs="6">
-                            <h3>Order Name</h3>
-                            <OrderDetailsCard
-                            />
-                            <PaymentDetailsCard
-                            />
-                            <div className="d-flex">
+                </Col>
+                <Col xs="6">
+                    {pageMode === PAGE_MODES.SELECT_ITEM &&
+                        <RightActionsCard
+                        />
+                    }
+                    {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
+                        <FillCustomerInfoCard
+                        />
+                    }
+                    {pageMode === PAGE_MODES.PAYMENT &&
+                        <React.Fragment>
+                        <PaymentMethodsCard
+                            options={[
+                                { label: "Cash", value: "cash" },
+                                { label: "BCA", value: "bca" },
+                                { label: "BNI", value: "bni" },
+                                { label: "Mandiri", value: "mandiri" },
+                                { label: "Other", value: "other" },
+                            ]}
+                            className="mb-3"
+                        />
+                        <div className="d-flex">
+                            <div className="w-50 pr-2">
                                 <Button
                                     color="danger"
-                                    size="sm"
                                     outline
-                                    className="w-50"
+                                    block
+                                    className=""
                                 >
-                                    Void
-                                </Button>
-                                <Button
-                                    color="danger"
-                                    size="sm"
-                                    className="w-50"
-                                    onClick={() => _handlePayClick()}
-                                >
-                                    Pay
+                                    Cancel
                                 </Button>
                             </div>
-                        </Col>
-                        <Col xs="6">
-                            {pageMode === PAGE_MODES.SELECT_ITEM &&
-                                <RightActionsCard
-                                />
-                            }
-                            {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
-                                <FillCustomerInfoCard
-                                />
-                            }
-                            {pageMode === PAGE_MODES.PAYMENT &&
-                                <React.Fragment>
-                                    <PaymentMethodsCard
-                                        options={[
-                                            { label: "Cash", value: "cash" },
-                                            { label: "BCA", value: "bca" },
-                                            { label: "BNI", value: "bni" },
-                                            { label: "Mandiri", value: "mandiri" },
-                                            { label: "Other", value: "other" },
-                                        ]}
-                                        className="mb-3"
-                                    />
-                                    <div className="d-flex">
-                                        <div className="w-50 pr-2">
-                                            <Button
-                                                color="danger"
-                                                outline
-                                                block
-                                                className=""
-                                            >
-                                                Cancel
-                                            </Button>
-                                        </div>
-                                        <div className="w-50 pl-2">
-                                            <Button
-                                                color="danger"
-                                                block
-                                                className=""
-                                                onClick={() => _handleDoneClick()}
-                                            >
-                                                Done
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </React.Fragment>
-                            }
-                        </Col>
-                    </Row>
-                </Container>
-            </PageInner>
-        </>
+                            <div className="w-50 pl-2">
+                                <Button
+                                    color="danger"
+                                    block
+                                    className=""
+                                    onClick={() => _handleDoneClick()}
+                                >
+                                    Done
+                                </Button>
+                            </div>
+                        </div>
+                        </React.Fragment>
+                    }
+                </Col>
+            </Row>
+            </Container>
+        </PageInner>
+        </Fragment>
     )
 }

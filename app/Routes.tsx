@@ -13,19 +13,19 @@ import { OrderModule } from './modules/order';
 import { LOCAL_STORAGE } from './utils/Constants';
 
 // Lazily load routes and code split with webpacck
-const LazyCounterPage = React.lazy(() =>
-    import(/* webpackChunkName: "CounterPage" */ './modules/CounterPage')
-);
+// const LazyCounterPage = React.lazy(() =>
+    // import(/* webpackChunkName: "CounterPage" */ './modules/CounterPage')
+// );
 
-const CounterPage = (props: Record<string, any>) => (
-    <React.Suspense fallback={<h1>Loading...</h1>}>
-        <LazyCounterPage {...props} />
-    </React.Suspense>
-);
+// const CounterPage = (props: Record<string, any>) => (
+//     <React.Suspense fallback={<h1>Loading...</h1>}>
+//         <LazyCounterPage {...props} />
+//     </React.Suspense>
+// );
 
 export const routeConfigs = [
     { path: routes.HOME, component: HomePage, exact: true, },
-    { path: routes.COUNTER, component: CounterPage, exact: true, },
+    // { path: routes.COUNTER, component: CounterPage, exact: true, },
     ...HomeModule,
     ...AuthModule,
     ...KdsModule,

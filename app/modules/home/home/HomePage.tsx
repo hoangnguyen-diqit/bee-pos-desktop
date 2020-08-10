@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import { Header } from '../../../shared/header/Header';
@@ -11,25 +11,25 @@ import { RightActionsCard } from './children/RightActionsCard';
 export default function HomePage() {
 
     return (
-        <>
-            <Header
-            />
-            <PageInner>
-                <Container fluid>
-                    <Row>
-                        <Col xs="8">
-                            <WaitTimeCard
-                            />
-                            <SalesCard
-                            />
-                        </Col>
-                        <Col xs="4">
-                            <RightActionsCard
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </PageInner>
-        </>
+        <Fragment>
+        <Header
+        />
+        <PageInner>
+            <Container fluid>
+            <Row>
+                <Col xs="8">
+                    <WaitTimeCard
+                    />
+                    <SalesCard
+                    />
+                </Col>
+                <Col xs="4">
+                    <RightActionsCard
+                    />
+                </Col>
+            </Row>
+            </Container>
+        </PageInner>
+        </Fragment>
     )
 }

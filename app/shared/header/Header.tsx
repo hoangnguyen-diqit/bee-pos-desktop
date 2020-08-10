@@ -7,7 +7,6 @@ import { useInterval } from "../custom-hooks/use-interval";
 import logoImage from "../../assets/images/logo.png";
 
 import { AppContext } from "../../AppContext";
-// import { InputFormGroup } from "../../core-ui/form-group/InputFormGroup";
 import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
 import { UserSettingDropdown } from "../user-setting-dropdown/UserSettingDropdown";
 
@@ -113,7 +112,7 @@ export function Header({
                 {actionComponent}
                 <DropdownFormGroup
                     className="mr-auto mb-0"
-                    style={{ width: "160px"}}
+                    style={{ width: "130px"}}
                     label=""
                     size="sm"
                     options={orderTypes
