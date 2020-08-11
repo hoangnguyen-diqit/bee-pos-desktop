@@ -2,8 +2,6 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-// import { orderdb } from "../../../core/nedb";
-
 import { kdsHistory_findManyOrdersSuccess } from "./KdsHistoryReducer";
 
 import { Header } from "../../../shared/header/Header";
@@ -17,21 +15,19 @@ function KdsHistoryPage() {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        // orderdb.find({}, (err, docs) => {
-        //     if (err) {
-        //         console.log(err);
-        //     }
 
-        //     dispatch(kdsHistory_findManyOrdersSuccess(docs));
-
-        //     if (Array.isArray(docs) && docs.length > 0) {
-        //         console.log(docs);
-        //     }
-        //     if (!Array.isArray(docs) || docs.length === 0) {
-        //         console.log("No Order");
-        //     }
-        // })
     }, [ JSON.stringify(orders) ]);
+
+    const _renderOrderItem = (item, index) => {
+        return (
+            <Col key={index} xs="12" lg={3}>
+                <OrderCard
+                    item={item}
+                    currentPage="kdsHistory"
+                />
+            </Col>
+        )
+    }
 
     return (
         <div>
@@ -40,19 +36,10 @@ function KdsHistoryPage() {
             <PageInner>
                 <Container fluid>
                     <Row>
-                    {(Array.isArray(orders) && orders.length > 0) &&
-                        orders
-                            .map((item, index) => {
-                                return (
-                                    <Col key={index} xs="12" lg={3}>
-                                        <OrderCard
-                                            item={item}
-                                            currentPage="kdsHistory"
-                                        />
-                                    </Col>
-                                )
-                            })
-                    }
+                        {(Array.isArray(orders) && orders.length > 0) &&
+                            orders
+                            .map((item, index) => _renderOrderItem(item, index))
+                        }
                     </Row>
                 </Container>
             </PageInner>

@@ -16,32 +16,34 @@ function KdsCutTablePage() {
 
     }, [ JSON.stringify(orders) ]);
 
+    const _renderOrderItem = (item, index) => {
+        return (
+            <Col key={index} xs="12" lg={3}>
+                <OrderCard
+                    item={item}
+                    currentPage="cutTable"
+                />
+            </Col>
+        )
+    }
+
     return (
         <Fragment>
-        <Header
-        />
-        <PageInner>
-            <Container fluid>
-            <Row>
-                {(Array.isArray(orders) && orders.length > 0) &&
-                    orders
-                    .map((item, index) => {
-                        return (
-                            <Col key={index} xs="12" lg={3}>
-                                <OrderCard
-                                    item={item}
-                                    currentPage="cutTable"
-                                />
-                            </Col>
-                        )
-                    })
-                }
-            </Row>
-            </Container>
-        </PageInner>
-        <SettingSidebar
-            currentPage="cutTable"
-        />
+            <Header
+            />
+            <PageInner>
+                <Container fluid>
+                    <Row>
+                        {(Array.isArray(orders) && orders.length > 0) &&
+                            orders
+                            .map((item, index) => _renderOrderItem(item, index))
+                        }
+                    </Row>
+                </Container>
+            </PageInner>
+            <SettingSidebar
+                currentPage="cutTable"
+            />
         </Fragment>
     )
 }

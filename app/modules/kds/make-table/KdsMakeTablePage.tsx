@@ -51,6 +51,19 @@ function KdsMakeTablePage(props) {
         ipcRenderer.send("getOrders", {});
     }, [ JSON.stringify(orders) ]);
 
+    const _renderOrderItem = (item, index) => {
+        return (
+            <Col key={item.id || index} xs="12" lg={3}>
+                <OrderCard
+                    key={item.id || index}
+                    item={item}
+                    currentPage="makeTable"
+                    className="mb-3"
+                />
+            </Col>
+        )
+    }
+
     return (
         <div>
             <Header
@@ -60,18 +73,7 @@ function KdsMakeTablePage(props) {
                     <Row>
                     {(Array.isArray(orders) && orders.length > 0) &&
                         orders
-                            .map((item, index) => {
-                                return (
-                                    <Col key={item.id || index} xs="12" lg={3}>
-                                        <OrderCard
-                                            key={item.id || index}
-                                            item={item}
-                                            currentPage="makeTable"
-                                            className="mb-3"
-                                        />
-                                    </Col>
-                                )
-                            })
+                        .map((item, index) => _renderOrderItem(item, index))
                     }
                     </Row>
                     <Row>

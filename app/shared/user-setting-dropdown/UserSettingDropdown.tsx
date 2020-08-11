@@ -1,11 +1,12 @@
  import React from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const options = [
     { label: "Option 1", link: "/option-1" },
     { label: "Option 2", onClickName: "option2" },
     { label: "Divider", type: "divider" },
-    { label: "Signout" },
+    { label: "Signout", link: "/logout" },
 ];
 
 export function UserSettingDropdown() {
@@ -15,16 +16,20 @@ export function UserSettingDropdown() {
     const _renderItem = (item, index) => {
         if (item && item.type === "divider") {
             return (
-                <DropdownItem divider />
+                <DropdownItem divider key={index}/>
             )
         } else {
-            return (
-                <DropdownItem
-                    key={index}
-                >
-                    {item.label}
-                </DropdownItem>
-            )
+            if (item.link) {
+                return (<Link to={item.link} key={index} className="dropdown-item">{item.label}</Link>)
+            } else {
+                return (
+                    <DropdownItem
+                        key={index}
+                    >
+                        {item.label}
+                    </DropdownItem>
+                )
+            }
         }
     }
 

@@ -4,10 +4,11 @@ import { Button } from "reactstrap";
 
 import { validations } from "../../../../locales/en";
 
+import { apiAuth_login } from "../../../../core/api-service/UserService";
+
 import { AppContext } from "../../../../AppContext";
 
 import { InputFormGroup } from "../../../../core-ui/form-group/InputFormGroup";
-import { apiStore_login } from "../../../../core/api-service/StoreService";
 
 const fieldsReducer = (state, action) => {
     return {
@@ -25,10 +26,12 @@ const fieldErrorsReducer = (state, action) => {
 
 const initialState = {
     fields: {
-        pinCode: "",
+        username: "",
+        password: "",
     },
     fieldErrors: {
-        pinCode: "",
+        username: "",
+        password: "",
     },
 };
 
@@ -44,15 +47,15 @@ export function OrderTakerCodeCard() {
         updateProfile,
     } = React.useContext(AppContext);
 
-    const _handleStoreAuth = (pinCode) => {
-        apiStore_login({ pin_code: pinCode })
+    const _handleStoreAuth = (data) => {
+        apiAuth_login({ username: data.username, password: data.password })
             .then(res => {
                 console.log(res);
                 updateProfile({
                     id: res.uuid,
                 })
                 if (history) {
-                    history.push(`/login-tenant`);
+                    history.push(`/home`);
                 }
             })
             .catch(error => {
@@ -103,17 +106,28 @@ export function OrderTakerCodeCard() {
     const _submitForm = (data?) => {
         dispatchFieldErrors(initialState.fieldErrors);
         if (_validateForm()) {
-            _handleStoreAuth(fields.pinCode);
+            _handleStoreAuth(fields);
         }
     }
 
     return (
         <div className="bg-white p-3" style={{ width: "576px" }}>
-            <p className="text-center">Please scan QR code to active your Order Taker</p>
+            <p className="text-center">Please put in your Staff ID</p>
             <InputFormGroup
-                value={fields.pinCode}
-                errorMessage={fieldErrors.pinCode}
-                onChange={(ev) => _handleInputChange("pinCode", ev.currentTarget.value)}
+                label="Username"
+                value={fields.username}
+                errorMessage={fieldErrors.username}
+                onChange={(ev) => _handleInputChange("username", ev.currentTarget.value)}
+                onKeyPress={(ev) => {
+                    if (ev.key === "Enter") _submitForm();
+                }}
+            />
+            <InputFormGroup
+                type="password"
+                label="Password"
+                value={fields.password}
+                errorMessage={fieldErrors.password}
+                onChange={(ev) => _handleInputChange("password", ev.currentTarget.value)}
                 onKeyPress={(ev) => {
                     if (ev.key === "Enter") _submitForm();
                 }}

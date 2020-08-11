@@ -13,7 +13,10 @@ export function FooterStickyBar({
 }: Props) {
 
     return (
-        <div className="position-absolute w-100" style={{ bottom: isOpen ? 0 : "-200px", left: 0, right: 0, height: "200px" }}>
+        <div
+            className="position-absolute w-100"
+            style={{ bottom: isOpen ? 0 : "-200px", left: 0, right: 0, height: "200px" }}
+        >
             Footer
         </div>
     )

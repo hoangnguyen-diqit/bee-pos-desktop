@@ -101,6 +101,17 @@ export function DropdownFormGroup({
         }
     }
 
+    const _renderOptionItem = (item, index) => {
+        return (
+            <DropdownItem
+                key={index}
+                onClick={() => _handleItemClick(item)}
+            >
+                {item.label}
+            </DropdownItem>
+        )
+    }
+
     return (
         <FormGroup className={className} style={style}>
             {label && <Label for={id || "input_form_group_01"}>{label}</Label>}
@@ -120,16 +131,7 @@ export function DropdownFormGroup({
                 >
                     {(Array.isArray(options) && options.length > 0) &&
                         options
-                            .map((item, index) => {
-                                return (
-                                    <DropdownItem
-                                        key={index}
-                                        onClick={() => _handleItemClick(item)}
-                                    >
-                                        {item.label}
-                                    </DropdownItem>
-                                )
-                            })
+                        .map((item, index) => _renderOptionItem(item, index))
                     }
                 </DropdownMenu>
             </UncontrolledDropdown>

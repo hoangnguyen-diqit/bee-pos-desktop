@@ -8,7 +8,14 @@ import { LOCAL_STORAGE } from "../../utils/Constants";
 export function defaultHeaders() {
     return {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${electronSettings.get(LOCAL_STORAGE.ACCESS_TOKEN)}`,
+        'Authorization': `Bearer ${electronSettings.getSync(LOCAL_STORAGE.ACCESS_TOKEN)}`,
+        'x-client-id': `${electronSettings.getSync("clientId") || "b39773b0-435b-4f41-80e9-163eef20e0ab"}`,
+        'x-platform': `${electronSettings.getSync("platform") || "IOS"}`,
+        'x-device-id': `${electronSettings.getSync("deviceId") || "620005a5-1305-4668-9fb2-3ba250a57ab9"}`,
+        'x-device-type': `${electronSettings.getSync("deviceType") || "phone"}`,
+        'x-lang': `${electronSettings.getSync("lang") || "en"}`,
+        'x-channel': `${electronSettings.getSync("channel") || "1"}`,
+        'x-user-token': `${electronSettings.getSync(LOCAL_STORAGE.ACCESS_TOKEN) || ""}`,
     }
 }
 
