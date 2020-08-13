@@ -130,9 +130,9 @@ export default function App(props: Props) {
                 value={""}
                 onChange={() => {}}
             />
-            <FooterStickyBar
+            {/* <FooterStickyBar
                 isOpen={contextValue.isOpenFooterStickyBar}
-            />
+            /> */}
             <AppInitializer
             />
             <ServerDetectedDialog
