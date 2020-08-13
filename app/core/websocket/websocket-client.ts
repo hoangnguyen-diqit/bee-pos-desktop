@@ -52,7 +52,7 @@ export const createUDPServer = function() {
             console.log("server listening " + address.address + ":" + address.port);
         });
 
-        server.bind(8889);
+        server.bind(8887);
     } catch (error) {
         console.log(error);
     }
@@ -111,7 +111,7 @@ export const broadcastServer = function(data) {
 
             // client.send(message, 0, message.length, 41234, "192.168.9.255");
             // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
-            udpClient.send(message, 0, message.length, 8889, broadcast1, function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
                 // client.close();
@@ -134,8 +134,8 @@ export const createTCPServer = function() {
             response.writeHead(404);
             response.end();
         });
-        server.listen(8889, function() {
-            console.log((new Date()) + ' Server is listening on port 8889');
+        server.listen(8887, function() {
+            console.log((new Date()) + ' Server is listening on port 8887');
         });
 
         const wsServer = new WebSocketServer({

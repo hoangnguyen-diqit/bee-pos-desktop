@@ -7,6 +7,7 @@ import routes from './constants/routes.json';
 import App from './App';
 import HomePage from './modules/home/home/HomePage';
 import { HomeModule } from './modules/home';
+import { WelcomeModule } from './modules/welcome';
 import { AuthModule } from './modules/auth';
 import { KdsModule } from './modules/kds';
 import { OrderModule } from './modules/order';
@@ -27,6 +28,7 @@ export const routeConfigs = [
     { path: routes.HOME, component: HomePage, exact: true, },
     // { path: routes.COUNTER, component: CounterPage, exact: true, },
     ...HomeModule,
+    ...WelcomeModule,
     ...AuthModule,
     ...KdsModule,
     ...OrderModule,

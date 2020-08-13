@@ -8,6 +8,7 @@ import { History } from 'history';
 import appReducer from './AppReducer';
 
 import { homeReducers } from './modules/home';
+import { welcomeReducers } from './modules/welcome';
 import { authReducers } from './modules/auth';
 import { kdsReducers } from './modules/kds';
 import { orderReducers } from './modules/order';
@@ -19,6 +20,7 @@ export default function createRootReducer(history: History) {
 
         catalogReducer: appReducer,
         ...homeReducers,
+        ...welcomeReducers,
         ...authReducers,
         ...kdsReducers,
         ...orderReducers,

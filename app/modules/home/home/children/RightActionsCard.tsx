@@ -77,6 +77,9 @@ export function RightActionsCard() {
                         color="light"
                         block
                         className="w-50"
+                        onClick={() => {
+                            history.push(`/welcome`)
+                        }}
                     >
                         <span>Close Shift</span>
                     </Button>
