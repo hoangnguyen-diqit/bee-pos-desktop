@@ -119,16 +119,21 @@ export default function OrderCreatePage({
                     <h3>Order Name</h3>
                     <OrderDetailsCard
                     >
-                        {(Array.isArray(fields.orderItems) && fields.orderItems.length > 0) &&
-                            fields.orderItems
-                            .map((item, index) => {
-                                return (
-                                    <div key={index}>
-                                        {item && item.label ? item.label : "Title"}
-                                    </div>
-                                )
-                            })
-                        }
+                        <Fragment>
+                            {(Array.isArray(fields.orderItems) && fields.orderItems.length > 0) &&
+                                fields.orderItems
+                                .map((item, index) => {
+                                    return (
+                                        <div key={index}>
+                                            {item && item.label ? item.label : "Title"}
+                                        </div>
+                                    )
+                                })
+                            }
+                            {(!Array.isArray(fields.orderItems) || fields.orderItems.length === 0) &&
+                                <p>No Item</p>
+                            }
+                        </Fragment>
                     </OrderDetailsCard>
                     <PaymentDetailsCard
                     />

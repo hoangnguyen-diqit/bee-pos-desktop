@@ -1,5 +1,7 @@
 import React from "react";
-import { Card, CardHeader } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
+
+import { InputFormGroup } from "../../../../core-ui/form-group/InputFormGroup";
 
 export function PaymentDetailsCard() {
 
@@ -8,6 +10,12 @@ export function PaymentDetailsCard() {
             <CardHeader>
                 Payment Details
             </CardHeader>
+            <CardBody>
+                <InputFormGroup
+                    type="textarea"
+                    readonly
+                />
+            </CardBody>
         </Card>
     )
 }
