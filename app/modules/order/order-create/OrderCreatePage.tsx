@@ -4,6 +4,7 @@ import { ipcRenderer } from 'electron';
 
 import { createUuidv4 } from '../../../utils/UuidUtils';
 import { PropsFromRouter } from '../../../utils/AppUtils';
+import { formatDate } from '../../../utils/DateTimeUtils';
 import { DbTransactionType } from '../../../enum/SocketActionType';
 import { DbTableType } from '../../../enum/DbTableType';
 
@@ -68,6 +69,7 @@ export default function OrderCreatePage({
                 type: type,
                 name: "ABC",
                 phone: "9923242455",
+                created_at: formatDate(),
             },
             tableName: "order_table",
         });
@@ -77,7 +79,10 @@ export default function OrderCreatePage({
                 .map((item) => {
                     return {
                         actionType: DbTransactionType.Insert,
-                        param: item,
+                        param: {
+                            ...item,
+                            created_at: formatDate(),
+                        },
                         tableName: DbTableType.OrderItem,
                     }
                 }));
