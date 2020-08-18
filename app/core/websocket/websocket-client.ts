@@ -154,6 +154,8 @@ export const createTCPServer = function() {
         }
 
         wsServer.on('request', function(request) {
+            console.log("Client came 0: " + request);
+
             if (!originIsAllowed(request.origin)) {
                 // Make sure we only accept requests from an allowed origin
                 request.reject();
@@ -183,6 +185,7 @@ export const createTCPServer = function() {
                 }
             });
 
+            console.log("Client came: " + connection.remoteAddress);
             clientConnections[connection.remoteAddress] = connection;
         });
     } catch (error) {
@@ -203,6 +206,7 @@ export const sendToClient = function(clientId, data) {
 
 export const sendToAllClients = function(data) {
     try {
+        // console.log("Send to client 1: " + JSON.stringify(clientConnections));
         if (Object.keys(clientConnections).length > 0) {
             console.log("Current clients: " + Object.keys(clientConnections).length + " " + Object.keys(clientConnections).join(", "));
             Object.keys(clientConnections)

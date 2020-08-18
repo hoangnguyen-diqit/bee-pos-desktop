@@ -14,25 +14,25 @@ export function PaymentMethodsCard({
 
     return (
         <div className={classNames(className, "py-2 px-3 bg-dark rounded")}>
-            <Row form>
+            <Row className="g-3">
                 {(Array.isArray(options) && options.length > 0) &&
                     options
-                        .map((item, index) => {
-                            return (
-                                <Col
-                                    key={index}
-                                    xs={3}
-                                    className="mb-2"
+                    .map((item, index) => {
+                        return (
+                            <Col
+                                key={index}
+                                xs={3}
+                                className="mb-2"
+                            >
+                                <Button
+                                    color="light"
+                                    block
                                 >
-                                    <Button
-                                        color="light"
-                                        block
-                                    >
-                                        {item.label}
-                                    </Button>
-                                </Col>
-                            )
-                        })
+                                    {item.label}
+                                </Button>
+                            </Col>
+                        )
+                    })
                 }
             </Row>
         </div>

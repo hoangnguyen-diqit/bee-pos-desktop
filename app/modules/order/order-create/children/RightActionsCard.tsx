@@ -51,37 +51,37 @@ export function RightActionsCard() {
                     <Col xs={4}>
                         {(Array.isArray(serviceCategories) && serviceCategories.length > 0) &&
                             serviceCategories
-                                .map((item, index) => {
-                                    return (
-                                        <Button
-                                            color="light"
-                                            block
-                                            key={index}
-                                            onClick={() => setSelectedCategory(item.key)}
-                                        >
-                                            <span>{item.label}</span>
-                                        </Button>
-                                    )
-                                })
+                            .map((item, index) => {
+                                return (
+                                    <Button
+                                        color="light"
+                                        block
+                                        key={index}
+                                        onClick={() => setSelectedCategory(item.key)}
+                                    >
+                                        <span>{item.label}</span>
+                                    </Button>
+                                )
+                            })
                         }
                     </Col>
                     <Col xs={8}>
                         <Row>
                             {(Array.isArray(selectedItems) && selectedItems.length > 0) &&
                                 selectedItems
-                                    .map((item, index) => {
-                                        return (
-                                            <Col key={index}
-                                            >
-                                                <Media className="align-items-center">
-                                                    <Media left>
-                                                        <img src="" style={{ width: "64px", height: "64px" }}/>
-                                                    </Media>
-                                                    <Media body>{item.label}</Media>
+                                .map((item, index) => {
+                                    return (
+                                        <Col key={index}
+                                        >
+                                            <Media className="align-items-center">
+                                                <Media left>
+                                                    <img src="" style={{ width: "64px", height: "64px" }}/>
                                                 </Media>
-                                            </Col>
-                                        )
-                                    })
+                                                <Media body>{item.label}</Media>
+                                            </Media>
+                                        </Col>
+                                    )
+                                })
                             }
                         </Row>
                     </Col>

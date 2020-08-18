@@ -9,9 +9,9 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
+import log from 'electron-log';
 import { app, BrowserWindow, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 
 import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";

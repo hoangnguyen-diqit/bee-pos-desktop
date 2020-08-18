@@ -32,18 +32,22 @@ export default function OrderCreatePage({ match }) {
     }
 
     const _handleDoneClick = () => {
-        ipcRenderer.send("sendToClient", [
-            {
-                actionType: "order_insert",
-                param: {
-                    _id: createUuidv4(),
-                    type: type,
-                    name: "ABC",
-                    phone: "9923242455",
+        console.log("Send to client");
+        ipcRenderer.send("sendToClient", {
+            actionType: "order_insert",
+            data: [
+                {
+                    actionType: "insert",
+                    param: {
+                        _id: createUuidv4(),
+                        type: type,
+                        name: "ABC",
+                        phone: "9923242455",
+                    },
+                    tableName: "order_table",
                 },
-                table: "order",
-            },
-        ])
+            ],
+        })
     };
 
     return (
