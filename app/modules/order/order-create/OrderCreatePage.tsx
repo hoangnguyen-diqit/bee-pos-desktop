@@ -3,6 +3,9 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { ipcRenderer } from 'electron';
 
 import { createUuidv4 } from '../../../utils/UuidUtils';
+import { PropsFromRouter } from '../../../utils/AppUtils';
+import { DbTransactionType } from '../../../enum/SocketActionType';
+import { DbTableType } from '../../../enum/DbTableType';
 
 import { AppContext } from '../../../AppContext';
 
@@ -12,7 +15,7 @@ import { PaymentMethodsCard } from '../../../shared/payment-methods-card/Payment
 
 import { OrderDetailsCard } from './children/OrderDetailsCard';
 import { PaymentDetailsCard } from './children/PaymentDetailsCard';
-import { RightActionsCard } from './children/RightActionsCard';
+import { FillOrderItemsCard } from './children/FillOrderItemsCard';
 import { FillCustomerInfoCard } from './children/FillCustomerInfoCard';
 
 const PAGE_MODES = {
@@ -21,32 +24,68 @@ const PAGE_MODES = {
     PAYMENT: "payment",
 }
 
-export default function OrderCreatePage({ match }) {
+const fieldsReducer = (action, state) => {
+    return {
+        ...action,
+        ...state,
+    }
+}
+
+type Props = PropsFromRouter & {
+
+};
+
+const inititalState = {
+    fields: {
+        orderItems: [],
+    },
+}
+
+export default function OrderCreatePage({
+    match,
+}: Props) {
 
     const type = match.params.type;
     const { history } = React.useContext(AppContext);
     const [ pageMode, setPageMode ] = React.useState(PAGE_MODES.SELECT_ITEM);
+    const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, inititalState.fields);
 
     const _handlePayClick = () => {
         setPageMode(PAGE_MODES.PAYMENT);
     }
 
+    const _handleInputChange = (field, value) => {
+        dispatchFields({ [field]: value });
+    }
+
     const _handleDoneClick = () => {
         console.log("Send to client");
+        const data: any[] = [];
+        data.push({
+            actionType: "insert",
+            param: {
+                _id: createUuidv4(),
+                type: type,
+                name: "ABC",
+                phone: "9923242455",
+            },
+            tableName: "order_table",
+        });
+
+        if (Array.isArray(fields.orderItems) && fields.orderItems.length > 0) {
+            Array.prototype.push.apply(data, fields.orderItems
+                .map((item) => {
+                    return {
+                        actionType: DbTransactionType.Insert,
+                        param: item,
+                        tableName: DbTableType.OrderItem,
+                    }
+                }));
+        }
+
         ipcRenderer.send("sendToClient", {
             actionType: "order_insert",
-            data: [
-                {
-                    actionType: "insert",
-                    param: {
-                        _id: createUuidv4(),
-                        type: type,
-                        name: "ABC",
-                        phone: "9923242455",
-                    },
-                    tableName: "order_table",
-                },
-            ],
+            data: data,
         })
     };
 
@@ -74,7 +113,18 @@ export default function OrderCreatePage({ match }) {
                 <Col xs="6">
                     <h3>Order Name</h3>
                     <OrderDetailsCard
-                    />
+                    >
+                        {(Array.isArray(fields.orderItems) && fields.orderItems.length > 0) &&
+                            fields.orderItems
+                            .map((item, index) => {
+                                return (
+                                    <div key={index}>
+                                        {item && item.label ? item.label : "Title"}
+                                    </div>
+                                )
+                            })
+                        }
+                    </OrderDetailsCard>
                     <PaymentDetailsCard
                     />
                     <div className="d-flex">
@@ -98,7 +148,9 @@ export default function OrderCreatePage({ match }) {
                 </Col>
                 <Col xs="6">
                     {pageMode === PAGE_MODES.SELECT_ITEM &&
-                        <RightActionsCard
+                        <FillOrderItemsCard
+                            selectedOrderItems={fields.orderItems}
+                            onChange={(data) => _handleInputChange("orderItems", data)}
                         />
                     }
                     {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
@@ -107,38 +159,38 @@ export default function OrderCreatePage({ match }) {
                     }
                     {pageMode === PAGE_MODES.PAYMENT &&
                         <React.Fragment>
-                        <PaymentMethodsCard
-                            options={[
-                                { label: "Cash", value: "cash" },
-                                { label: "BCA", value: "bca" },
-                                { label: "BNI", value: "bni" },
-                                { label: "Mandiri", value: "mandiri" },
-                                { label: "Other", value: "other" },
-                            ]}
-                            className="mb-3"
-                        />
-                        <div className="d-flex">
-                            <div className="w-50 pr-2">
-                                <Button
-                                    color="danger"
-                                    outline
-                                    block
-                                    className=""
-                                >
-                                    Cancel
-                                </Button>
+                            <PaymentMethodsCard
+                                options={[
+                                    { label: "Cash", value: "cash" },
+                                    { label: "BCA", value: "bca" },
+                                    { label: "BNI", value: "bni" },
+                                    { label: "Mandiri", value: "mandiri" },
+                                    { label: "Other", value: "other" },
+                                ]}
+                                className="mb-3"
+                            />
+                            <div className="d-flex">
+                                <div className="w-50 pr-2">
+                                    <Button
+                                        color="danger"
+                                        outline
+                                        block
+                                        className=""
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                                <div className="w-50 pl-2">
+                                    <Button
+                                        color="danger"
+                                        block
+                                        className=""
+                                        onClick={() => _handleDoneClick()}
+                                    >
+                                        Done
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="w-50 pl-2">
-                                <Button
-                                    color="danger"
-                                    block
-                                    className=""
-                                    onClick={() => _handleDoneClick()}
-                                >
-                                    Done
-                                </Button>
-                            </div>
-                        </div>
                         </React.Fragment>
                     }
                 </Col>

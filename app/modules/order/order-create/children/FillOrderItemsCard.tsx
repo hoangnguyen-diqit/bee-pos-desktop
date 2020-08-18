@@ -37,12 +37,34 @@ const serviceCategories = [
     },
 ];
 
-export function RightActionsCard() {
+type Props = {
+    selectedOrderItems: any[],
+    onChange: (data) => void,
+};
+
+const defaultProps = {
+    selectedOrderItems: [],
+}
+
+export function FillOrderItemsCard({
+    selectedOrderItems,
+    onChange,
+}: Props) {
 
     const [ selectedCategory, setSelectedCategory ] = React.useState("");
     const serviceCategoriesGroup = groupDistinctBy(serviceCategories, "key");
     const selectedItems = selectedCategory && serviceCategoriesGroup[selectedCategory] ?
         serviceCategoriesGroup[selectedCategory].items || [] : [];
+
+    const _handleItemClick = (item) => {
+        console.log("Selected item: " + item);
+        if (onChange) {
+            onChange([
+                ...selectedOrderItems,
+                item,
+            ]);
+        }
+    }
 
     return (
         <Card>
@@ -73,7 +95,10 @@ export function RightActionsCard() {
                                     return (
                                         <Col key={index}
                                         >
-                                            <Media className="align-items-center">
+                                            <Media
+                                                className="align-items-center"
+                                                onClick={() => _handleItemClick(item)}
+                                            >
                                                 <Media left>
                                                     <img src="" style={{ width: "64px", height: "64px" }}/>
                                                 </Media>
@@ -90,3 +115,5 @@ export function RightActionsCard() {
         </Card>
     )
 }
+
+FillOrderItemsCard.defaultProps = defaultProps;
