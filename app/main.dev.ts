@@ -8,6 +8,7 @@
  * When running `yarn build` or `yarn build-main`, this file is compiled to
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
+// import express from 'express';
 import path from 'path';
 import log from 'electron-log';
 import { app, BrowserWindow, Tray, Menu } from 'electron';
@@ -17,6 +18,7 @@ import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";
 import { createUDPServer, createTCPServer } from './core/websocket';
 import { loadPrinters } from "./core/printing";
+// import { IndexRouter } from "./routes/IndexRouter";
 
 export default class AppUpdater {
     constructor() {
@@ -30,6 +32,10 @@ export default class AppUpdater {
         }
     }
 }
+
+// const expressApp = express();
+// expressApp.use('/', IndexRouter());
+// expressApp.listen(4201, () => console.log('Example app listening on port 3000!'));
 
 let mainWindow: BrowserWindow | null = null;
 let appIcon: any = null;
@@ -82,8 +88,8 @@ const createWindow = async () => {
             },
     }
 
-    if (process.platform === 'linux') {
-        windowOptions.icon = path.join(__dirname, './assets/app-icon/png/512.png')
+    if (process.platform === 'linux' || process.platform === "win32") {
+        windowOptions.icon = path.join(__dirname, './assets/app-icon/png/512x512.png')
     }
 
     mainWindow = new BrowserWindow(windowOptions);
