@@ -23,3 +23,7 @@ export const APIS_TENANT__USER_LOGIN                        = TENANT_ENDPOINT + 
 //
 // Store
 export const APIS_STORE__USER_LOGIN                         = STORE_ENDPOINT + "/auth/login"; // POST
+
+//
+// Menu
+export const APIS_MENU__EXPORT_ALL_DATA                     = MENU_ENDPOINT + "/export/all"; // POST

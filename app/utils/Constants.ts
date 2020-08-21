@@ -6,6 +6,8 @@ export const LOCAL_STORAGE = {
     REFRESH_TOKEN: "refreshToken",
     REFRESH_TOKEN_DATA: "refreshTokendata",
     SELECTED_ROLE: "selectedRole",
+
+    STORE_UUID: "storeUuid",
 };
 
 export const MEMBER_TYPES = {

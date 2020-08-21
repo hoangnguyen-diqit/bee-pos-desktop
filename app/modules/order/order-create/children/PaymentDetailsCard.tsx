@@ -13,7 +13,7 @@ export function PaymentDetailsCard() {
             <CardBody>
                 <InputFormGroup
                     type="textarea"
-                    readonly
+                    readOnly
                 />
             </CardBody>
         </Card>

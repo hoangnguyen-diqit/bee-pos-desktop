@@ -1,4 +1,5 @@
 import axios from 'axios';
+import got from 'got';
 import objectAssign from 'object-assign';
 import electronSettings from "electron-settings";
 import queryString from "query-string";
@@ -88,5 +89,16 @@ export function apiHead(endpoint: string, params: Object = {}, headers: Object =
     return axios.head(endpoint, {
         params: params,
         headers: objectAssign(defaultHeaders(), headers),
+    });
+}
+
+export function apiGetGzip(endpoint: string, params: Object = {}, headers: Object = {}) {
+    return got(endpoint, {
+        headers: objectAssign({}, defaultHeaders(), {
+            "Accept": "application/gzip",
+            "Accept-Encoding": "gzip, deflate, br",
+        }),
+        // decompress: true,
+        responseType: "buffer",
     });
 }

@@ -128,7 +128,7 @@ const createWindow = async () => {
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
 
-    const iconName = process.platform === 'win32' ? '../extraResources/tray-icons/windows-icon.png' : '../extraResources/tray-icons/icon-template.png';
+    const iconName = process.platform === 'win32' ? '../extraResources/tray-icons/windows-icon.png' : '../extraResources/tray-icons/mac-icon.png';
     const iconPath = path.join(__dirname, iconName);
     appIcon = new Tray(iconPath);
 
