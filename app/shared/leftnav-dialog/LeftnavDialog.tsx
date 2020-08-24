@@ -11,6 +11,7 @@ import { DEFAULT_PRINTER_NAME } from "../../utils/Constants";
 import { AppContext } from "../../AppContext";
 
 import { DropdownFormGroup } from "../../core-ui/form-group/DropdownFormGroup";
+import { LeftnavContent } from "./LeftnavContent";
 
 const buttonsMap = {
     "makeTable": [ "cutTable", "kdsHistory" ],
@@ -204,107 +205,8 @@ export function LeftnavDialog({
             onOpened={_handleOpened}
         >
             <ModalBody className="p-0">
-                <Card className="" style={{ minHeight: "100%" }}>
-                    <CardHeader className="d-flex">
-                        <h3 className="mr-auto mb-0">Settings</h3>
-                        <Button
-                            color="light"
-                            className="p-0"
-                            onClick={() => toggleOpen()}
-                        >
-                            <Icon path={mdiClose} size={1} />
-                            Close
-                        </Button>
-                    </CardHeader>
-                    <CardBody className="bg-white">
-                        <DropdownFormGroup
-                            label="Layout"
-                            options={[
-                                { value: "3x4", label: "3x4" },
-                                { value: "2x4", label: "2x4" },
-                            ]}
-                            value={settingLayout}
-                            isClearable={false}
-                            onChange={(s0 => updateSettingLayout(s0))}
-                        />
-                        <DropdownFormGroup
-                            label="Make table Category"
-                            placeholder="Nothing is selected"
-                            options={[
-                            ]}
-                            value={fields.category}
-                            isClearable={false}
-                            onChange={(s0 => _handleInputChange("category", s0))}
-                        />
-                        <label>Options</label>
-                        <ListGroup tag="div">
-                            <ListGroupItem
-                                tag="button"
-                                className="d-flex justify-content-between"
-                                onClick={_handleSetupPrinterClick}
-                            >
-                                <span>Setup Printer</span>
-                                <Icon path={mdiChevronRight} size={1}/>
-                                {/* <ChevronRightIcon /> */}
-                            </ListGroupItem>
-                        </ListGroup>
-                        <DropdownFormGroup
-                            label="Language"
-                            placeholder="Select"
-                            options={[
-                                { value: "English", label: "English" },
-                            ]}
-                            value={fields.language}
-                            isClearable={false}
-                            onChange={(s0 => _handleInputChange("language", s0))}
-                        />
-                        <div className="text-center">
-                            <Button
-                                color="danger"
-                            >
-                                Change Layout
-                            </Button>
-                        </div>
-                    </CardBody>
-                    <div className="d-flex py-3">
-                        {(buttonsMap["makeTable"] && buttonsMap["makeTable"].includes(value.currentPage)) &&
-                            <div className="w-50 text-center">
-                                <Button
-                                    color="danger"
-                                    size="lg"
-                                    outline={true}
-                                    onClick={() => _handleButtonClick("makeTable")}
-                                >
-                                    Make Table
-                                </Button>
-                            </div>
-                        }
-                        {(buttonsMap["cutTable"] && buttonsMap["cutTable"].includes(value.currentPage)) &&
-                            <div className="w-50 text-center">
-                                <Button
-                                    color="danger"
-                                    size="lg"
-                                    outline={true}
-                                    onClick={() => _handleButtonClick("cutTable")}
-                                >
-                                    Cut Table
-                                </Button>
-                            </div>
-                        }
-                        {(buttonsMap["history"] && buttonsMap["history"].includes(value.currentPage)) &&
-                            <div className="w-50 text-center">
-                                <Button
-                                    color="danger"
-                                    size="lg"
-                                    outline={true}
-                                    onClick={() => _handleButtonClick("history")}
-                                >
-                                    History
-                                </Button>
-                            </div>
-                        }
-                    </div>
-                </Card>
+                <LeftnavContent
+                />
             </ModalBody>
         </Modal>
     )
