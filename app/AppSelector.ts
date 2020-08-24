@@ -18,3 +18,11 @@ export const selectProductsByCategoryId = createSelector<ICatalogReducer, any, a
     ],
     (products, categoryUuid)  => products.filter(todo => todo.category && todo.category.uuid === categoryUuid),
 )
+
+export const selectPriceByProductId = createSelector<ICatalogReducer, any, any, any>(
+    [
+        (catalogReducer, productUuid) => catalogReducer.productPrices,
+        (catalogReducer, productUuid) => productUuid,
+    ],
+    (prices, productUuid) => prices.filter(price => price.product_uuid === productUuid),
+)

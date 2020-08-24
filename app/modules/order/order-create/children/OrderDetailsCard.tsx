@@ -18,7 +18,12 @@ export function OrderDetailsCard({
                 Order Details
             </CardHeader>
             <CardBody>
-                {children}
+                <div
+                    style={{ height: "200px" }}
+                    className="overflow-auto"
+                >
+                    {children}
+                </div>
                 <div className="bg-black-50">
                     <p className="mb-0 small text-black-50">
                         <span>Subtotal:</span>

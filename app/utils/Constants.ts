@@ -9,6 +9,7 @@ export const LOCAL_STORAGE = {
     SELECTED_ROLE: "selectedRole",
 
     STORE_UUID: "storeUuid",
+    CART: "cart",
 };
 
 export const MEMBER_TYPES = {

@@ -1,15 +1,18 @@
 
-const CATALOG__UPDATE_OT_SERVER_IP          = "CATALOG__UPDATE_OT_SERVER_IP";
+const CATALOG__UPDATE_OT_SERVER_IP              = "CATALOG__UPDATE_OT_SERVER_IP";
 
-const CATALOG__NEW_ORDER_CAME               = "CATALOG__NEW_ORDER_CAME";
+const CATALOG__NEW_ORDER_CAME                   = "CATALOG__NEW_ORDER_CAME";
 
-const CATALOG__UPDATE_DEFAULT_PRINTER       = "CATALOG__UPDATE_DEFAULT_PRINTER";
+const CATALOG__UPDATE_DEFAULT_PRINTER           = "CATALOG__UPDATE_DEFAULT_PRINTER";
 
-const CATALOG__FIND_MANY_CATEGORIES_SUCCESS = "CATALOG__FIND_MANY_CATEGORIES_SUCCESS";
-const CATALOG__FIND_MANY_CATEGORIES_FAILURE = "CATALOG__FIND_MANY_CATEGORIES_FAILURE";
+const CATALOG__FIND_MANY_CATEGORIES_SUCCESS     = "CATALOG__FIND_MANY_CATEGORIES_SUCCESS";
+const CATALOG__FIND_MANY_CATEGORIES_FAILURE     = "CATALOG__FIND_MANY_CATEGORIES_FAILURE";
 
-const CATALOG__FIND_MANY_PRODUCTS_SUCCESS   = "CATALOG__FIND_MANY_PRODUCTS_SUCCESS";
-const CATALOG__FIND_MANY_PRODUCTS_FAILURE   = "CATALOG__FIND_MANY_PRODUCTS_FAILURE";
+const CATALOG__FIND_MANY_PRODUCTS_SUCCESS       = "CATALOG__FIND_MANY_PRODUCTS_SUCCESS";
+const CATALOG__FIND_MANY_PRODUCTS_FAILURE       = "CATALOG__FIND_MANY_PRODUCTS_FAILURE";
+
+const CATALOG__FIND_MANY_PRODUCT_PRICES_SUCCESS = "CATALOG__FIND_MANY_PRODUCT_PRICES_SUCCESS";
+const CATALOG__FIND_MANY_PRODUCT_PRICES_FAILURE = "CATALOG__FIND_MANY_PRODUCT_PRICES_FAILURE";
 
 export const catalog_updateOtServerIP = (otServerIP) => {
     return {
@@ -59,6 +62,19 @@ export const catalog_findManyProductsFailure = () => {
     }
 }
 
+export const catalog_findManyProductPricesSuccess = (productPrices) => {
+    return {
+        type: CATALOG__FIND_MANY_PRODUCT_PRICES_SUCCESS,
+        productPrices: productPrices,
+    }
+}
+
+export const catalog_findManyProductPricesFailure = () => {
+    return {
+        type: CATALOG__FIND_MANY_PRODUCT_PRICES_FAILURE,
+    }
+}
+
 type ICatalogReducer = {
     otServerIP: string,
     orders: any[],
@@ -66,6 +82,7 @@ type ICatalogReducer = {
 
     categories: any[],
     products: any[],
+    productPrices: any[],
 }
 
 const initialState: ICatalogReducer = {
@@ -75,6 +92,7 @@ const initialState: ICatalogReducer = {
 
     categories: [],
     products: [],
+    productPrices: [],
 };
 
 export default function(state = initialState, action) {
@@ -113,6 +131,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 products: [],
+            }
+        case CATALOG__FIND_MANY_PRODUCT_PRICES_SUCCESS:
+            return {
+                ...state,
+                productPrices: action.productPrices,
+            }
+        case CATALOG__FIND_MANY_PRODUCT_PRICES_FAILURE:
+            return {
+                ...state,
+                productPrices: [],
             }
         default:
             return state;

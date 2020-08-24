@@ -78,6 +78,8 @@ export function FillOrderItemsCard({
         }
     }
 
+    console.log("Order create item render 0: " + JSON.stringify(options));
+
     return (
         <Card>
             <CardBody className="p-0">
@@ -105,7 +107,7 @@ export function FillOrderItemsCard({
                                 filteredProducts
                                 .map((item, index) => {
                                     return (
-                                        <Col key={index} xs={6}>
+                                        <Col key={index} xs={6} className="mb-3">
                                             <Media
                                                 className="d-flex align-items-center"
                                                 onClick={() => _handleItemClick(item)}

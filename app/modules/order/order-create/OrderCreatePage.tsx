@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { createUuidv4 } from '../../../utils/UuidUtils';
 import { PropsFromRouter } from '../../../utils/AppUtils';
 import { formatDate } from '../../../utils/DateTimeUtils';
+import { formatCurrency } from '../../../utils/NumberUtils';
 import { DbTransactionType } from '../../../enum/SocketActionType';
 import { DbTableType } from '../../../enum/DbTableType';
 
@@ -21,6 +22,9 @@ import { OrderDetailsCard } from './children/OrderDetailsCard';
 import { PaymentDetailsCard } from './children/PaymentDetailsCard';
 import { FillOrderItemsCard } from './children/FillOrderItemsCard';
 import { FillCustomerInfoCard } from './children/FillCustomerInfoCard';
+import { QuantityChangeButton } from '../../../core-ui/button/QuantityChangeButton';
+import { selectPriceByProductId } from '../../../AppSelector';
+import { OrderDetailsItem } from './children/OrderDetailsItem';
 
 const PAGE_MODES = {
     SELECT_ITEM: "selectItem",
@@ -63,6 +67,22 @@ export default function OrderCreatePage({
 
     const _handleInputChange = (field, value) => {
         dispatchFields({ [field]: value });
+    }
+
+    const _handlePartialOrderItemChange = (orderItemId, field, value) => {
+        const orderItems = [...(fields.orderItems || [])];
+        const changedOrderItemIndex = orderItems
+            .findIndex(item => item.uuid === orderItemId);
+
+        if (changedOrderItemIndex > -1) {
+            const changedOrderItem = fields.orderItems[changedOrderItemIndex];
+            orderItems.splice(changedOrderItemIndex, 1, {
+                ...changedOrderItem,
+                [field]: value,
+            })
+
+            dispatchFields({ orderItems: orderItems });
+        }
     }
 
     const _handleDoneClick = () => {
@@ -116,6 +136,7 @@ export default function OrderCreatePage({
         })
     };
 
+    console.log("Order create render 0: " + JSON.stringify(categories));
     return (
         <Fragment>
             <Header
@@ -146,9 +167,11 @@ export default function OrderCreatePage({
                                     fields.orderItems
                                     .map((item, index) => {
                                         return (
-                                            <div key={index}>
-                                                {item && item.name ? item.name : "Title"}
-                                            </div>
+                                            <OrderDetailsItem
+                                                key={index}
+                                                item={item}
+                                                onChange={(value) => _handlePartialOrderItemChange(item.uuid, "quantity", value)}
+                                            />
                                         )
                                     })
                                 }

@@ -257,6 +257,7 @@
         "jquery": "^3.5.1",
         "mdi-react": "^7.3.0",
         "moment": "^2.27.0",
+        "numeral": "^2.0.6",
         "pako": "^1.0.11",
         "react": "^16.13.1",
         "react-datepicker": "^3.1.3",

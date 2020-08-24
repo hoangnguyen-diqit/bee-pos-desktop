@@ -11,6 +11,8 @@ import {
     catalog_findManyCategoriesFailure,
     catalog_findManyProductsSuccess,
     catalog_findManyProductsFailure,
+    catalog_findManyProductPricesSuccess,
+    catalog_findManyProductPricesFailure,
 } from "./AppReducer";
 
 import { AppContext } from "./AppContext";
@@ -18,14 +20,14 @@ import { AppContext } from "./AppContext";
 export function AppInitializer() {
     const accessToken = electronSettings.getSync(LOCAL_STORAGE.ACCESS_TOKEN);
     const loggedInUserId = electronSettings.getSync(LOCAL_STORAGE.LOGGED_USER_ID);
-    const { profile } = useContext(AppContext);
 
     const dispatch = useDispatch();
 
     const {
         history,
+        profile,
         updateProfile,
-    } = React.useContext(AppContext);
+    } = useContext(AppContext);
 
     const _checkAccessToken = () => {
 
@@ -45,7 +47,6 @@ export function AppInitializer() {
     }, []);
 
     React.useEffect(() => {
-        console.log("Initial 1: " + profile)
         if (!profile) {
         } else {
             apiMenu_exportAllData()
@@ -53,10 +54,12 @@ export function AppInitializer() {
                 // console.log(JSON.stringify(res.catalogue_product));
                 dispatch(catalog_findManyCategoriesSuccess(res.catalogue_category || []));
                 dispatch(catalog_findManyProductsSuccess(res.catalogue_product || []));
+                dispatch(catalog_findManyProductPricesSuccess(res.catalogue_price || []));
             })
             .catch(err => {
                 dispatch(catalog_findManyCategoriesFailure());
                 dispatch(catalog_findManyProductsFailure());
+                dispatch(catalog_findManyProductPricesFailure());
             })
         }
     }, [profile?.uuid]);
