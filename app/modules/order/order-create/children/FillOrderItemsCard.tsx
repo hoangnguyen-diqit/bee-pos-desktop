@@ -1,7 +1,12 @@
 import React from "react";
 import { Card, CardBody, Button, Row, Col, Media } from "reactstrap";
+import { useSelector } from "react-redux";
 
 import { groupDistinctBy } from "../../../../utils/ArrayUtils";
+
+import { RootState } from "../../../../store";
+
+import { selectProductsByCategoryId } from "../../../../AppSelector";
 
 const serviceCategories = [
     {
@@ -38,15 +43,18 @@ const serviceCategories = [
 ];
 
 type Props = {
+    options: any[],
     selectedOrderItems: any[],
     onChange: (data) => void,
 };
 
 const defaultProps = {
+    options: [],
     selectedOrderItems: [],
 }
 
 export function FillOrderItemsCard({
+    options,
     selectedOrderItems,
     onChange,
 }: Props) {
@@ -55,6 +63,10 @@ export function FillOrderItemsCard({
     const serviceCategoriesGroup = groupDistinctBy(serviceCategories, "key");
     const selectedItems = selectedCategory && serviceCategoriesGroup[selectedCategory] ?
         serviceCategoriesGroup[selectedCategory].items || [] : [];
+
+    const products = useSelector<any, any>(state => state.catalogReducer.products);
+
+    const filteredProducts = useSelector<RootState, any>(state => selectProductsByCategoryId(state.catalogReducer, selectedCategory));
 
     const _handleItemClick = (item) => {
         console.log("Selected item: " + item);
@@ -71,17 +83,17 @@ export function FillOrderItemsCard({
             <CardBody className="p-0">
                 <Row>
                     <Col xs={4}>
-                        {(Array.isArray(serviceCategories) && serviceCategories.length > 0) &&
-                            serviceCategories
+                        {(Array.isArray(options) && options.length > 0) &&
+                            options
                             .map((item, index) => {
                                 return (
                                     <Button
                                         color="light"
                                         block
                                         key={index}
-                                        onClick={() => setSelectedCategory(item.key)}
+                                        onClick={() => setSelectedCategory(item.uuid)}
                                     >
-                                        <span>{item.label}</span>
+                                        <span>{item.name}</span>
                                     </Button>
                                 )
                             })
@@ -89,20 +101,19 @@ export function FillOrderItemsCard({
                     </Col>
                     <Col xs={8}>
                         <Row>
-                            {(Array.isArray(selectedItems) && selectedItems.length > 0) &&
-                                selectedItems
+                            {(Array.isArray(filteredProducts) && filteredProducts.length > 0) &&
+                                filteredProducts
                                 .map((item, index) => {
                                     return (
-                                        <Col key={index}
-                                        >
+                                        <Col key={index} xs={6}>
                                             <Media
-                                                className="align-items-center"
+                                                className="d-flex align-items-center"
                                                 onClick={() => _handleItemClick(item)}
                                             >
                                                 <Media left>
-                                                    <img src="" style={{ width: "64px", height: "64px" }}/>
+                                                    <img src={item.thumnail || item.image} style={{ width: "64px", height: "64px" }}/>
                                                 </Media>
-                                                <Media body>{item.label}</Media>
+                                                <Media body>{item.name}</Media>
                                             </Media>
                                         </Col>
                                     )

@@ -37,7 +37,7 @@ export default function App(props: Props) {
         isFilterPizzaPremake: false,
         isOpenFooterStickyBar: false,
 
-        profile: null,
+        profile: undefined,
     });
     const dispatch = useDispatch();
 

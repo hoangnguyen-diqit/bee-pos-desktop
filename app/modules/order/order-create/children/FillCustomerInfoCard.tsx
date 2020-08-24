@@ -14,7 +14,6 @@ const serviceCategories = [
 
 export function FillCustomerInfoCard() {
 
-
     return (
         <Card>
             <CardBody className="p-0">

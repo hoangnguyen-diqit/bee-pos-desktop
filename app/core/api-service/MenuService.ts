@@ -17,14 +17,12 @@ export function apiMenu_exportAllData() {
         .then(res => {
             apiGetGzip(res.data.data.url)
             .then(res2 => {
-                console.log("Call Gzip");
-                console.log(res2.body)
+                // console.log("Call Gzip");
+                // console.log(res2.body)
                 var result = pako.inflate(res2.body, { to: "string" });
-                var string = Buffer.from(res2.body);
-                console.log("Gzip string: " + result);
-                resolve({
-                    url: res2,
-                })
+                // var string = Buffer.from(res2.body);
+                // console.log("Gzip string: " + result);
+                resolve(JSON.parse(result));
             })
             .catch(err2 => {
                 console.log("Call Gzip error: " + err2);

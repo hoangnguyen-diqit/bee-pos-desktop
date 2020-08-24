@@ -32,6 +32,7 @@ type Props = {
 
 const defaultProps = {
     type: "text",
+    className: "mb-3",
     label: "",
     placeholder: "",
     name: "",

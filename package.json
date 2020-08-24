@@ -269,6 +269,7 @@
         "reactstrap": "^8.5.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
+        "reselect": "^4.0.0",
         "source-map-support": "^0.5.19",
         "string-template": "^1.0.0",
         "uuid": "^8.3.0",

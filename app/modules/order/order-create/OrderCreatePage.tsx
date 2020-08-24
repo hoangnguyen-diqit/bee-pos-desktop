@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import { ipcRenderer } from 'electron';
 
 import { createUuidv4 } from '../../../utils/UuidUtils';
@@ -7,6 +8,8 @@ import { PropsFromRouter } from '../../../utils/AppUtils';
 import { formatDate } from '../../../utils/DateTimeUtils';
 import { DbTransactionType } from '../../../enum/SocketActionType';
 import { DbTableType } from '../../../enum/DbTableType';
+
+import { RootState } from '../../../store';
 
 import { AppContext } from '../../../AppContext';
 
@@ -50,6 +53,9 @@ export default function OrderCreatePage({
     const { history } = React.useContext(AppContext);
     const [ pageMode, setPageMode ] = React.useState(PAGE_MODES.SELECT_ITEM);
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, inititalState.fields);
+
+    const categories = useSelector<any, any>(state => state.catalogReducer.categories);
+    const products = useSelector<any, any>(state => state.catalogReducer.products);
 
     const _handlePayClick = () => {
         setPageMode(PAGE_MODES.PAYMENT);
@@ -141,7 +147,7 @@ export default function OrderCreatePage({
                                     .map((item, index) => {
                                         return (
                                             <div key={index}>
-                                                {item && item.label ? item.label : "Title"}
+                                                {item && item.name ? item.name : "Title"}
                                             </div>
                                         )
                                     })
@@ -175,6 +181,7 @@ export default function OrderCreatePage({
                     <Col xs="6">
                         {pageMode === PAGE_MODES.SELECT_ITEM &&
                             <FillOrderItemsCard
+                                options={categories}
                                 selectedOrderItems={fields.orderItems}
                                 onChange={(data) => _handleInputChange("orderItems", data)}
                             />

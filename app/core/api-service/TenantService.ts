@@ -7,13 +7,13 @@ import {
 } from "./ApiEndpoint";
 import { LOCAL_STORAGE } from "../../utils/Constants";
 
-export function apiAuth_login(data: Object): Promise<any> {
+export function apiTenant_login(data: Object): Promise<any> {
     return new Promise((resolve, reject) => {
         apiPost(APIS_TENANT__USER_LOGIN, data)
             .then(res => {
 
                 resolve({
-                    user: res.data.user,
+                    user: res.data.data,
                 });
             })
             .catch(error => {

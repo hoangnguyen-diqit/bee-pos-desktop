@@ -2,6 +2,7 @@ export const LOCAL_STORAGE = {
     ACCESS_TOKEN: "accessToken",
     ACCESS_TOKEN_EXPIRES_IN: "accessTokenExpiresIn",
     LOGGED_USER: "loggedUser",
+    LOGGED_USER_ID: "loggedUserId",
     ROLE_IDS: "roleIds",
     REFRESH_TOKEN: "refreshToken",
     REFRESH_TOKEN_DATA: "refreshTokendata",

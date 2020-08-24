@@ -4,7 +4,7 @@ import { Button } from "reactstrap";
 
 import { validations } from "../../../../locales/en";
 
-import { apiAuth_login } from "../../../../core/api-service/UserService";
+import { apiTenant_login } from "../../../../core/api-service/TenantService";
 
 import { AppContext } from "../../../../AppContext";
 
@@ -48,11 +48,12 @@ export function OrderTakerCodeCard() {
     } = React.useContext(AppContext);
 
     const _handleStoreAuth = (data) => {
-        apiAuth_login({ username: data.username, password: data.password })
+        apiTenant_login({ username: data.username, password: data.password })
             .then(res => {
                 console.log(res);
                 updateProfile({
-                    id: res.uuid,
+                    _id: res.uuid,
+                    uuid: res.user?.uuid,
                 })
                 if (history) {
                     history.push(`/home`);

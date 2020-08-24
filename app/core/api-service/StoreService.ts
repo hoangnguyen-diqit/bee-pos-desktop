@@ -12,6 +12,7 @@ export function apiStore_login(data: Object): Promise<any> {
         apiPost(APIS_STORE__USER_LOGIN, data)
             .then(res => {
                 electronSettings.setSync(LOCAL_STORAGE.ACCESS_TOKEN, res.data.data.token);
+                electronSettings.setSync(LOCAL_STORAGE.LOGGED_USER_ID, res.data.data.uuid);
 
                 if (Array.isArray(res.data.data.stores) && res.data.data.stores.length > 0) {
                     electronSettings.setSync(LOCAL_STORAGE.STORE_UUID, res.data.data.stores[0].uuid);

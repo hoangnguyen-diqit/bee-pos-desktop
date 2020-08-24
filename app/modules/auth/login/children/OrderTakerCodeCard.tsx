@@ -48,9 +48,9 @@ export function OrderTakerCodeCard() {
         apiStore_login({ pin_code: pinCode })
             .then(res => {
                 console.log(res);
-                updateProfile({
-                    id: res.uuid,
-                })
+                // updateProfile({
+                //     uuid: res.uuid,
+                // })
                 if (history) {
                     history.push(`/login-tenant`);
                 }

@@ -17,7 +17,7 @@ export default function LogoutPage() {
         updateProfile(undefined);
 
         if (history) {
-            history.push(`/`);
+            history.push(`/login`);
         }
     }, []);
 
