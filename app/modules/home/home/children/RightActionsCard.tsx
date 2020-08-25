@@ -19,6 +19,12 @@ export function RightActionsCard() {
         }
     };
 
+    const _handleOrderHistoryClick = () => {
+        if (history) {
+            history.push(`/orders/histories`);
+        }
+    }
+
     const _handleSendToClientClick = () => {
         ipcRenderer.send("sendToClient", [
             {
@@ -62,6 +68,7 @@ export function RightActionsCard() {
                 <Button
                     color="light"
                     block
+                    onClick={() => _handleOrderHistoryClick()}
                 >
                     <span>Order History</span>
                 </Button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardHeader } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 export function SalesCard() {
 
@@ -8,6 +8,8 @@ export function SalesCard() {
             <CardHeader>
                 Sales
             </CardHeader>
+            <CardBody>
+            </CardBody>
         </Card>
     )
 }
