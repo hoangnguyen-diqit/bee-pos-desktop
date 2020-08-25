@@ -25,7 +25,12 @@ export function QuantityChangeButton({
             >
                 <Icon path={mdiMinus} size={1} />
             </Button>
-            <span>{value}</span>
+            <div
+                className="d-inline-flex justify-content-center"
+                style={{ width: "60px" }}
+            >
+                <span>{value}</span>
+            </div>
             <Button
                 className="p-0"
                 onClick={() => onChange(value + 1)}

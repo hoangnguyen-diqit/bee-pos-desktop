@@ -112,7 +112,7 @@ export function FillOrderItemsCard({
                                                 className="d-flex align-items-center"
                                                 onClick={() => _handleItemClick(item)}
                                             >
-                                                <Media left>
+                                                <Media left className="mr-3">
                                                     <img src={item.thumnail || item.image} style={{ width: "64px", height: "64px" }}/>
                                                 </Media>
                                                 <Media body>{item.name}</Media>

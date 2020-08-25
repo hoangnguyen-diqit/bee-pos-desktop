@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import { useSelector } from "react-redux";
 
 import { formatCurrency } from "../../../../utils/NumberUtils";
@@ -8,11 +9,13 @@ import { selectPriceByProductId } from "../../../../AppSelector";
 import { QuantityChangeButton } from "../../../../core-ui/button/QuantityChangeButton";
 
 type Props = {
+    className?: string,
     item: any,
     onChange: (data) => void,
 }
 
 export function OrderDetailsItem({
+    className,
     item,
     onChange,
 }: Props) {
@@ -24,7 +27,7 @@ export function OrderDetailsItem({
 
     return (
         <div
-            className="d-flex"
+            className={classNames("d-flex", className)}
         >
             <div className="mr-auto">
                 {item && item.name ? item.name : "Title"}
@@ -34,7 +37,12 @@ export function OrderDetailsItem({
                     value={item.quantity}
                     onChange={(value) => onChange(value)}
                 />
-                <span>{formatCurrency(productItemPrice?.price)}</span>
+                <div
+                    className="d-inline-flex justify-content-end"
+                    style={{ width: "80px" }}
+                >
+                    <span>{formatCurrency(productItemPrice?.price)}</span>
+                </div>
             </div>
         </div>
     )

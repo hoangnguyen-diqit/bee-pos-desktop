@@ -159,7 +159,6 @@ export default function OrderCreatePage({
                 <Container fluid>
                 <Row>
                     <Col xs="6">
-                        <h3>Order Name</h3>
                         <OrderDetailsCard
                         >
                             <Fragment>
@@ -169,6 +168,7 @@ export default function OrderCreatePage({
                                         return (
                                             <OrderDetailsItem
                                                 key={index}
+                                                className="mb-3"
                                                 item={item}
                                                 onChange={(value) => _handlePartialOrderItemChange(item.uuid, "quantity", value)}
                                             />
