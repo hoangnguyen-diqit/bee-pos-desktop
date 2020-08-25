@@ -90,7 +90,7 @@ export default function OrderCreatePage({
         const data: any[] = [];
 
         const order = {
-            _id: createUuidv4(),
+            uuid: createUuidv4(),
             type: type,
             name: "ABC",
             phone: "9923242455",

@@ -3,6 +3,8 @@ import { Card, CardBody, Button, Row, Col, Media } from "reactstrap";
 import { useSelector } from "react-redux";
 
 import { groupDistinctBy } from "../../../../utils/ArrayUtils";
+import { createUuidv4 } from "../../../../utils/UuidUtils";
+import { parseProductPrice } from "../../../../utils/OrderUtils";
 
 import { RootState } from "../../../../store";
 
@@ -73,7 +75,12 @@ export function FillOrderItemsCard({
         if (onChange) {
             onChange([
                 ...selectedOrderItems,
-                item,
+                {
+                    uuid: createUuidv4(),
+                    product: item,
+                    quantity: 1,
+                    price: parseProductPrice(item, 1),
+                },
             ]);
         }
     }

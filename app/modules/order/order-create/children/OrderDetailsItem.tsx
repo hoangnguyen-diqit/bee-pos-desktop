@@ -20,7 +20,7 @@ export function OrderDetailsItem({
     onChange,
 }: Props) {
 
-    const productPrices = useSelector<any, any>(state => selectPriceByProductId(state.catalogReducer, item?.uuid));
+    const productPrices = useSelector<any, any>(state => selectPriceByProductId(state.catalogReducer, item?.product?.uuid));
     const productPrice = Array.isArray(productPrices) && productPrices.length > 0 ? productPrices[0] : {};
     const productItemPrice = Array.isArray(productPrice.prices) && productPrice.prices.length > 0 ? productPrice.prices[0] : {};
     console.log("Found product price: " + JSON.stringify(productItemPrice));
@@ -30,7 +30,7 @@ export function OrderDetailsItem({
             className={classNames("d-flex", className)}
         >
             <div className="mr-auto">
-                {item && item.name ? item.name : "Title"}
+                {item && item.product ? item.product.name : "Title"}
             </div>
             <div>
                 <QuantityChangeButton
