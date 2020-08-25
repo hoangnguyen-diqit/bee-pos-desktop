@@ -8,6 +8,7 @@ const leftnavItems = [
         title: "Group 1",
         items: [
             { title: "Item 1" },
+            { title: "Item 2" },
         ],
     },
     {
@@ -28,6 +29,7 @@ export function LeftnavContent({
                             return (
                                 <LeftnavCollapse
                                     key={index}
+                                    headerData={{}}
                                 >
                                     {item.items
                                         .map((subItem, subIndex) => {
