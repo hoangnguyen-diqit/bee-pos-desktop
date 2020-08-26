@@ -93,6 +93,7 @@ export default function OrderCreatePage({
             created_at: formatDate(),
             order_type_code: type,
             order_status_code: OrderStatusType.Ordered,
+            orderdetails: [],
         };
 
         let orderItems = [];
@@ -106,12 +107,6 @@ export default function OrderCreatePage({
                 })
         }
 
-        data.push({
-            actionType: DbTransactionType.Insert,
-            param: order,
-            tableName: DbTableType.Order,
-        });
-
         if (Array.isArray(orderItems) && orderItems.length > 0) {
             Array.prototype.push.apply(data, orderItems
                 .map((item) => {
@@ -122,6 +117,13 @@ export default function OrderCreatePage({
                     }
                 }));
         }
+
+        order.orderdetails = orderItems || [];
+        data.push({
+            actionType: DbTransactionType.Insert,
+            param: order,
+            tableName: DbTableType.Order,
+        });
 
         ipcRenderer.once("insertOrdersResp", (ev, args) => {
             ipcRenderer.send("sendToClient", {
