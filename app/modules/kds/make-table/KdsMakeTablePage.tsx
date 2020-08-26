@@ -48,7 +48,11 @@ function KdsMakeTablePage(props) {
                 console.log("No Order");
             }
         })
-        ipcRenderer.send("getOrders", {});
+        ipcRenderer.send("getOrders", {
+            filterMap: {
+
+            }
+        });
     }, [ JSON.stringify(orders) ]);
 
     const _renderOrderItem = (item, index) => {

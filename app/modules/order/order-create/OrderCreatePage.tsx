@@ -6,11 +6,9 @@ import { ipcRenderer } from 'electron';
 import { createUuidv4 } from '../../../utils/UuidUtils';
 import { PropsFromRouter } from '../../../utils/AppUtils';
 import { formatDate } from '../../../utils/DateTimeUtils';
-import { formatCurrency } from '../../../utils/NumberUtils';
 import { DbTransactionType } from '../../../enum/SocketActionType';
 import { DbTableType } from '../../../enum/DbTableType';
-
-import { RootState } from '../../../store';
+import { OrderStatusType, OrderType } from '../../../enum/OrderType';
 
 import { AppContext } from '../../../AppContext';
 
@@ -22,8 +20,6 @@ import { OrderDetailsCard } from './children/OrderDetailsCard';
 import { PaymentDetailsCard } from './children/PaymentDetailsCard';
 import { FillOrderItemsCard } from './children/FillOrderItemsCard';
 import { FillCustomerInfoCard } from './children/FillCustomerInfoCard';
-import { QuantityChangeButton } from '../../../core-ui/button/QuantityChangeButton';
-import { selectPriceByProductId } from '../../../AppSelector';
 import { OrderDetailsItem } from './children/OrderDetailsItem';
 
 const PAGE_MODES = {
@@ -95,6 +91,8 @@ export default function OrderCreatePage({
             name: "ABC",
             phone: "9923242455",
             created_at: formatDate(),
+            order_type_code: type,
+            order_status_code: OrderStatusType.Ordered,
         };
 
         let orderItems = [];

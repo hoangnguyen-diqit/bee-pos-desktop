@@ -1,7 +1,8 @@
 import React from "react";
 import PlusIcon from "mdi-react/PlusIcon";
 import { Card, CardBody, Button } from "reactstrap";
-import { ipcRenderer } from "electron";
+
+import { OrderType } from "../../../../enum/OrderType";
 
 import { AppContext } from "../../../../AppContext";
 
@@ -25,26 +26,13 @@ export function RightActionsCard() {
         }
     }
 
-    const _handleSendToClientClick = () => {
-        ipcRenderer.send("sendToClient", [
-            {
-                actionType: "order_insert",
-                param: {
-                    _id: "12345",
-                    name: "ABC"
-                },
-                table: "order",
-            },
-        ])
-    }
-
     return (
         <Card>
             <CardBody className="p-0">
                 <Button
                     color="danger"
                     block
-                    onClick={() => _handleCreateDeliveryOrderClick("delivery")}
+                    onClick={() => _handleCreateDeliveryOrderClick(OrderType.Delivery)}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create Delivery Order</span>
@@ -52,7 +40,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
-                    onClick={() => _handleCreateDeliveryOrderClick("takeAway")}
+                    onClick={() => _handleCreateDeliveryOrderClick(OrderType.TakeAway)}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create TakeAway Order</span>
@@ -60,7 +48,7 @@ export function RightActionsCard() {
                 <Button
                     color="danger"
                     block
-                    onClick={() => _handleCreateDeliveryOrderClick("eatIn")}
+                    onClick={() => _handleCreateDeliveryOrderClick(OrderType.EatIn)}
                 >
                     <PlusIcon className="mr-3" />
                     <span>Create Eat In Order</span>
@@ -91,11 +79,6 @@ export function RightActionsCard() {
                         <span>Close Shift</span>
                     </Button>
                 </div>
-                <Button
-                    onClick={_handleSendToClientClick}
-                >
-                    Send to Client
-                </Button>
             </CardBody>
             <OptionDialogFormGroup
                 isOpen={isShowOptionDlg}
