@@ -7,7 +7,7 @@ import { hasDeepValue } from 'has-deep-value';
 
 var hasInterface = hasDeepValue;
 var allInterfaces = os.networkInterfaces();
-console.log(allInterfaces);
+// console.log("CPUs: " + os.cpus().map(item => JSON.stringify(item)).join("\n"));
 var addr_info;
 
 var clientConnections = {};

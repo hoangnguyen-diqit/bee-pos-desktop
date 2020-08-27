@@ -8,9 +8,7 @@ import { PropsFromRouter } from '../../../utils/AppUtils';
 import { formatDate } from '../../../utils/DateTimeUtils';
 import { DbTransactionType } from '../../../enum/SocketActionType';
 import { DbTableType } from '../../../enum/DbTableType';
-import { OrderStatusType, OrderType } from '../../../enum/OrderType';
-
-import { AppContext } from '../../../AppContext';
+import { OrderStatusType } from '../../../enum/OrderType';
 
 import { Header } from '../../../shared/header/Header';
 import { PageInner } from '../../../shared/page-inner/PageInner';
@@ -50,12 +48,10 @@ export default function OrderCreatePage({
 }: Props) {
 
     const type = match.params.type;
-    const { history } = React.useContext(AppContext);
     const [ pageMode, setPageMode ] = React.useState(PAGE_MODES.SELECT_ITEM);
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, inititalState.fields);
 
     const categories = useSelector<any, any>(state => state.catalogReducer.categories);
-    const products = useSelector<any, any>(state => state.catalogReducer.products);
 
     const _handlePayClick = () => {
         setPageMode(PAGE_MODES.PAYMENT);

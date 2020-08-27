@@ -1,9 +1,7 @@
 export function groupBy(array: Object[], key: string) {
     if (Array.isArray(array) && array.length > 0) {
         return array.reduce((accumulator, item) => {
-            if (!accumulator[item[key]]) {
-                accumulator[item[key]] = [ ...accumulator[key], item ];
-            }
+            accumulator[item[key]] = [ ...accumulator[key], item ];
             return accumulator;
         }, {});
     }
@@ -42,4 +40,16 @@ export function sumBy(array: any[], key: string) {
     }
 
     return 0;
+}
+
+export function arrayToObject(array) {
+    if (Array.isArray(array) && array.length > 0) {
+        return array.reduce((accu, curr, index) => accu[index] = curr, {});
+    }
+
+    return {};
+}
+
+export function ordinalObjectToArray(obj) {
+    return Object.keys(obj).map(key => obj[key]);
 }
