@@ -1,5 +1,6 @@
 import React from "react";
-import PlusIcon from "mdi-react/PlusIcon";
+import Icon from "@mdi/react";
+import { mdiPlus } from "@mdi/js";
 import { Card, CardBody, Button } from "reactstrap";
 
 import { OrderType } from "../../../../enum/OrderType";
@@ -34,7 +35,7 @@ export function RightActionsCard() {
                     block
                     onClick={() => _handleCreateDeliveryOrderClick(OrderType.Delivery)}
                 >
-                    <PlusIcon className="mr-3" />
+                    <Icon path={mdiPlus} size={1} className="mr-3" />
                     <span>Create Delivery Order</span>
                 </Button>
                 <Button
@@ -42,7 +43,7 @@ export function RightActionsCard() {
                     block
                     onClick={() => _handleCreateDeliveryOrderClick(OrderType.TakeAway)}
                 >
-                    <PlusIcon className="mr-3" />
+                    <Icon path={mdiPlus} size={1} className="mr-3" />
                     <span>Create TakeAway Order</span>
                 </Button>
                 <Button
@@ -50,7 +51,7 @@ export function RightActionsCard() {
                     block
                     onClick={() => _handleCreateDeliveryOrderClick(OrderType.EatIn)}
                 >
-                    <PlusIcon className="mr-3" />
+                    <Icon path={mdiPlus} size={1} className="mr-3" />
                     <span>Create Eat In Order</span>
                 </Button>
                 <Button

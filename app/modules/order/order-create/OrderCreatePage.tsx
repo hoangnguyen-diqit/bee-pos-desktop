@@ -157,7 +157,7 @@ export default function OrderCreatePage({
                         <Col
                             xs="6"
                             style={{ height: "calc(100vh - 56px - 32px)"}}
-                            className="flex-column"
+                            className="d-flex flex-column"
                         >
                             <OrderDetailsCard
                             >
