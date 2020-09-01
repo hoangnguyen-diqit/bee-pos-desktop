@@ -7,8 +7,6 @@ import { parseProductPrice } from "../../../../utils/OrderUtils";
 
 import { RootState } from "../../../../store";
 
-import { selectProductsByCategoryId } from "../../../../AppSelector";
-
 type Props = {
     options: any[],
     selectedOrderItems: any[],
@@ -27,8 +25,8 @@ export function FillOrderItemsCard({
 }: Props) {
 
     const [ selectedCategory, setSelectedCategory ] = React.useState("");
-
-    const filteredProducts = useSelector<RootState, any>(state => selectProductsByCategoryId(state.catalogReducer, selectedCategory));
+    const products = useSelector<RootState, any>(state => state.catalogReducer.products);
+    const filteredProducts = products.filter(product => product.category.uuid === selectedCategory);
 
     const _handleItemClick = (item) => {
         console.log("Selected item: " + item);

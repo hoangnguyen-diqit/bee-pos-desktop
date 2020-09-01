@@ -324,5 +324,10 @@
             "stylelint-config-standard",
             "stylelint-config-prettier"
         ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run type-check"
+        }
     }
 }
