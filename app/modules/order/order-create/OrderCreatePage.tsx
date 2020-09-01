@@ -153,100 +153,105 @@ export default function OrderCreatePage({
             />
             <PageInner>
                 <Container fluid>
-                <Row>
-                    <Col xs="6">
-                        <OrderDetailsCard
+                    <Row>
+                        <Col
+                            xs="6"
+                            style={{ height: "calc(100vh - 56px - 32px)"}}
+                            className="flex-column"
                         >
-                            <Fragment>
-                                {(Array.isArray(fields.orderItems) && fields.orderItems.length > 0) &&
-                                    fields.orderItems
-                                    .map((item, index) => {
-                                        return (
-                                            <OrderDetailsItem
-                                                key={index}
-                                                className="mb-3"
-                                                item={item}
-                                                onChange={(value) => _handlePartialOrderItemChange(item.uuid, "quantity", value)}
-                                            />
-                                        )
-                                    })
-                                }
-                                {(!Array.isArray(fields.orderItems) || fields.orderItems.length === 0) &&
-                                    <p>No Item</p>
-                                }
-                            </Fragment>
-                        </OrderDetailsCard>
-                        <PaymentDetailsCard
-                        />
-                        <div className="d-flex">
-                            <Button
-                                color="danger"
-                                size="sm"
-                                outline
-                                className="w-50"
+                            <OrderDetailsCard
                             >
-                                Void
-                            </Button>
-                            <Button
-                                color="danger"
-                                size="sm"
-                                className="w-50"
-                                onClick={() => _handlePayClick()}
-                            >
-                                Pay
-                            </Button>
-                        </div>
-                    </Col>
-                    <Col xs="6">
-                        {pageMode === PAGE_MODES.SELECT_ITEM &&
-                            <FillOrderItemsCard
-                                options={categories}
-                                selectedOrderItems={fields.orderItems}
-                                onChange={(data) => _handleInputChange("orderItems", data)}
+                                <Fragment>
+                                    {(Array.isArray(fields.orderItems) && fields.orderItems.length > 0) &&
+                                        fields.orderItems
+                                        .map((item, index) => {
+                                            return (
+                                                <OrderDetailsItem
+                                                    key={index}
+                                                    className="mb-3"
+                                                    item={item}
+                                                    onChange={(value) => _handlePartialOrderItemChange(item.uuid, "quantity", value)}
+                                                />
+                                            )
+                                        })
+                                    }
+                                    {(!Array.isArray(fields.orderItems) || fields.orderItems.length === 0) &&
+                                        <p>No Item</p>
+                                    }
+                                </Fragment>
+                            </OrderDetailsCard>
+                            <PaymentDetailsCard
+                                className="flex-fill"
                             />
-                        }
-                        {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
-                            <FillCustomerInfoCard
-                            />
-                        }
-                        {pageMode === PAGE_MODES.PAYMENT &&
-                            <React.Fragment>
-                                <PaymentMethodsCard
-                                    options={[
-                                        { label: "Cash", value: "cash" },
-                                        { label: "BCA", value: "bca" },
-                                        { label: "BNI", value: "bni" },
-                                        { label: "Mandiri", value: "mandiri" },
-                                        { label: "Other", value: "other" },
-                                    ]}
-                                    className="mb-3"
+                            <div className="d-flex">
+                                <Button
+                                    color="danger"
+                                    size="sm"
+                                    outline
+                                    className="w-50"
+                                >
+                                    Void
+                                </Button>
+                                <Button
+                                    color="danger"
+                                    size="sm"
+                                    className="w-50"
+                                    onClick={() => _handlePayClick()}
+                                >
+                                    Pay
+                                </Button>
+                            </div>
+                        </Col>
+                        <Col xs="6">
+                            {pageMode === PAGE_MODES.SELECT_ITEM &&
+                                <FillOrderItemsCard
+                                    options={categories}
+                                    selectedOrderItems={fields.orderItems}
+                                    onChange={(data) => _handleInputChange("orderItems", data)}
                                 />
-                                <div className="d-flex">
-                                    <div className="w-50 pr-2">
-                                        <Button
-                                            color="danger"
-                                            outline
-                                            block
-                                            className=""
-                                        >
-                                            Cancel
-                                        </Button>
+                            }
+                            {pageMode === PAGE_MODES.FILL_CUSTOMER_INFO &&
+                                <FillCustomerInfoCard
+                                />
+                            }
+                            {pageMode === PAGE_MODES.PAYMENT &&
+                                <React.Fragment>
+                                    <PaymentMethodsCard
+                                        options={[
+                                            { label: "Cash", value: "cash" },
+                                            { label: "BCA", value: "bca" },
+                                            { label: "BNI", value: "bni" },
+                                            { label: "Mandiri", value: "mandiri" },
+                                            { label: "Other", value: "other" },
+                                        ]}
+                                        className="mb-3"
+                                    />
+                                    <div className="d-flex">
+                                        <div className="w-50 pr-2">
+                                            <Button
+                                                color="danger"
+                                                outline
+                                                block
+                                                className=""
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                        <div className="w-50 pl-2">
+                                            <Button
+                                                color="danger"
+                                                block
+                                                className=""
+                                                onClick={() => _handleDoneClick()}
+                                            >
+                                                Done
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <div className="w-50 pl-2">
-                                        <Button
-                                            color="danger"
-                                            block
-                                            className=""
-                                            onClick={() => _handleDoneClick()}
-                                        >
-                                            Done
-                                        </Button>
-                                    </div>
-                                </div>
-                            </React.Fragment>
-                        }
-                    </Col>
-                </Row>
+                                </React.Fragment>
+                            }
+                        </Col>
+                    </Row>
                 </Container>
             </PageInner>
         </Fragment>

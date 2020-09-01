@@ -1,12 +1,19 @@
 import React from "react";
+import classNames from "classnames";
 import { Card, CardHeader, CardBody } from "reactstrap";
 
 import { InputFormGroup } from "../../../../core-ui/form-group/InputFormGroup";
 
-export function PaymentDetailsCard() {
+type Props = {
+    className,
+};
+
+export function PaymentDetailsCard({
+    className,
+}: Props) {
 
     return (
-        <Card className="mb-3">
+        <Card className={classNames("mb-3", className)}>
             <CardHeader>
                 Payment Details
             </CardHeader>

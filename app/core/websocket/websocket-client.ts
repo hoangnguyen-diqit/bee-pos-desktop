@@ -107,10 +107,8 @@ export const broadcastServer = function(data) {
                 }
             }, 3 * 1000)
         }
-        const ping = () => {
 
-            // client.send(message, 0, message.length, 41234, "192.168.9.255");
-            // client.send(message, 0, message.length, 41234, "localhost", function(err, bytes) {
+        const ping = () => {
             udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
@@ -120,7 +118,6 @@ export const broadcastServer = function(data) {
             createTimeoutTimer();
         }
 
-        console.log(client);
         ping();
     } catch (error) {
         console.log(error);
