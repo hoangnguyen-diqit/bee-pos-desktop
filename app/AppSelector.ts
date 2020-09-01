@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 
-import { RootState } from './store';
-
 type ICatalogReducer = {
     otServerIP: string,
     orders: any[],

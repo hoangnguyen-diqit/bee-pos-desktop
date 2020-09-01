@@ -121,7 +121,7 @@ export default function OrderCreatePage({
             tableName: DbTableType.Order,
         });
 
-        ipcRenderer.once("insertOrdersResp", (ev, args) => {
+        ipcRenderer.once("insertOrdersResp", () => {
             ipcRenderer.send("sendToClient", {
                 actionType: "order_insert",
                 data: data,

@@ -40,6 +40,7 @@ export function apiGet(endpoint: string, params: Object = {}, headers: Object = 
 export function apiGetIpInfo(endpoint: string, params: Object = {}, headers: Object = {}) {
     return axios.get(endpoint, {
         params: params,
+        headers: objectAssign(defaultHeaders(), headers),
     });
 }
 
@@ -92,7 +93,7 @@ export function apiHead(endpoint: string, params: Object = {}, headers: Object =
     });
 }
 
-export function apiGetGzip(endpoint: string, params: Object = {}, headers: Object = {}) {
+export function apiGetGzip(endpoint: string) {
     return got(endpoint, {
         headers: objectAssign({}, defaultHeaders(), {
             "Accept": "application/gzip",

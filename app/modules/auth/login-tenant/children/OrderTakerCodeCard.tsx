@@ -71,9 +71,7 @@ export function OrderTakerCodeCard() {
         // if (history) {
         //     history.push(`/home`);
         // }
-        _submitForm({
-
-        })
+        _submitForm()
     }
 
     const _handleInputChange = (field, value) => {
@@ -104,7 +102,7 @@ export function OrderTakerCodeCard() {
         return !Object.keys(errorMessages).some(key => errorMessages[key]);
     }
 
-    const _submitForm = (data?) => {
+    const _submitForm = () => {
         dispatchFieldErrors(initialState.fieldErrors);
         if (_validateForm()) {
             _handleStoreAuth(fields);

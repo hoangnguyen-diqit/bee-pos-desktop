@@ -10,7 +10,7 @@ export function LeftnavItem({
 
     return (
         <div>
-            Item
+            {item ? item.name : ""}
         </div>
     )
 }

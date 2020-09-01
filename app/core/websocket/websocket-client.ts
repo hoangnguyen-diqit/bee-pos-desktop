@@ -147,6 +147,9 @@ export const createTCPServer = function() {
 
         function originIsAllowed(origin) {
             // put logic here to detect whether the specified origin is allowed.
+            if (origin) {
+
+            }
             return true;
         }
 
@@ -174,7 +177,7 @@ export const createTCPServer = function() {
                     // connection.sendBytes(message.binaryData);
                 }
             });
-            connection.on('close', function(reasonCode, description) {
+            connection.on('close', function() {
                 console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
                 if (clientConnections[connection.remoteAddress]) {
                     delete clientConnections[connection.remoteAddress];

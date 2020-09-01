@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Container, Row, Col } from "reactstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
@@ -10,7 +10,6 @@ import { PageInner } from "../../../shared/page-inner/PageInner";
 function KdsCutTablePage() {
 
     const orders = useSelector<any, any>(state => state.kdsCutTableReducer.orders);
-    const dispatch = useDispatch();
 
     React.useEffect(() => {
 

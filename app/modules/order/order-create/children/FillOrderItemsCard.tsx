@@ -2,47 +2,12 @@ import React from "react";
 import { Card, CardBody, Button, Row, Col, Media } from "reactstrap";
 import { useSelector } from "react-redux";
 
-import { groupDistinctBy } from "../../../../utils/ArrayUtils";
 import { createUuidv4 } from "../../../../utils/UuidUtils";
 import { parseProductPrice } from "../../../../utils/OrderUtils";
 
 import { RootState } from "../../../../store";
 
 import { selectProductsByCategoryId } from "../../../../AppSelector";
-
-const serviceCategories = [
-    {
-        key: "pizza",
-        label: "Pizza",
-        items: [
-            { label: "Beef pizza" },
-        ],
-    },
-    {
-        key: "pasta",
-        label: "Pasta",
-        items: [
-            { label: "Pasta 1" },
-            { label: "Pasta 2" },
-        ],
-    },
-    {
-        key: "drink",
-        label: "Drink",
-    },
-    {
-        key: "rice",
-        label: "Rice",
-    },
-    {
-        key: "hotPromo",
-        label: "Hot Promo",
-    },
-    {
-        key: "chicken",
-        label: "Chicken",
-    },
-];
 
 type Props = {
     options: any[],
@@ -62,11 +27,6 @@ export function FillOrderItemsCard({
 }: Props) {
 
     const [ selectedCategory, setSelectedCategory ] = React.useState("");
-    const serviceCategoriesGroup = groupDistinctBy(serviceCategories, "key");
-    const selectedItems = selectedCategory && serviceCategoriesGroup[selectedCategory] ?
-        serviceCategoriesGroup[selectedCategory].items || [] : [];
-
-    const products = useSelector<any, any>(state => state.catalogReducer.products);
 
     const filteredProducts = useSelector<RootState, any>(state => selectProductsByCategoryId(state.catalogReducer, selectedCategory));
 

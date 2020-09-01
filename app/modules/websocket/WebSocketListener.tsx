@@ -1,13 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-// import { createUDPServer, broadcastServer, createTCPServer } from "../../core/websocket/websocket-client";
-
-type Props = {
-    onServerDetected: (data, callback) => void,
-    onSelectServerIP: (callback) => void,
-    onNewOrder: (data) => void,
-};
+// import { createUDPServer, broadcastServer, createTCPServer } from "../../core/websocket/websocket-client";;
 
 export function WebSocketListener() {
 
@@ -15,23 +9,7 @@ export function WebSocketListener() {
 
     React.useEffect(() => {
         if (!otServerIP) {
-            // createUDPServer();
-            // createTCPServer();
-            // setTimeout(() => {
-            //     broadcastServer({
-            //         onTimeout: () => {
-            //             console.log("Timeout");
-            //             if (onSelectServerIP) {
-            //                 onSelectServerIP(() => {
 
-            //                 })
-            //             }
-            //         },
-            //         onDetected: (data) => {
-            //             onServerDetected(data, undefined);
-            //         },
-            //     });
-            // }, 300);
         } else {
             // _handleWebSocket(serverIP);
         }

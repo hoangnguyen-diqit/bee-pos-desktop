@@ -9,7 +9,7 @@ const db = new Datastore({
     autoload: true,
 });
 
-ipcMain.on("getOrders", (ev, args) => {
+ipcMain.on("getOrders", (ev) => {
     db.find({}, (err, docs) => {
         if (err) {
             console.log(err);

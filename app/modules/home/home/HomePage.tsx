@@ -16,11 +16,9 @@ export default function HomePage() {
 
     useEffect(() => {
         apiMenu_exportAllData()
-            .then(res => {
-                const val = "abc";
+            .then(() => {
             })
-            .catch(err => {
-                const val = "abc";
+            .catch(() => {
             })
     }, []);
 

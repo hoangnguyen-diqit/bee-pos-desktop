@@ -1,8 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import { useDispatch, useSelector } from "react-redux";
-
-import { kdsHistory_findManyOrdersSuccess } from "./KdsHistoryReducer";
+import { useSelector } from "react-redux";
 
 import { Header } from "../../../shared/header/Header";
 import { SettingSidebar } from "../../../shared/setting-sidebar/SettingSidebar";
@@ -12,7 +10,6 @@ import { PageInner } from "../../../shared/page-inner/PageInner";
 function KdsHistoryPage() {
 
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
-    const dispatch = useDispatch();
 
     React.useEffect(() => {
 

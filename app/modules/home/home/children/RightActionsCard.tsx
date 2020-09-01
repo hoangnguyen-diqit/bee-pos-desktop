@@ -13,7 +13,7 @@ export function RightActionsCard() {
 
     const { history } = React.useContext(AppContext);
     const [ isShowOptionDlg, setIsShowOptionDlg ] = React.useState(false);
-    const [ value, setValue ] = React.useState(false);
+    const [ value, ] = React.useState(false);
 
     const _handleCreateDeliveryOrderClick = (type) => {
         if (history) {

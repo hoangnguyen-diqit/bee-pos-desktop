@@ -9,7 +9,7 @@ const db = new Datastore({
     autoload: true,
 });
 
-ipcMain.on("getShifts", (ev, args) => {
+ipcMain.on("getShifts", (ev,) => {
     db.find({}, (err, docs) => {
         if (err) {
             console.log(err);

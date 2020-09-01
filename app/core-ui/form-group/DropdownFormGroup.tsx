@@ -59,18 +59,12 @@ export function DropdownFormGroup({
     label,
     placeholder,
     id,
-    name,
     options,
     value,
-    isClearable,
-    isSearchable,
-    isMulti,
-    disabled,
     errorMessage,
     helpText,
     size,
     onChange,
-    ...rest
 }: Props) {
 
     const _parseLabel = () => {

@@ -5,10 +5,10 @@ import { InputAndButtonFormGroup } from "../../../../core-ui/form-group/InputAnd
 
 const serviceCategories = [
     {
-
+        name: "1",
     },
     {
-
+        name: "2",
     },
 ];
 
@@ -35,7 +35,7 @@ export function FillCustomerInfoCard() {
                                         block
                                         key={index}
                                     >
-                                        <span>Pasta</span>
+                                        <span>{item.name}</span>
                                     </Button>
                                 )
                             })

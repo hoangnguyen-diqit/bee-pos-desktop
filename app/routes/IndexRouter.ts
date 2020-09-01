@@ -4,8 +4,9 @@ export function IndexRouter() {
     const router = express.Router();
 
     router.route("/")
-        .get(async(req, res, next) => {
-            res.send("Hello world");
+        .get(async(req, res) => {
+            const world = req.query.name
+            res.send(`Hello ${world}`);
         })
 
     return router;
