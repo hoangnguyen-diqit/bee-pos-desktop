@@ -8,7 +8,8 @@
  * When running `yarn build` or `yarn build-main`, this file is compiled to
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
-// import express from 'express';
+import http from 'http';
+import express from 'express';
 import path from 'path';
 import log from 'electron-log';
 import { app, BrowserWindow, Tray, Menu } from 'electron';
@@ -18,7 +19,7 @@ import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";
 import { createUDPServer, createTCPServer } from './core/websocket';
 import { loadPrinters } from "./core/printing";
-// import { IndexRouter } from "./routes/IndexRouter";
+import { IndexRouter } from "./routes/IndexRouter";
 
 export default class AppUpdater {
     constructor() {
@@ -33,10 +34,7 @@ export default class AppUpdater {
     }
 }
 
-// const expressApp = express();
-// expressApp.use('/', IndexRouter());
-// expressApp.listen(4201, () => console.log('Example app listening on port 3000!'));
-
+let httpServer: any = null;
 let mainWindow: BrowserWindow | null = null;
 let appIcon: any = null;
 
@@ -63,6 +61,12 @@ const installExtensions = async () => {
 };
 
 const createWindow = async () => {
+
+    const expressApp = express();
+    expressApp.use('/', IndexRouter());
+    httpServer = http.createServer(expressApp);
+    httpServer.listen(4201, () => console.log('Example app listening on port 4201!'));
+
     if (
         process.env.NODE_ENV === 'development' ||
         process.env.DEBUG_PROD === 'true'
@@ -178,6 +182,9 @@ app.on('window-all-closed', () => {
         app.quit();
     }
     // if (appIcon) appIcon.destroy();
+    if (httpServer) {
+        httpServer.close();
+    }
 });
 
 app.on('ready', createWindow);
