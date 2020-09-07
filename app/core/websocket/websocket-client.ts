@@ -1,40 +1,11 @@
-import os from 'os';
 import http from 'http';
 import dgram from 'dgram';
 import internalIp from 'internal-ip';
+import defaultGateway  from "default-gateway";
+import broadcastAddress from 'broadcast-address';
 import { client, server as WebSocketServer  } from "websocket";
-import { hasDeepValue } from 'has-deep-value';
-
-var hasInterface = hasDeepValue;
-var allInterfaces = os.networkInterfaces();
-// console.log("CPUs: " + os.cpus().map(item => JSON.stringify(item)).join("\n"));
-var addr_info;
 
 var clientConnections = {};
-
-function broadcastAddress(int = 'en0', address?: any) {
-    if(!hasInterface(allInterfaces, int)) {
-        throw new Error(`Unknown network interface (${int}).`);
-    }
-
-    // if an address is given, look it up under the given network interface
-    // otherwise just get the first IPv4 occurence for that network interface
-    if(address) {
-        addr_info = allInterfaces[int].find((e: any) => e.address === address);
-    } else {
-        addr_info = allInterfaces[int].find((e: any) => e.family === 'IPv4');
-    }
-
-    if(!addr_info) {
-        throw new Error(`No address info found. Specify a valid address.`);
-    }
-
-    var addr_splitted = addr_info.address.split('.');
-    var netmask_splitted = addr_info.netmask.split('.');
-    // bitwise OR over the splitted NAND netmask, then glue them back together with a dot character to form an ip
-    // we have to do a NAND operation because of the 2-complements; getting rid of all the 'prepended' 1's with & 0xFF
-    return addr_splitted.map((e: any, i: number) => (~netmask_splitted[i] & 0xFF) | e).join('.');
-}
 
 export const createUDPServer = function() {
     try {
@@ -61,25 +32,13 @@ export const createUDPServer = function() {
 export const broadcastServer = function(data) {
     try {
         const ip = internalIp.v4.sync();
-        console.log(ip);
+        console.log("Internal IP: " + ip);
 
-        let broadcast1 =
-        Object.keys(allInterfaces)
-            .map(item => {
-                const broadcast = broadcastAddress(item);
-                console.log(broadcast);
+        const defaultGatewayV4 = defaultGateway.v4.sync();
+        console.log("Default gateway: " + defaultGatewayV4.gateway + " " + defaultGatewayV4.interface);
 
-                return broadcast;
-            })
-            .reduce((accu, curr) => {
-                if (curr.startsWith("192.")) {
-                    accu = curr;
-                }
-
-                return accu;
-            }, "");
-
-        console.log("Broadcast 1: " + broadcast1);
+        const broadcaseAddressV4 = broadcastAddress(defaultGatewayV4.interface);
+        console.log("Broadcast address: " + broadcaseAddressV4);
 
         const message = Buffer.from('Some bytes');
 
@@ -109,7 +68,7 @@ export const broadcastServer = function(data) {
         }
 
         const ping = () => {
-            udpClient.send(message, 0, message.length, 8887, broadcast1, function(err, bytes) {
+            udpClient.send(message, 0, message.length, 8887, broadcaseAddressV4, function(err, bytes) {
                 console.log(err);
                 console.log(bytes);
                 // client.close();

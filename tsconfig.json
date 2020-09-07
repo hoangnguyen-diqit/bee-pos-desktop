@@ -16,7 +16,7 @@
 
         /* Additional Checks */
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "noImplicitReturns": true,
         "noImplicitAny": false,
         "noFallthroughCasesInSwitch": true,

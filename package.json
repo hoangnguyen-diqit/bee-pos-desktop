@@ -3,6 +3,7 @@
     "productName": "Bee POS",
     "version": "1.2.0",
     "description": "Bee microservice kds multiplatform",
+    "private": true,
     "scripts": {
         "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
         "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -239,13 +240,13 @@
         "webpack-merge": "^4.2.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.1",
         "@hot-loader/react-dom": "^16.13.0",
         "@mdi/js": "^5.4.55",
         "@mdi/react": "^1.4.0",
         "@reduxjs/toolkit": "^1.4.0",
         "axios": "^0.19.2",
         "bootstrap": "^5.0.0-alpha1",
+        "broadcast-address": "^1.0.2",
         "classnames": "^2.2.6",
         "connected-react-router": "^6.6.1",
         "electron-debug": "^3.1.0",
@@ -256,7 +257,6 @@
         "fetch": "^1.1.0",
         "glob": "^7.1.6",
         "got": "^11.5.2",
-        "has-deep-value": "^1.1.0",
         "history": "4.7.2",
         "internal-ip": "^6.0.0",
         "jquery": "^3.5.1",

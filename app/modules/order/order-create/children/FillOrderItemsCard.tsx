@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardBody, Button, Row, Col, Media } from "reactstrap";
 import { useSelector } from "react-redux";
 
@@ -6,6 +6,7 @@ import { createUuidv4 } from "../../../../utils/UuidUtils";
 import { parseProductPrice } from "../../../../utils/OrderUtils";
 
 import { RootState } from "../../../../store";
+import { ToppingsSelectPopup } from "../../../../shared/toppings-select-popup/ToppingsSelectPopup";
 
 type Props = {
     options: any[],
@@ -24,6 +25,8 @@ export function FillOrderItemsCard({
     onChange,
 }: Props) {
 
+    const[ isOpenToppingsSelectPopup, setIsOpenToppingsSelectPopup ] = useState<boolean>(false);
+
     const [ selectedCategory, setSelectedCategory ] = React.useState("");
     const products = useSelector<RootState, any>(state => state.catalogReducer.products);
     const filteredProducts = products.filter(product => product.category.uuid === selectedCategory);
@@ -41,6 +44,13 @@ export function FillOrderItemsCard({
                 },
             ]);
         }
+
+        setIsOpenToppingsSelectPopup(true);
+    }
+
+
+    const _handleToppingsSelected = (toppings) => {
+
     }
 
     console.log("Order create item render 0: " + JSON.stringify(options));
@@ -90,6 +100,11 @@ export function FillOrderItemsCard({
                     </Col>
                 </Row>
             </CardBody>
+            <ToppingsSelectPopup
+                isOpen={isOpenToppingsSelectPopup}
+                toggleOpen={() => setIsOpenToppingsSelectPopup(!isOpenToppingsSelectPopup)}
+                onOk={(toppings) => _handleToppingsSelected(toppings)}
+            />
         </Card>
     )
 }
