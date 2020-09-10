@@ -8,6 +8,7 @@ import { AppContext } from "../../../../AppContext";
 
 import { InputFormGroup } from "../../../../core-ui/form-group/InputFormGroup";
 import { apiStore_login } from "../../../../core/api-service/StoreService";
+import { Image } from "../../../../core-ui/image/Image";
 
 const fieldsReducer = (state, action) => {
     return {
@@ -107,6 +108,13 @@ export function OrderTakerCodeCard() {
     return (
         <div className="bg-white p-3" style={{ width: "576px" }}>
             <p className="text-center">Please scan QR code to active your Order Taker</p>
+            <div className="d-flex justify-content-center">
+                <Image
+                    width="180px"
+                />
+            </div>
+            <hr />
+            <p className="text-center">Enter Key Manually</p>
             <InputFormGroup
                 value={fields.pinCode}
                 errorMessage={fieldErrors.pinCode}
