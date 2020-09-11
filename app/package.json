@@ -1,7 +1,7 @@
 {
     "name": "bee-pos-desktop",
     "productName": "Bee POS",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Bee microservice kds multiplatform",
     "main": "./main.prod.js",
     "author": {
