@@ -1,7 +1,7 @@
 {
     "name": "bee-pos-desktop",
     "productName": "Bee POS",
-    "version": "1.2.0",
+    "version": "1.2.2",
     "description": "Bee microservice kds multiplatform",
     "private": true,
     "scripts": {
@@ -37,7 +37,7 @@
         "test-watch": "yarn test --watch"
     },
     "build": {
-        "productName": "Bee POS",
+        "productName": "Bee-POS",
         "appId": "com.diqit.BeePOS",
         "files": [
             "dist/",
@@ -71,6 +71,7 @@
             ]
         },
         "nsis": {
+            "artifactName": "${productName}-Setup-${version}.${ext}",
             "oneClick": false,
             "perMachine": true
         },
@@ -88,7 +89,7 @@
         },
         "publish": {
             "provider": "github",
-            "owner": "Diqit-Global",
+            "owner": "hoangnguyen-diqit",
             "repo": "bee-pos-desktop",
             "private": false
         }
