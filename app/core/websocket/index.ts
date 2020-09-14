@@ -9,6 +9,14 @@ ipcMain.on("sendToClient", (ev, args) => {
     })
 })
 
+ipcMain.on("startServer", (ev, args) => {
+    createTCPServer({
+        onData: (data) => {
+            ev.sender.send("serverSocketData", data)
+        }
+    });
+})
+
 export {
     createUDPServer,
     createTCPServer,

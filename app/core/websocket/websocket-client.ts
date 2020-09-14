@@ -83,7 +83,7 @@ export const broadcastServer = function(data) {
     }
 }
 
-export const createTCPServer = function() {
+export const createTCPServer = function(data?) {
     try {
         var server = http.createServer(function(request, response) {
             console.log((new Date()) + ' Received request for ' + request.url);
@@ -130,6 +130,9 @@ export const createTCPServer = function() {
                 if (message.type === 'utf8') {
                     console.log('Received Message: ' + JSON.stringify(message.utf8Data));
                     // connection.sendUTF(message.utf8Data);
+                    if (data && data.onData) {
+                        data.onData(message.utf8Data);
+                    }
                 }
                 else if (message.type === 'binary') {
                     console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');

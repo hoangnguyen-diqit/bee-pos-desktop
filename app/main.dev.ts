@@ -17,7 +17,7 @@ import { autoUpdater } from 'electron-updater';
 
 import MenuBuilder from './menu';
 import { loadDbs } from "./core/nedb";
-import { createUDPServer, createTCPServer } from './core/websocket';
+import { createUDPServer } from './core/websocket';
 import { loadPrinters } from "./core/printing";
 import { IndexRouter } from "./routes/IndexRouter";
 
@@ -74,7 +74,7 @@ const createWindow = async () => {
         await installExtensions();
     }
     createUDPServer();
-    createTCPServer();
+    // createTCPServer();
     loadDbs();
     loadPrinters();
 

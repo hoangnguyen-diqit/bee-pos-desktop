@@ -4,6 +4,7 @@ import { History } from 'history';
 import { AppContext } from './AppContext';
 
 import { WebSocketListener } from './modules/websocket/WebSocketListener';
+import { WsServerListener } from './modules/websocket/WsServerListener';
 
 import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
@@ -88,6 +89,8 @@ export default function App(props: Props) {
             />
             <SelectServerDialog
                 ref={_selectServerDialogRef}
+            />
+            <WsServerListener
             />
             <WebSocketListener
                 // onServerDetected={_handleServerDetected}
