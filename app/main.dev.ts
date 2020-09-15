@@ -17,11 +17,10 @@ import { app, BrowserWindow, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import MenuBuilder from './menu';
-import { loadDbs } from "./core/nedb";
-import { createUDPServer } from './core/websocket';
-import { loadPrinters } from "./core/printing";
+import { loadDbs } from "./main/nedb";
+import { createUDPServer } from './main/socket/UDPSocketServer';
 import { IndexRouter } from "./routes/IndexRouter";
-import { WebsocketHandler } from './socket.io/WebsocketHandler';
+import { WebsocketHandler } from './main/socket/WebsocketHandler';
 import { IPCRouter } from './IPCRouter';
 
 export default class AppUpdater {
@@ -90,7 +89,6 @@ const createWindow = async () => {
     createUDPServer();
     // createTCPServer();
     loadDbs();
-    loadPrinters();
 
     const windowOptions: any = {
         show: false,

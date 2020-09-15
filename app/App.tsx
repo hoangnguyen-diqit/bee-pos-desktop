@@ -12,6 +12,7 @@ import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDi
 import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
 
 import { AppInitializer } from './AppInitializer';
+import { WsClient } from './thirdparty/ws';
 
 const contextValueReducer = (state, action) => {
     return {
@@ -70,9 +71,11 @@ export default function App(props: Props) {
                     }
                 }}
             />
-            {children({
-                profile: contextValue.profile,
-            })}
+            <WsClient>
+                {children({
+                    profile: contextValue.profile,
+                })}
+            </WsClient>
             <LeftnavDialog
                 isOpen={contextValue.isOpenLeftnav}
                 toggleOpen={() => dispatchContextValue({ "isOpenLeftnav": !contextValue.isOpenLeftnav})}

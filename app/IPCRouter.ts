@@ -1,7 +1,7 @@
 import log from "electron-log";
 import { ipcMain, BrowserWindow, dialog } from "electron";
 
-import { OrderRepo } from "./core/nedb/orderdb";
+import { OrderRepo } from "./main/nedb/orderdb";
 
 export class IPCRouter {
 

@@ -2,10 +2,14 @@ import log from "electron-log";
 import { server, connection, IMessage } from 'websocket';
 import { ipcMain } from 'electron';
 
+import { OrderRepo } from "../nedb/orderdb";
+
 export class WebsocketHandler {
 
     _wsServer: server;
     _clients: any[] = [];
+
+    _orderRepo;
 
     constructor(opts) {
         this._wsServer = opts.wsServer;
@@ -25,7 +29,7 @@ export class WebsocketHandler {
                     }
 
                     if (parsedData) {
-                        this._handleMessage(parsedData.type, parsedData.data);
+                        this._handleMessage(connection, parsedData);
                     }
                 }
             });
@@ -42,7 +46,12 @@ export class WebsocketHandler {
             this._clients[connection.remoteAddress] = connection;
         })
 
+        this._startActions();
         this._createListener();
+    }
+
+    _startActions() {
+        this._orderRepo = new OrderRepo();
     }
 
     _createListener() {
@@ -92,9 +101,24 @@ export class WebsocketHandler {
         }
     }
 
-    _handleMessage = (type, data) => {
-        if (type === "") {
+    _handleMessage = (connection, parsedData) => {
+        const type = parsedData.type || "";
+        if (type === "getOrders") {
+            this._getOrders(connection, parsedData);
+        }
+    }
 
+    _getOrders = async(connection: connection, data) => {
+        try {
+            const docs = await this._orderRepo.getOrders(data.filterMap);
+            connection.send(JSON.stringify({
+                type: "getOrdersResp",
+                orders: docs,
+            }))
+        } catch (err) {
+            connection.send(JSON.stringify({
+                type: "getOrdersError",
+            }))
         }
     }
 }
