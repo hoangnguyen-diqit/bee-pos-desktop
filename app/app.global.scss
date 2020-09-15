@@ -18,6 +18,12 @@ body {
     background-color: #23293C;
 }
 
+.viewport-full {
+    width: 100vw;
+    height: calc(100vh - 56px - 32px);
+    overflow: auto;
+}
+
 .full-viewport {
     position: fixed;
     top: 0;

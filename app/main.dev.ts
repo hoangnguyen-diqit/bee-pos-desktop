@@ -12,6 +12,7 @@ import http from 'http';
 import express from 'express';
 import path from 'path';
 import log from 'electron-log';
+import { server as WsServer } from 'websocket';
 import { app, BrowserWindow, Tray, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
@@ -20,6 +21,8 @@ import { loadDbs } from "./core/nedb";
 import { createUDPServer } from './core/websocket';
 import { loadPrinters } from "./core/printing";
 import { IndexRouter } from "./routes/IndexRouter";
+import { WebsocketHandler } from './socket.io/WebsocketHandler';
+import { IPCRouter } from './IPCRouter';
 
 export default class AppUpdater {
     constructor() {
@@ -37,6 +40,7 @@ export default class AppUpdater {
 let httpServer: any = null;
 let mainWindow: BrowserWindow | null = null;
 let appIcon: any = null;
+let ipcRouter: IPCRouter;
 
 if (process.env.NODE_ENV === 'production') {
     const sourceMapSupport = require('source-map-support');
@@ -65,7 +69,17 @@ const createWindow = async () => {
     const expressApp = express();
     expressApp.use('/', IndexRouter());
     httpServer = http.createServer(expressApp);
-    httpServer.listen(4201, () => console.log('Example app listening on port 4201!'));
+
+    const wsServer = new WsServer({
+        httpServer: httpServer,
+    });
+    const websocketHandler = new WebsocketHandler({
+        wsServer: wsServer,
+    });
+    ipcRouter = new IPCRouter({
+        websocketHandler,
+    })
+    httpServer.listen(8887, () => console.log('Example app listening on port 4201!'));
 
     if (
         process.env.NODE_ENV === 'development' ||
@@ -157,6 +171,9 @@ const createWindow = async () => {
                 }
 
                 appIcon.destroy();
+                if (ipcRouter) {
+                    ipcRouter.destroyRouter();
+                }
                 app.exit(0);
             }
         }

@@ -1,20 +1,20 @@
 import { ipcMain } from "electron";
-import { createUDPServer, createTCPServer, sendToAllClients } from "./websocket-client";
+import { createUDPServer, createTCPServer } from "./websocket-client";
 
-ipcMain.on("sendToClient", (ev, args) => {
-    sendToAllClients(args)
+// ipcMain.on("sendToClient", (ev, args) => {
+//     sendToAllClients(args)
 
-    ev.sender.send("sendToClientResp", {
-        message: "completed",
-    })
-})
+//     ev.sender.send("sendToClientResp", {
+//         message: "completed",
+//     })
+// })
 
 ipcMain.on("startServer", (ev, args) => {
-    createTCPServer({
-        onData: (data) => {
-            ev.sender.send("serverSocketData", data)
-        }
-    });
+    // createTCPServer({
+    //     onData: (data) => {
+    //         ev.sender.send("serverSocketData", data)
+    //     }
+    // });
 })
 
 export {

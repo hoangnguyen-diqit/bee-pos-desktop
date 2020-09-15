@@ -21,6 +21,13 @@ export function WsServerListener() {
         ipcRenderer.send("startServer", {
 
         });
+
+        setTimeout(() => {
+            ipcRenderer.send("message", {
+                type: "showHelloDialog"
+            });
+        }, 300)
+
     }, []);
 
     return null;
