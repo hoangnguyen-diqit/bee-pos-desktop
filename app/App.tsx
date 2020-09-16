@@ -13,6 +13,7 @@ import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
 
 import { AppInitializer } from './AppInitializer';
 import { WsClient } from './thirdparty/ws';
+import { UDPConnectionListener } from './modules/websocket/UDPConnectionListener';
 
 const contextValueReducer = (state, action) => {
     return {
@@ -38,6 +39,8 @@ export default function App(props: Props) {
     });
 
     const [ isOpenMessageDialog, setIsOpenMessageDialog ] = React.useState(false);
+    const [ serverAddress, setServerAddress ] = React.useState(false);
+
     const _serverDetectedDialogRef = React.createRef<ServerDetectedDialog>();
     const _selectServerDialogRef = React.createRef<SelectServerDialog>();
 
@@ -50,6 +53,8 @@ export default function App(props: Props) {
                 isFilterPizzaPremake: contextValue.isFilterPizzaPremake,
 
                 profile: contextValue.profile,
+
+                serverAddress,
 
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
                 toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
@@ -94,6 +99,9 @@ export default function App(props: Props) {
                 ref={_selectServerDialogRef}
             />
             <WsServerListener
+            />
+            <UDPConnectionListener
+                onDetected={(data) => setServerAddress(data.address)}
             />
             <WebSocketListener
                 // onServerDetected={_handleServerDetected}

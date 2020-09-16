@@ -22,6 +22,7 @@ import { createUDPServer } from './main/socket/UDPSocketServer';
 import { IndexRouter } from "./routes/IndexRouter";
 import { WebsocketHandler } from './main/socket/WebsocketHandler';
 import { IPCRouter } from './IPCRouter';
+import { broadcastServer } from './main/socket/UDPBroadcastClient';
 
 export default class AppUpdater {
     constructor() {
@@ -109,6 +110,7 @@ const createWindow = async () => {
     }
 
     mainWindow = new BrowserWindow(windowOptions);
+
     mainWindow.loadURL(`file://${__dirname}/app.html`);
 
     // @TODO: Use 'ready-to-show' event
@@ -123,6 +125,17 @@ const createWindow = async () => {
             mainWindow.show();
             mainWindow.focus();
         }
+
+        setTimeout(() => {
+            broadcastServer({
+                onDetected: (data) => {
+                    log.info("Send server detected: " + mainWindow?.webContents);
+                    if (mainWindow?.webContents) {
+                        mainWindow.webContents.send("udpServerResp", data);
+                    }
+                },
+            });
+        }, 500);
     });
 
     mainWindow.on('close', function (event) {

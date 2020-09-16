@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { w3cwebsocket } from 'websocket';
+import { w3cwebsocket, IMessageEvent } from 'websocket';
 
 import { WsContext } from './WsContext';
 import { AppContext } from '../../AppContext';
-import WsEvent from './WsEvent';
+// import WsEvent from './WsEvent';
 
 let socket: w3cwebsocket;
 
@@ -32,7 +32,10 @@ function WsClient(props: Props) {
                 function sendNumber() {
                     if (socket.readyState === socket.OPEN) {
                         var number = Math.round(Math.random() * 0xFFFFFF);
-                        socket.send(number.toString());
+                        socket.send(JSON.stringify({
+                            type: "hello",
+                            number: number.toString()
+                        }));
                         setTimeout(sendNumber, 1000);
                     }
                 }
@@ -43,9 +46,13 @@ function WsClient(props: Props) {
                 console.log('echo-protocol Client Closed');
             };
 
-            socket.onmessage = function(e) {
+            socket.onmessage = function(e: IMessageEvent) {
                 if (typeof e.data === 'string') {
                     console.log("Received: '" + e.data + "'");
+                } else if (e.data instanceof Buffer) {
+                    console.log("Received: '" + e.data.toString() + "'");
+                } else if (e.data instanceof ArrayBuffer) {
+                    console.log("Received: '" + e.data.toString() + "'");
                 }
             };
         }
@@ -60,10 +67,10 @@ function WsClient(props: Props) {
     return (
         <WsContext.Provider value={{ socket }}>
             {React.Children.only(props.children)}
-            <WsEvent
+            {/* <WsEvent
                 event="message"
                 handler={(message) => console.log("React Socket " + message)}
-            />
+            /> */}
         </WsContext.Provider>
     );
 }

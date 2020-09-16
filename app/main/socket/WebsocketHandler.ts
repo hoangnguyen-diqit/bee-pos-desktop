@@ -31,6 +31,17 @@ export class WebsocketHandler {
                     if (parsedData) {
                         this._handleMessage(connection, parsedData);
                     }
+                } else if (data.binaryData) {
+                    let parsedData: any = undefined;
+                    try {
+                        parsedData = JSON.parse(data.binaryData.toString());
+                    } catch (err) {
+                        log.error(err);
+                    }
+
+                    if (parsedData) {
+                        this._handleMessage(connection, parsedData);
+                    }
                 }
             });
 
@@ -101,9 +112,11 @@ export class WebsocketHandler {
         }
     }
 
-    _handleMessage = (connection, parsedData) => {
+    _handleMessage = (connection: connection, parsedData) => {
         const type = parsedData.type || "";
-        if (type === "getOrders") {
+        if (type === "hello") {
+            connection.send(JSON.stringify({ type: "message", message: "What's up man?" }));
+        } else if (type === "getOrders") {
             this._getOrders(connection, parsedData);
         }
     }

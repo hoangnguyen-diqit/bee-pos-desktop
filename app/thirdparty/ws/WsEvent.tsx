@@ -17,27 +17,24 @@ class WsEvent extends React.Component<Props> {
     }
 
     componentDidMount() {
-        const { event, handler } = this.props;
-        const socket = this.context;
+        const { handler } = this.props;
+        const { socket } = this.context;
 
         if (!socket) {
             warning('Socket IO connection has not been established.');
             return;
         }
 
-        socket.on(event, handler);
+        socket.onmessage(handler);
     }
 
     componentWillUnmount() {
-        const { event, handler } = this.props;
-        const socket = this.context;
+        const { socket } = this.context;
 
         if (!socket) {
             warning('Socket IO connection has not been established.');
             return;
         }
-
-        socket.off(event, handler);
     }
 
     render() {
