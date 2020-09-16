@@ -1,5 +1,6 @@
-import React from 'react';
-import { ipcRenderer } from 'electron';
+import { useContext, useEffect } from 'react';
+
+import { ipcEventMap } from './utils';
 
 import { IPCClientContext } from './IPCClientContext';
 
@@ -8,29 +9,23 @@ type Props = {
     handler: (data) => void,
 };
 
-class IPCEvent extends React.Component<Props> {
+function IPCEvent(props: Props) {
 
-    static contextType = IPCClientContext;
+    const { event, handler } = props;
+    const { ipcConnected } = useContext(IPCClientContext);
 
-    constructor(props) {
-        super(props);
-    }
+    useEffect(() => {
+        ipcEventMap[event] = handler;
 
-    componentDidMount() {
-        const { event, handler } = this.props;
+        return (() => {
+            if (ipcEventMap[event]) {
+                delete ipcEventMap[event];
+            }
+        })
+    }, [ ipcConnected ])
 
-        ipcRenderer.on(event, handler);
-    }
-
-    componentWillUnmount() {
-        const { event, handler } = this.props;
-
-        ipcRenderer.removeListener(event, handler);
-    }
-
-    render() {
-        return false;
-    }
+    return null;
 }
 
 export default IPCEvent;
+

@@ -13,7 +13,7 @@ import express from 'express';
 import path from 'path';
 import log from 'electron-log';
 import { server as WsServer } from 'websocket';
-import { app, BrowserWindow, Tray, Menu } from 'electron';
+import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import MenuBuilder from './menu';
@@ -21,7 +21,7 @@ import { loadDbs } from "./main/nedb";
 import { createUDPServer } from './main/socket/UDPSocketServer';
 import { IndexRouter } from "./routes/IndexRouter";
 import { WebsocketHandler } from './main/socket/WebsocketHandler';
-import { IPCRouter } from './IPCRouter';
+import { IPCRouter } from './main/ipc/IPCRouter';
 import { broadcastServer } from './main/socket/UDPBroadcastClient';
 
 export default class AppUpdater {
@@ -64,8 +64,7 @@ const installExtensions = async () => {
     ).catch(console.log);
 };
 
-const createWindow = async () => {
-
+const startServer = () => {
     const expressApp = express();
     expressApp.use('/', IndexRouter());
     httpServer = http.createServer(expressApp);
@@ -73,23 +72,38 @@ const createWindow = async () => {
     const wsServer = new WsServer({
         httpServer: httpServer,
     });
-    const websocketHandler = new WebsocketHandler({
+    new WebsocketHandler({
         wsServer: wsServer,
     });
-    ipcRouter = new IPCRouter({
-        websocketHandler,
-    })
-    httpServer.listen(8887, () => console.log('Example app listening on port 4201!'));
 
+    httpServer.listen(8887, () => console.log('Example app listening on port 4201!'));
+}
+
+const createWindow = async () => {
     if (
         process.env.NODE_ENV === 'development' ||
         process.env.DEBUG_PROD === 'true'
     ) {
         await installExtensions();
     }
+
+    ipcRouter = new IPCRouter({
+    })
+    startServer();
+
     createUDPServer();
-    // createTCPServer();
     loadDbs();
+
+    ipcMain.on("reconnectWs", (ev, args) => {
+        broadcastServer({
+            onDetected: (data) => {
+                log.info("Send server detected: " + mainWindow?.webContents);
+                if (mainWindow?.webContents) {
+                    mainWindow.webContents.send("udpServerResp", data);
+                }
+            },
+        });
+    });
 
     const windowOptions: any = {
         show: false,
@@ -125,17 +139,6 @@ const createWindow = async () => {
             mainWindow.show();
             mainWindow.focus();
         }
-
-        setTimeout(() => {
-            broadcastServer({
-                onDetected: (data) => {
-                    log.info("Send server detected: " + mainWindow?.webContents);
-                    if (mainWindow?.webContents) {
-                        mainWindow.webContents.send("udpServerResp", data);
-                    }
-                },
-            });
-        }, 500);
     });
 
     mainWindow.on('close', function (event) {

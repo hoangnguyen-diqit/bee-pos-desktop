@@ -3,6 +3,7 @@ import { w3cwebsocket, IMessageEvent } from 'websocket';
 
 import { WsContext } from './WsContext';
 import { AppContext } from '../../AppContext';
+import { wsEventMap } from './utils';
 // import WsEvent from './WsEvent';
 
 let socket: w3cwebsocket;
@@ -16,6 +17,7 @@ function WsClient(props: Props) {
 
     const {
         serverAddress,
+        updateServerAddress,
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -24,6 +26,7 @@ function WsClient(props: Props) {
 
             socket.onerror = function() {
                 console.log('Connection Error');
+                updateServerAddress("");
             };
 
             socket.onopen = function() {
@@ -44,15 +47,28 @@ function WsClient(props: Props) {
 
             socket.onclose = function() {
                 console.log('echo-protocol Client Closed');
+                updateServerAddress("");
             };
 
             socket.onmessage = function(e: IMessageEvent) {
+                let parsedData;
                 if (typeof e.data === 'string') {
                     console.log("Received: '" + e.data + "'");
+                    try {
+                        parsedData = JSON.parse(e.data);
+                    } catch (err) {
+                    }
                 } else if (e.data instanceof Buffer) {
                     console.log("Received: '" + e.data.toString() + "'");
                 } else if (e.data instanceof ArrayBuffer) {
                     console.log("Received: '" + e.data.toString() + "'");
+                }
+
+                if (parsedData && parsedData.type) {
+                    console.log("Received: '" + JSON.stringify(wsEventMap) + "'");
+                    if (wsEventMap[parsedData.type]) {
+                        wsEventMap[parsedData.type](parsedData);
+                    }
                 }
             };
         }

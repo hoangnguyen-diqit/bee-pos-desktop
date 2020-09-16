@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { ipcRenderer } from 'electron';
+
+import { ipcEventMap } from './utils';
 
 import { IPCClientContext } from "./IPCClientContext";
-import IPCEvent from './IPCEvent';
+
+let ipcConnected = false;
 
 export function IPCClient(props) {
 
+    useEffect(() => {
+        ipcConnected = true;
+        ipcRenderer.on("message", (ev, args) => {
+            _handleMessage(args);
+        })
+
+        return (() => {
+            ipcRenderer.removeListener("message", (ev, args) => {});
+        })
+    })
+
+    const _handleMessage = (message) => {
+        if (ipcEventMap[message]) {
+            ipcEventMap[message](message);
+        }
+    };
+
     return (
-        <IPCClientContext.Provider value={{}}>
+        <IPCClientContext.Provider value={{ ipcConnected }}>
             {React.Children.only(props.children)}
-            <IPCEvent
-                event="message"
-                handler={(message) => console.log("React Socket " + message)}
-            />
         </IPCClientContext.Provider>
     )
 }

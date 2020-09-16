@@ -1,45 +1,29 @@
-import React from 'react';
+import { useContext, useEffect } from 'react';
 
 import { WsContext } from './WsContext';
-import { warning } from './utils';
+import { wsEventMap } from './utils';
 
 type Props = {
     event: string,
     handler: (data) => void,
 };
 
-class WsEvent extends React.Component<Props> {
+function WsEvent(props: Props) {
 
-    static contextType = WsContext;
+    const { event, handler } = props;
+    const { socket } = useContext(WsContext);
 
-    constructor(props) {
-        super(props);
-    }
+    useEffect(() => {
+        wsEventMap[event] = handler;
 
-    componentDidMount() {
-        const { handler } = this.props;
-        const { socket } = this.context;
+        return (() => {
+            if (wsEventMap[event]) {
+                delete wsEventMap[event];
+            }
+        })
+    }, [ socket ])
 
-        if (!socket) {
-            warning('Socket IO connection has not been established.');
-            return;
-        }
-
-        socket.onmessage(handler);
-    }
-
-    componentWillUnmount() {
-        const { socket } = this.context;
-
-        if (!socket) {
-            warning('Socket IO connection has not been established.');
-            return;
-        }
-    }
-
-    render() {
-        return false;
-    }
+    return null;
 }
 
 export default WsEvent;

@@ -3,9 +3,6 @@ import { History } from 'history';
 
 import { AppContext } from './AppContext';
 
-import { WebSocketListener } from './modules/websocket/WebSocketListener';
-import { WsServerListener } from './modules/websocket/WsServerListener';
-
 import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
 import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDialog';
@@ -61,6 +58,8 @@ export default function App(props: Props) {
                 toggleLeftnav: (state) => dispatchContextValue({ isOpenLeftnav: state }),
                 toggleFooterStickyBar: (state) => dispatchContextValue({ isOpenFooterStickyBar: state }),
 
+                updateServerAddress: (state) => setServerAddress(state),
+
                 updateProfile: (res) => dispatchContextValue({ profile: res }),
             }}
         >
@@ -98,15 +97,15 @@ export default function App(props: Props) {
             <SelectServerDialog
                 ref={_selectServerDialogRef}
             />
-            <WsServerListener
-            />
             <UDPConnectionListener
-                onDetected={(data) => setServerAddress(data.address)}
-            />
-            <WebSocketListener
-                // onServerDetected={_handleServerDetected}
-                // onSelectServerIP={_handleSelectServerIP}
-                // onNewOrder={_handleServerData}
+                onDetected={(data) => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const firstRInfo = data[0];
+                        if (!serverAddress && firstRInfo && firstRInfo.address) {
+                            setServerAddress(firstRInfo.address);
+                        }
+                    }
+                }}
             />
         </AppContext.Provider>
     );

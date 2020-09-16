@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
+import { WsEvent } from '../../../thirdparty/ws';
+
 import {
     apiMenu_exportAllData,
 } from '../../../core/api-service/MenuService';
@@ -42,6 +44,10 @@ export default function HomePage() {
                 </Row>
                 </Container>
             </PageInner>
+            <WsEvent
+                event="helloClient"
+                handler={(data) => console.log("Home page ", data)}
+            />
         </Fragment>
     )
 }

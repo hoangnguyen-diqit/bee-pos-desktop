@@ -7,7 +7,7 @@ import { OrderRepo } from "../nedb/orderdb";
 export class WebsocketHandler {
 
     _wsServer: server;
-    _clients: any[] = [];
+    _clients = {};
 
     _orderRepo;
 
@@ -19,7 +19,7 @@ export class WebsocketHandler {
 
             const connection: connection = request.accept(undefined, request.origin);
             connection.on('message', (data: IMessage) => {
-                console.log(`hello from ${connection.remoteAddress}`);
+                console.log(`Socket connect: hello from ${connection.remoteAddress}`);
                 if (data.utf8Data) {
                     let parsedData: any = undefined;
                     try {
@@ -47,10 +47,12 @@ export class WebsocketHandler {
 
             connection.on('close', () => {
                 console.log(`close: ${connection.remoteAddress}`);
+                delete this._clients[connection.remoteAddress];
             });
 
             connection.on('error', () => {
                 console.log(`error: ${connection.remoteAddress}`);
+                delete this._clients[connection.remoteAddress];
             });
 
             console.log("Socket connected: " + connection.remoteAddress);
@@ -112,10 +114,17 @@ export class WebsocketHandler {
         }
     }
 
+    _handleAuth = () => {
+
+    }
+
     _handleMessage = (connection: connection, parsedData) => {
         const type = parsedData.type || "";
         if (type === "hello") {
-            connection.send(JSON.stringify({ type: "message", message: "What's up man?" }));
+            connection.send(JSON.stringify({
+                type: "helloClient",
+                message: "What's up man?"
+            }));
         } else if (type === "getOrders") {
             this._getOrders(connection, parsedData);
         }

@@ -1,7 +1,7 @@
 import log from "electron-log";
 import { ipcMain, BrowserWindow, dialog } from "electron";
 
-import { OrderRepo } from "./main/nedb/orderdb";
+import { OrderRepo } from "../nedb/orderdb";
 
 export class IPCRouter {
 
@@ -28,7 +28,7 @@ export class IPCRouter {
         const type = args.type || "";
 
         if (type === "showHelloDialog") {
-            this._showHelloDialog();
+            // this._showHelloDialog();
         } else if (type === "getOrders") {
             this._getOrders(ev, args);
         } else if (type === "insertOrder") {

@@ -3,6 +3,8 @@ import internalIp from 'internal-ip';
 import defaultGateway  from "default-gateway";
 import broadcastAddress from 'broadcast-address';
 
+const serverList: any[] = [];
+
 export const broadcastServer = function(data) {
     try {
         const ip = internalIp.v4.sync();
@@ -24,14 +26,16 @@ export const broadcastServer = function(data) {
             udpClient.setBroadcast(true);
         });
 
-        udpClient.on("message", (msg: string, rinfo: any) => {
+        udpClient.on("message", (msg: Buffer, rinfo: dgram.RemoteInfo) => {
             clearTimeout(timeoutTimer);
             console.log("Client got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+
+            if (!serverList.includes(item => item.address === rinfo.address)) {
+                serverList.push(rinfo);
+            }
+
             if (data && data.onDetected) {
-                data.onDetected({
-                    address: rinfo.address,
-                    port: rinfo.port,
-                });
+                data.onDetected(serverList);
             }
         })
 
@@ -53,6 +57,7 @@ export const broadcastServer = function(data) {
             createTimeoutTimer();
         }
 
+        serverList.splice(0, serverList.length);
         ping();
 
         // return close function
