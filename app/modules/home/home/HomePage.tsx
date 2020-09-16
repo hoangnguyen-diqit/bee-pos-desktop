@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import { WsEvent } from '../../../thirdparty/ws';
+import { IPCEvent } from '../../../thirdparty/ipc';
 
 import {
     apiMenu_exportAllData,
@@ -47,6 +48,10 @@ export default function HomePage() {
             <WsEvent
                 event="helloClient"
                 handler={(data) => console.log("Home page ", data)}
+            />
+            <IPCEvent
+                event="helloClient"
+                handler={(data) => console.log("Home page 2 ", data)}
             />
         </Fragment>
     )
