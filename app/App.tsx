@@ -37,7 +37,7 @@ export default function App(props: Props) {
     });
 
     const [ isOpenMessageDialog, setIsOpenMessageDialog ] = React.useState(false);
-    const [ serverAddress, setServerAddress ] = React.useState(false);
+    const [ serverAddress, setServerAddress ] = React.useState("");
 
     const _serverDetectedDialogRef = React.createRef<ServerDetectedDialog>();
     const _selectServerDialogRef = React.createRef<SelectServerDialog>();
