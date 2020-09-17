@@ -10,6 +10,7 @@ import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
 
 import { AppInitializer } from './AppInitializer';
 import { WsClient } from './thirdparty/ws';
+import { IPCClient } from './thirdparty/ipc';
 import { UDPConnectionListener } from './modules/websocket/UDPConnectionListener';
 
 const contextValueReducer = (state, action) => {
@@ -80,6 +81,9 @@ export default function App(props: Props) {
                     profile: contextValue.profile,
                 })}
             </WsClient>
+            <IPCClient>
+
+            </IPCClient>
             <LeftnavDialog
                 isOpen={contextValue.isOpenLeftnav}
                 toggleOpen={() => dispatchContextValue({ "isOpenLeftnav": !contextValue.isOpenLeftnav})}

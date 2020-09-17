@@ -15,20 +15,31 @@ export function IPCClient(props) {
             _handleMessage(args);
         })
 
+        function sendNumber() {
+            var number = Math.round(Math.random() * 0xFFFFFF);
+            ipcRenderer.send("message", {
+                type: "hello",
+                number: number.toString(),
+            })
+            setTimeout(sendNumber, 1000);
+        }
+        sendNumber();
+
         return (() => {
             ipcRenderer.removeListener("message", (ev, args) => {});
         })
     })
 
     const _handleMessage = (message) => {
-        if (ipcEventMap[message]) {
-            ipcEventMap[message](message);
+        if (message.type && ipcEventMap[message.type]) {
+            ipcEventMap[message.type](message);
         }
     };
 
     return (
         <IPCClientContext.Provider value={{ ipcConnected }}>
-            {React.Children.only(props.children)}
+            {/* {React.Children.only(props.children)} */}
+            {props.children}
         </IPCClientContext.Provider>
     )
 }

@@ -27,7 +27,12 @@ export class IPCRouter {
     _handleMessage = (ev, args) => {
         const type = args.type || "";
 
-        if (type === "showHelloDialog") {
+        if (type === "hello") {
+            ev.sender.send("message", {
+                type: "helloClient",
+                message: "Response from icpMain",
+            })
+        } else if (type === "showHelloDialog") {
             // this._showHelloDialog();
         } else if (type === "getOrders") {
             this._getOrders(ev, args);

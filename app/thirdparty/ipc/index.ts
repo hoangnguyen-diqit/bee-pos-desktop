@@ -1,3 +1,4 @@
+import { IPCClient } from './IPCClient';
 import IPCEvent from './IPCEvent';
 
-export { IPCEvent };
+export { IPCClient, IPCEvent };
