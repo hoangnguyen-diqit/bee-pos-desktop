@@ -1,8 +1,13 @@
 import log from "electron-log";
+import { v4 as uuidV4 } from "uuid";
 import { server, connection, IMessage } from 'websocket';
 import { ipcMain } from 'electron';
 
 import { OrderRepo } from "../nedb/orderdb";
+
+interface customconnection extends connection {
+    uuid?: string;
+}
 
 export class WebsocketHandler {
 
@@ -17,46 +22,45 @@ export class WebsocketHandler {
         console.log("Start listener");
         this._wsServer.on("request", (request) => {
 
-            const connection: connection = request.accept(undefined, request.origin);
+            const connection: customconnection = request.accept(undefined, request.origin);
             connection.on('message', (data: IMessage) => {
-                console.log(`Socket connect: hello from ${connection.remoteAddress}`);
+                console.log(`Socket connect: hello from ${connection.uuid || connection.remoteAddress}`);
+                let parsedData: any = undefined;
                 if (data.utf8Data) {
-                    let parsedData: any = undefined;
                     try {
                         parsedData = JSON.parse(data.utf8Data);
                     } catch (err) {
                         log.error(err);
                     }
-
-                    if (parsedData) {
-                        this._handleMessage(connection, parsedData);
-                    }
                 } else if (data.binaryData) {
-                    let parsedData: any = undefined;
                     try {
                         parsedData = JSON.parse(data.binaryData.toString());
                     } catch (err) {
                         log.error(err);
                     }
+                }
 
+                if (parsedData) {
                     if (parsedData) {
                         this._handleMessage(connection, parsedData);
+                        this._handleActionTypeMessage(connection, parsedData);
                     }
                 }
             });
 
             connection.on('close', () => {
-                console.log(`close: ${connection.remoteAddress}`);
-                delete this._clients[connection.remoteAddress];
+                console.log(`close: ${connection.uuid || connection.remoteAddress}`);
+                delete this._clients[connection.uuid || connection.remoteAddress];
             });
 
             connection.on('error', () => {
-                console.log(`error: ${connection.remoteAddress}`);
-                delete this._clients[connection.remoteAddress];
+                console.log(`error: ${connection.uuid || connection.remoteAddress}`);
+                delete this._clients[connection.uuid || connection.remoteAddress];
             });
 
-            console.log("Socket connected: " + connection.remoteAddress);
-            this._clients[connection.remoteAddress] = connection;
+            console.log("Socket connected: " + connection.uuid || connection.remoteAddress);
+            connection.uuid = uuidV4();
+            this._clients[connection.uuid || connection.remoteAddress] = connection;
         })
 
         this._startActions();
@@ -126,6 +130,15 @@ export class WebsocketHandler {
                 message: "What's up man?"
             }));
         } else if (type === "getOrders") {
+            this._getOrders(connection, parsedData);
+        }
+    }
+
+    _handleActionTypeMessage = (connection: connection, parsedData) => {
+        const actionType = parsedData.actionType || "";
+        if (actionType === "order_update_status") {
+            log.info("order_update_status")
+        } else if (actionType === "getOrders") {
             this._getOrders(connection, parsedData);
         }
     }

@@ -1,7 +1,5 @@
 import { useContext, useEffect } from 'react';
 
-import { ipcEventMap } from './utils';
-
 import { IPCClientContext } from './IPCClientContext';
 
 type Props = {
@@ -12,7 +10,7 @@ type Props = {
 function IPCEvent(props: Props) {
 
     const { event, handler } = props;
-    const { ipcConnected } = useContext(IPCClientContext);
+    const { ipcConnected, ipcEventMap } = useContext(IPCClientContext);
 
     useEffect(() => {
         ipcEventMap[event] = handler;

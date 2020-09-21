@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { ipcEventMap } from './utils';
-
 import { IPCClientContext } from "./IPCClientContext";
 
+const ipcEventMap = {};
 let ipcConnected = false;
 
 export function IPCClient(props) {
@@ -37,7 +36,10 @@ export function IPCClient(props) {
     };
 
     return (
-        <IPCClientContext.Provider value={{ ipcConnected }}>
+        <IPCClientContext.Provider value={{
+            ipcConnected,
+            ipcEventMap,
+        }}>
             {/* {React.Children.only(props.children)} */}
             {props.children}
         </IPCClientContext.Provider>

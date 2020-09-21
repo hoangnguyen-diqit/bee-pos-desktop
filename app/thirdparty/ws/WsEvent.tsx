@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 
 import { WsContext } from './WsContext';
-import { wsEventMap } from './utils';
 
 type Props = {
     event: string,
@@ -11,7 +10,7 @@ type Props = {
 function WsEvent(props: Props) {
 
     const { event, handler } = props;
-    const { socket } = useContext(WsContext);
+    const { socket, wsEventMap } = useContext(WsContext);
 
     useEffect(() => {
         wsEventMap[event] = handler;
@@ -21,7 +20,7 @@ function WsEvent(props: Props) {
                 delete wsEventMap[event];
             }
         })
-    }, [ socket ])
+    }, [ socket, wsEventMap ])
 
     return null;
 }

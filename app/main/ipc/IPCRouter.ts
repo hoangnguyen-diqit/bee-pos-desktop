@@ -3,6 +3,8 @@ import { ipcMain, BrowserWindow, dialog } from "electron";
 
 import { OrderRepo } from "../nedb/orderdb";
 
+//
+// For ipcRenderer
 export class IPCRouter {
 
     _orderRepo: OrderRepo;

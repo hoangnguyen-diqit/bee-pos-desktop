@@ -3,9 +3,9 @@ import { w3cwebsocket, IMessageEvent } from 'websocket';
 
 import { WsContext } from './WsContext';
 import { AppContext } from '../../AppContext';
-import { wsEventMap } from './utils';
 // import WsEvent from './WsEvent';
 
+const wsEventMap = {};
 let socket: w3cwebsocket;
 
 type Props = {
@@ -81,7 +81,10 @@ function WsClient(props: Props) {
     }, [ serverAddress ]);
 
     return (
-        <WsContext.Provider value={{ socket }}>
+        <WsContext.Provider value={{
+            socket,
+            wsEventMap,
+        }}>
             {React.Children.only(props.children)}
             {/* <WsEvent
                 event="message"

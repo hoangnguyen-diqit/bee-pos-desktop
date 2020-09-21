@@ -33,5 +33,3 @@ export const debug = function (...args) {
         console.debug.apply(console);
     }
 };
-
-export const wsEventMap = {};
