@@ -1,8 +1,9 @@
 {
     "name": "bee-pos-desktop",
     "productName": "Bee POS",
-    "version": "1.2.0",
+    "version": "1.2.4",
     "description": "Bee microservice kds multiplatform",
+    "private": true,
     "scripts": {
         "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
         "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -11,6 +12,11 @@
         "build-renderer": "cross-env NODE_ENV=production DEBUG_PROD=true webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
         "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
         "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
+        "type-check": "cross-env tsc --noEmit",
+        "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
+        "lint-fix": "yarn --silent lint --fix; exit 0",
+        "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
+        "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
         "package": "yarn build && electron-builder build --publish never",
         "package-all": "yarn build && electron-builder build -mwl",
         "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
@@ -65,6 +71,7 @@
             ]
         },
         "nsis": {
+            "artifactName": "BeePOS-Setup-${version}.${ext}",
             "oneClick": false,
             "perMachine": true
         },
@@ -82,7 +89,7 @@
         },
         "publish": {
             "provider": "github",
-            "owner": "Diqit-Global",
+            "owner": "hoangnguyen-diqit",
             "repo": "bee-pos-desktop",
             "private": false
         }
@@ -94,7 +101,7 @@
     "author": {
         "name": "Diqit",
         "email": "diqit@diqit.com",
-        "url": "diqit.io"
+        "url": "https://www.diqit.io"
     },
     "contributors": [
         {
@@ -152,6 +159,7 @@
         "@babel/register": "^7.10.4",
         "@types/enzyme": "^3.10.5",
         "@types/enzyme-adapter-react-16": "^1.0.6",
+        "@types/express": "^4.17.8",
         "@types/history": "^4.7.6",
         "@types/jest": "^26.0.3",
         "@types/node": "12",
@@ -163,6 +171,7 @@
         "@types/react-test-renderer": "^16.9.2",
         "@types/reactstrap": "^8.5.0",
         "@types/redux-logger": "^3.0.8",
+        "@types/socket.io": "^2.1.11",
         "@types/webpack": "^4.41.17",
         "@types/webpack-env": "^1.15.2",
         "@types/websocket": "^1.0.1",
@@ -234,13 +243,13 @@
         "webpack-merge": "^4.2.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.1",
         "@hot-loader/react-dom": "^16.13.0",
         "@mdi/js": "^5.4.55",
         "@mdi/react": "^1.4.0",
         "@reduxjs/toolkit": "^1.4.0",
         "axios": "^0.19.2",
         "bootstrap": "^5.0.0-alpha1",
+        "broadcast-address": "^1.0.2",
         "classnames": "^2.2.6",
         "connected-react-router": "^6.6.1",
         "electron-debug": "^3.1.0",
@@ -251,11 +260,11 @@
         "fetch": "^1.1.0",
         "glob": "^7.1.6",
         "got": "^11.5.2",
-        "has-deep-value": "^1.1.0",
         "history": "4.7.2",
         "internal-ip": "^6.0.0",
         "jquery": "^3.5.1",
-        "mdi-react": "^7.3.0",
+        "lodash.debounce": "^4.0.8",
+        "lodash.throttle": "^4.1.1",
         "moment": "^2.27.0",
         "numeral": "^2.0.6",
         "pako": "^1.0.11",
@@ -263,6 +272,7 @@
         "react-datepicker": "^3.1.3",
         "react-dom": "^16.12.0",
         "react-hot-loader": "^4.12.21",
+        "react-image": "^2.2.1",
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.2.0",
         "react-select": "^3.1.0",
@@ -271,6 +281,7 @@
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "reselect": "^4.0.0",
+        "socket.io": "^2.3.0",
         "source-map-support": "^0.5.19",
         "string-template": "^1.0.0",
         "uuid": "^8.3.0",
@@ -284,9 +295,46 @@
     "browserslist": [
         "extends browserslist-config-erb"
     ],
-    "renovate": {
-        "extends": [
-            "bliss"
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "cross-env NODE_ENV=development eslint --cache"
+        ],
+        "{*.json,.{babelrc,eslintrc,prettierrc,stylelintrc}}": [
+            "prettier --ignore-path .eslintignore --parser json --write"
+        ],
+        "*.{css,scss}": [
+            "stylelint --ignore-path .eslintignore --syntax scss --fix",
+            "prettier --ignore-path .eslintignore --single-quote --write"
+        ],
+        "*.{html,md,yml}": [
+            "prettier --ignore-path .eslintignore --single-quote --write"
         ]
+    },
+    "prettier": {
+        "overrides": [
+            {
+                "files": [
+                    ".prettierrc",
+                    ".babelrc",
+                    ".eslintrc",
+                    ".stylelintrc"
+                ],
+                "options": {
+                    "parser": "json"
+                }
+            }
+        ],
+        "singleQuote": true
+    },
+    "stylelint": {
+        "extends": [
+            "stylelint-config-standard",
+            "stylelint-config-prettier"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run type-check"
+        }
     }
 }

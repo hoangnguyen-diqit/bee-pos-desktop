@@ -49,12 +49,6 @@ export class SelectServerDialog extends React.Component<Props, State> {
         this.setState({ isOpen: false });
     }
 
-    _handleConnectClick(data) {
-        this._submitForm({
-
-        })
-    }
-
     _handleInputChange(fieldName, value) {
         if ([""].includes(fieldName)) {
             this.setState({
@@ -118,7 +112,7 @@ export class SelectServerDialog extends React.Component<Props, State> {
                     />
                     <div className="text-right">
                         <Button
-                            onClick={() => this._handleConnectClick({ serverIP: fields.serverIP })}
+                            onClick={() => {}}
                         >
                             Connect
                         </Button>

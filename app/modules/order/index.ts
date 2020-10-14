@@ -4,6 +4,7 @@ import OrderHistoryPage from "./order-history/OrderHistoryPage";
 
 import orderCreateReducer from "./order-create/OrderCreateReducer";
 import orderPaymentReducer from "./order-payment/OrderPaymentReducer";
+import orderHistoryReducer from "./order-history/OrderHistoryReducer";
 
 export const OrderModule = [
     { path: "/orders/new", component: OrderCreatePage, exact: true, isPrivate: false },
@@ -15,4 +16,5 @@ export const OrderModule = [
 export const orderReducers = {
     orderCreateReducer,
     orderPaymentReducer,
+    orderHistoryReducer,
 };

@@ -85,9 +85,7 @@ export function OptionDialogFormGroup({
     }
 
     const _handleOkClick = () => {
-        _submitForm({
-
-        })
+        _submitForm()
     }
 
     const _handleInputChange = (fieldName, value) => {
@@ -116,7 +114,7 @@ export function OptionDialogFormGroup({
         return !Object.keys(errorMessages).some(key => errorMessages[key]);
     }
 
-    const _submitForm = (data) => {
+    const _submitForm = () => {
         dispatchFieldErrors(initialState.fieldErrors);
         if (_validateForm()) {
             if (onChange) {

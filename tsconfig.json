@@ -13,12 +13,15 @@
         "strict": true,
         "pretty": true,
         "sourceMap": true,
+
         /* Additional Checks */
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "noImplicitReturns": true,
         "noImplicitAny": false,
         "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+
         /* Module Resolution Options */
         "moduleResolution": "node",
         "esModuleInterop": true,

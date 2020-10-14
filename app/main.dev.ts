@@ -8,17 +8,21 @@
  * When running `yarn build` or `yarn build-main`, this file is compiled to
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
-// import express from 'express';
+import http from 'http';
+import express from 'express';
 import path from 'path';
 import log from 'electron-log';
-import { app, BrowserWindow, Tray, Menu } from 'electron';
+import { server as WsServer } from 'websocket';
+import { app, BrowserWindow, Tray, Menu, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 import MenuBuilder from './menu';
-import { loadDbs } from "./core/nedb";
-import { createUDPServer, createTCPServer } from './core/websocket';
-import { loadPrinters } from "./core/printing";
-// import { IndexRouter } from "./routes/IndexRouter";
+import { loadDbs } from "./main/nedb";
+import { createUDPServer } from './main/socket/UDPSocketServer';
+import { IndexRouter } from "./routes/IndexRouter";
+import { WebsocketHandler } from './main/socket/WebsocketHandler';
+import { IPCRouter } from './main/ipc/IPCRouter';
+import { broadcastServer } from './main/socket/UDPBroadcastClient';
 
 export default class AppUpdater {
     constructor() {
@@ -33,12 +37,10 @@ export default class AppUpdater {
     }
 }
 
-// const expressApp = express();
-// expressApp.use('/', IndexRouter());
-// expressApp.listen(4201, () => console.log('Example app listening on port 3000!'));
-
+let httpServer: any = null;
 let mainWindow: BrowserWindow | null = null;
 let appIcon: any = null;
+let ipcRouter: IPCRouter;
 
 if (process.env.NODE_ENV === 'production') {
     const sourceMapSupport = require('source-map-support');
@@ -62,6 +64,21 @@ const installExtensions = async () => {
     ).catch(console.log);
 };
 
+const startServer = () => {
+    const expressApp = express();
+    expressApp.use('/', IndexRouter());
+    httpServer = http.createServer(expressApp);
+
+    const wsServer = new WsServer({
+        httpServer: httpServer,
+    });
+    new WebsocketHandler({
+        wsServer: wsServer,
+    });
+
+    httpServer.listen(8887, () => console.log('Example app listening on port 4201!'));
+}
+
 const createWindow = async () => {
     if (
         process.env.NODE_ENV === 'development' ||
@@ -69,10 +86,24 @@ const createWindow = async () => {
     ) {
         await installExtensions();
     }
+
+    ipcRouter = new IPCRouter({
+    })
+    startServer();
+
     createUDPServer();
-    createTCPServer();
     loadDbs();
-    loadPrinters();
+
+    ipcMain.on("reconnectWs", (ev, args) => {
+        broadcastServer({
+            onDetected: (data) => {
+                log.info("Send server detected: " + mainWindow?.webContents);
+                if (mainWindow?.webContents) {
+                    mainWindow.webContents.send("udpServerResp", data);
+                }
+            },
+        });
+    });
 
     const windowOptions: any = {
         show: false,
@@ -93,6 +124,7 @@ const createWindow = async () => {
     }
 
     mainWindow = new BrowserWindow(windowOptions);
+
     mainWindow.loadURL(`file://${__dirname}/app.html`);
 
     // @TODO: Use 'ready-to-show' event
@@ -153,6 +185,9 @@ const createWindow = async () => {
                 }
 
                 appIcon.destroy();
+                if (ipcRouter) {
+                    ipcRouter.destroyRouter();
+                }
                 app.exit(0);
             }
         }
@@ -178,6 +213,9 @@ app.on('window-all-closed', () => {
         app.quit();
     }
     // if (appIcon) appIcon.destroy();
+    if (httpServer) {
+        httpServer.close();
+    }
 });
 
 app.on('ready', createWindow);

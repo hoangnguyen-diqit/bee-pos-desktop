@@ -121,14 +121,15 @@ export default function OrderCreatePage({
             tableName: DbTableType.Order,
         });
 
-        ipcRenderer.once("insertOrdersResp", (ev, args) => {
+        ipcRenderer.once("insertOrderResp", () => {
             ipcRenderer.send("sendToClient", {
                 actionType: "order_insert",
                 data: data,
             })
         })
-        ipcRenderer.send("insertOrders", {
-            orders: [order],
+        ipcRenderer.send("message", {
+            type: "insertOrder",
+            order: order,
         })
     };
 
@@ -157,7 +158,7 @@ export default function OrderCreatePage({
                         <Col
                             xs="6"
                             style={{ height: "calc(100vh - 56px - 32px)"}}
-                            className="flex-column"
+                            className="d-flex flex-column"
                         >
                             <OrderDetailsCard
                             >

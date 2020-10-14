@@ -19,7 +19,7 @@ export function downloadFile(url) {
 
             })
         })
-        .catch(err => {
+        .catch(() => {
             reject({
 
             })

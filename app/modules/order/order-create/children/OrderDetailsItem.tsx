@@ -3,8 +3,7 @@ import classNames from "classnames";
 import { useSelector } from "react-redux";
 
 import { formatCurrency } from "../../../../utils/NumberUtils";
-
-import { selectPriceByProductId } from "../../../../AppSelector";
+import { RootState } from "../../../../store";
 
 import { QuantityChangeButton } from "../../../../core-ui/button/QuantityChangeButton";
 
@@ -20,8 +19,9 @@ export function OrderDetailsItem({
     onChange,
 }: Props) {
 
-    const productPrices = useSelector<any, any>(state => selectPriceByProductId(state.catalogReducer, item?.product?.uuid));
-    const productPrice = Array.isArray(productPrices) && productPrices.length > 0 ? productPrices[0] : {};
+    const productPrices = useSelector<RootState, any>(state => state.catalogReducer.productPrices);
+    const filteredPproductPrices = productPrices.filter(productPrice => productPrice.product_uuid === item?.product?.uuid);
+    const productPrice = Array.isArray(filteredPproductPrices) && filteredPproductPrices.length > 0 ? filteredPproductPrices[0] : {};
     const productItemPrice = Array.isArray(productPrice.prices) && productPrice.prices.length > 0 ? productPrice.prices[0] : {};
     console.log("Found product price: " + JSON.stringify(productItemPrice));
 

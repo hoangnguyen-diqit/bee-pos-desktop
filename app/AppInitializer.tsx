@@ -29,10 +29,6 @@ export function AppInitializer() {
         updateProfile,
     } = useContext(AppContext);
 
-    const _checkAccessToken = () => {
-
-    }
-
     React.useEffect(() => {
         console.log("Initial 1: " + profile)
         if (!accessToken) {
@@ -56,7 +52,7 @@ export function AppInitializer() {
                 dispatch(catalog_findManyProductsSuccess(res.catalogue_product || []));
                 dispatch(catalog_findManyProductPricesSuccess(res.catalogue_price || []));
             })
-            .catch(err => {
+            .catch(() => {
                 dispatch(catalog_findManyCategoriesFailure());
                 dispatch(catalog_findManyProductsFailure());
                 dispatch(catalog_findManyProductPricesFailure());

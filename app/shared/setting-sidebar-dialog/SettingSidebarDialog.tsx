@@ -1,12 +1,8 @@
 import React from "react";
 import Icon from "@mdi/react";
 import { mdiClose, mdiChevronRight } from "@mdi/js";
-import electronSettings from "electron-settings";
 import isEmpty from "validator/lib/isEmpty";
 import { Modal, ModalBody, Button, Card, CardHeader, CardBody, ListGroup, ListGroupItem } from "reactstrap";
-import { ipcRenderer } from "electron";
-
-import { DEFAULT_PRINTER_NAME } from "../../utils/Constants";
 
 import { AppContext } from "../../AppContext";
 
@@ -66,7 +62,6 @@ export function SettingSidebarDialog({
     validationsI18n,
     size,
     toggleOpen,
-    onChange,
 }: Props) {
 
     const {
@@ -76,38 +71,10 @@ export function SettingSidebarDialog({
         showPrinterSetupDialog,
     } = React.useContext(AppContext);
     const [ fields, dispatchFields ] = React.useReducer(fieldsReducer, Object.assign({}, initialState.fields, value || {}));
-    const [ fieldErrors, dispatchFieldErrors ] = React.useReducer(fieldErrorsReducer, initialState.fieldErrors);
+    const [ , dispatchFieldErrors ] = React.useReducer(fieldErrorsReducer, initialState.fieldErrors);
     const _validationsI18n = validationsI18n || {};
 
     const _handleOpened = () => {
-    }
-
-    const _handleItemClick = (item) => {
-        const currentOptionNames = [...(fields.optionNames || [])];
-        const foundIndex = currentOptionNames.findIndex(sItem => sItem === item.value);
-        if (foundIndex > -1) {
-            currentOptionNames.splice(foundIndex, 1);
-        } else {
-            currentOptionNames.push(item.value);
-        }
-
-        dispatchFields({ optionName: currentOptionNames });
-    }
-
-    const _handleCancelClick = () => {
-        if (onChange) {
-            toggleOpen();
-            onChange({
-                type: "cancel",
-                data: {},
-            })
-        }
-    }
-
-    const _handleOkClick = () => {
-        _submitForm({
-
-        })
     }
 
     const _handleSetupPrinterClick = () => {
@@ -151,42 +118,6 @@ export function SettingSidebarDialog({
                 if (!value || isEmpty(value)) {
                     return _validationsI18n.fieldIsRequired;
                 } return "";
-        }
-    }
-
-    const _validateForm = () => {
-        const errorMessages = {
-        }
-
-        return !Object.keys(errorMessages).some(key => errorMessages[key]);
-    }
-
-    const _submitForm = (data) => {
-        dispatchFieldErrors(initialState.fieldErrors);
-        if (_validateForm()) {
-            const defaultPrinterName = electronSettings.getSync(DEFAULT_PRINTER_NAME);
-            console.log("Default printer: " + defaultPrinterName);
-            if (defaultPrinterName) {
-                ipcRenderer.on("printFileResp", (ev, args) => {
-                    if (toggleOpen) {
-                        toggleOpen();
-                    }
-                });
-
-                ipcRenderer.send("printFile", {
-                    printerName: defaultPrinterName,
-                });
-            }
-
-            if (onChange) {
-                onChange({
-                    type: "ok",
-                    data: {
-                        optionNames: fields.optionNames,
-                        note: fields.note,
-                    },
-                })
-            }
         }
     }
 

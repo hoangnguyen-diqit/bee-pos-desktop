@@ -18,21 +18,6 @@ function KdsMakeTablePage(props) {
     const orders = useSelector<any, any>(state => state.kdsMakeTableReducer.orders);
     const dispatch = useDispatch();
 
-    const _handleButtonAddOrderClick = () => {
-    }
-
-    const _listPrintersClick = () => {
-        ipcRenderer.on("getPrintersResp", (event, args) => {
-            console.log(event);
-            console.log(args);
-        })
-        ipcRenderer.send("getPrinters", "something");
-    }
-
-    const _handlePrintClick = () => {
-        ipcRenderer.send("printFile", "something");
-    }
-
     React.useEffect(() => {
         ipcRenderer.on("getOrdersResp", (err, args) => {
             if (err) {

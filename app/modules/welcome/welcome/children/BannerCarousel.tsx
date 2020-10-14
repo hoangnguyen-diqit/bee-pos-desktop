@@ -25,7 +25,7 @@ const items = [
     }
 ];
 
-export function BannerCarousel(props) {
+export function BannerCarousel() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
 

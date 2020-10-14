@@ -1,21 +1,17 @@
 import React from 'react'
 import { History } from 'history';
-import { useDispatch } from 'react-redux';
 
 import { AppContext } from './AppContext';
-
-import { createSocket } from "./core/websocket/websocket-client";
-import { WebSocketListener } from './modules/websocket/WebSocketListener';
-
-import { catalog_newOrderCame } from './AppReducer';
 
 import { MessageDialog } from './core-ui/dialog/MessageDialog';
 import { ServerDetectedDialog } from './shared/server-detected-dialog/ServerDetectedDialog';
 import { SelectServerDialog } from './shared/select-server-dialog/SelectServerDialog';
 import { LeftnavDialog } from './shared/leftnav-dialog/LeftnavDialog';
-import { FooterStickyBar } from './shared/footer-sticky-bar/FooterStickyBar';
 
 import { AppInitializer } from './AppInitializer';
+import { WsClient } from './thirdparty/ws';
+import { IPCClient } from './thirdparty/ipc';
+import { UDPConnectionListener } from './modules/websocket/UDPConnectionListener';
 
 const contextValueReducer = (state, action) => {
     return {
@@ -39,57 +35,12 @@ export default function App(props: Props) {
 
         profile: undefined,
     });
-    const dispatch = useDispatch();
 
     const [ isOpenMessageDialog, setIsOpenMessageDialog ] = React.useState(false);
+    const [ serverAddress, setServerAddress ] = React.useState("");
+
     const _serverDetectedDialogRef = React.createRef<ServerDetectedDialog>();
     const _selectServerDialogRef = React.createRef<SelectServerDialog>();
-
-    const _handleWebSocket = (serverIP) => {
-        createSocket({
-            serverIP,
-            onConnected: () => {
-                console.log("Connected.");
-            },
-            onData: (data) => {
-                console.log(data);
-                if (_handleServerData) {
-                    _handleServerData(data);
-                }
-            },
-            onError: () => {
-                console.log("Connection failed");
-            },
-        });
-    }
-
-    const _handleServerDetected = (data) => {
-        if (_serverDetectedDialogRef && _serverDetectedDialogRef.current) {
-            _serverDetectedDialogRef.current.show({ message: data.address }, () => {
-                _handleWebSocket(data.address);
-            })
-        }
-    }
-
-    const _handleSelectServerIP = () => {
-        if (_selectServerDialogRef && _selectServerDialogRef.current) {
-            _selectServerDialogRef.current.show({}, (data) => {
-                _handleWebSocket(data.serverIP);
-            })
-        }
-    }
-
-    const _handleServerData = (data) => {
-        console.log("New orders came: " + data);
-        dispatch(catalog_newOrderCame(data));
-
-        if (data && data.actionType) {
-            switch (data.actionType) {
-                default:
-                    break;
-            }
-        }
-    }
 
     return (
         <AppContext.Provider
@@ -101,10 +52,14 @@ export default function App(props: Props) {
 
                 profile: contextValue.profile,
 
+                serverAddress,
+
                 toggleSettingBar: (state) => dispatchContextValue({ isShowSettingBar: state }),
                 toggleFilterPizzaPremake: (state) => dispatchContextValue({ isFilterPizzaPremake: state }),
                 toggleLeftnav: (state) => dispatchContextValue({ isOpenLeftnav: state }),
                 toggleFooterStickyBar: (state) => dispatchContextValue({ isOpenFooterStickyBar: state }),
+
+                updateServerAddress: (state) => setServerAddress(state),
 
                 updateProfile: (res) => dispatchContextValue({ profile: res }),
             }}
@@ -121,9 +76,14 @@ export default function App(props: Props) {
                     }
                 }}
             />
-            {children({
-                profile: contextValue.profile,
-            })}
+            <WsClient>
+                {children({
+                    profile: contextValue.profile,
+                })}
+            </WsClient>
+            <IPCClient>
+
+            </IPCClient>
             <LeftnavDialog
                 isOpen={contextValue.isOpenLeftnav}
                 toggleOpen={() => dispatchContextValue({ "isOpenLeftnav": !contextValue.isOpenLeftnav})}
@@ -141,10 +101,15 @@ export default function App(props: Props) {
             <SelectServerDialog
                 ref={_selectServerDialogRef}
             />
-            <WebSocketListener
-                // onServerDetected={_handleServerDetected}
-                // onSelectServerIP={_handleSelectServerIP}
-                // onNewOrder={_handleServerData}
+            <UDPConnectionListener
+                onDetected={(data) => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const firstRInfo = data[0];
+                        if (!serverAddress && firstRInfo && firstRInfo.address) {
+                            setServerAddress(firstRInfo.address);
+                        }
+                    }
+                }}
             />
         </AppContext.Provider>
     );

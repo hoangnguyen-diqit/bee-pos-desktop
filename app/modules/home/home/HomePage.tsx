@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
+import { WsEvent } from '../../../thirdparty/ws';
+import { IPCEvent } from '../../../thirdparty/ipc';
+
 import {
     apiMenu_exportAllData,
 } from '../../../core/api-service/MenuService';
@@ -16,11 +19,9 @@ export default function HomePage() {
 
     useEffect(() => {
         apiMenu_exportAllData()
-            .then(res => {
-                const val = "abc";
+            .then(() => {
             })
-            .catch(err => {
-                const val = "abc";
+            .catch(() => {
             })
     }, []);
 
@@ -44,6 +45,14 @@ export default function HomePage() {
                 </Row>
                 </Container>
             </PageInner>
+            <WsEvent
+                event="helloClient"
+                handler={(data) => console.log("Home page ", data)}
+            />
+            <IPCEvent
+                event="helloClient"
+                handler={(data) => console.log("Home page 2 ", data)}
+            />
         </Fragment>
     )
 }

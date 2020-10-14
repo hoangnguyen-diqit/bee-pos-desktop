@@ -1,7 +1,7 @@
 {
     "name": "bee-pos-desktop",
     "productName": "Bee POS",
-    "version": "1.2.0",
+    "version": "1.2.4",
     "description": "Bee microservice kds multiplatform",
     "main": "./main.prod.js",
     "author": {
@@ -17,6 +17,7 @@
     "dependencies": {
         "fs-extra": "^9.0.1",
         "nedb": "^1.8.0",
+        "nedb-promises": "^4.0.4",
         "node-sass": "^4.14.1",
         "websocket": "^1.0.31"
     },
