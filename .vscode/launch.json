@@ -17,6 +17,16 @@
             "port": 9223,
             "webRoot": "${workspaceFolder}",
             "timeout": 15000
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Node: Nodemon",
+            // "processId": "${command:PickProcess}",
+            "restart": true,
+            "protocol": "inspector",
+            "address": "localhost",
+            "port": 5858
         }
     ],
     "compounds": [
