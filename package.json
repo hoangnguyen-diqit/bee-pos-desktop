@@ -247,7 +247,7 @@
         "@mdi/js": "^5.4.55",
         "@mdi/react": "^1.4.0",
         "@reduxjs/toolkit": "^1.4.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "bootstrap": "^5.0.0-alpha1",
         "broadcast-address": "^1.0.2",
         "classnames": "^2.2.6",
